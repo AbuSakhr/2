@@ -72,17 +72,18 @@
         }
 
         /* Modal animation */
-        .modal-enter-active, .modal-leave-active {
+        #product-modal.hidden .modal-content { /* Initial state for animation when hidden */
+            transform: scale(0.7) translateY(50px);
+            opacity: 0;
+        }
+        #product-modal .modal-content { /* Active state for animation */
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Springy effect */
         }
-        .modal-enter-from, .modal-leave-to {
-            opacity: 0;
-            transform: scale(0.7) translateY(50px);
-        }
-        .modal-enter-to, .modal-leave-from {
-            opacity: 1;
+        #product-modal:not(.hidden) .modal-content { /* When modal is shown */
             transform: scale(1) translateY(0);
+            opacity: 1;
         }
+
 
         /* Custom animations */
         @keyframes gradientAnimation {
@@ -181,7 +182,7 @@
                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">اشتراك شات جي بي تي</h3>
                         <p class="text-gray-600 text-sm md:text-base mb-6">بريد إلكتروني + كلمة سر جاهزة للاستخدام الفوري.</p>
                         <div class="flex flex-col space-y-3 md:space-y-4">
-                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="1">
                                 تفاصيل المنتج
                             </button>
                             <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
@@ -191,14 +192,13 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.1s;">
                     <img src="s2.png" alt="اشتراك Canva سنوي" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/20c997/FFFFFF?text=Canva';">
                     <div class="p-6 md:p-8">
                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">اشتراك Canva سنوي</h3>
                         <p class="text-gray-600 text-sm md:text-base mb-6">وصول كامل لميزات Canva Pro لمدة عام.</p>
                         <div class="flex flex-col space-y-3 md:space-y-4">
-                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="2">
                                 تفاصيل المنتج
                             </button>
                             <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
@@ -208,14 +208,13 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.2s;">
                     <img src="s3.png" alt="حسابات Office جاهزة" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ff7f50/FFFFFF?text=Office';">
                     <div class="p-6 md:p-8">
                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">حسابات Office جاهزة</h3>
                         <p class="text-gray-600 text-sm md:text-base mb-6">حسابات Office 365 مفعلة وجاهزة للاستخدام.</p>
                         <div class="flex flex-col space-y-3 md:space-y-4">
-                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="3">
                                 تفاصيل المنتج
                             </button>
                             <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
@@ -225,14 +224,13 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.3s;">
                     <img src="s4.png" alt="مفاتيح Windows أصلية" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/007bff/FFFFFF?text=Windows';">
                     <div class="p-6 md:p-8">
                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">مفاتيح Windows أصلية</h3>
                         <p class="text-gray-600 text-sm md:text-base mb-6">مفاتيح تفعيل أصلية لجميع إصدارات Windows.</p>
                         <div class="flex flex-col space-y-3 md:space-y-4">
-                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="4">
                                 تفاصيل المنتج
                             </button>
                             <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
@@ -242,14 +240,13 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.4s;">
                     <img src="s5.png" alt="اشتراك Gemini شهري + مساحة One" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/6a0dad/FFFFFF?text=Gemini';">
                     <div class="p-6 md:p-8">
                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">اشتراك Gemini شهري + مساحة One</h3>
                         <p class="text-gray-600 text-sm md:text-base mb-6">وصول إلى Gemini ومساحة تخزين إضافية.</p>
                         <div class="flex flex-col space-y-3 md:space-y-4">
-                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="5">
                                 تفاصيل المنتج
                             </button>
                             <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
@@ -259,14 +256,13 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.5s;">
                     <img src="s6.png" alt="حساب VPN سنوي" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/17a2b8/FFFFFF?text=VPN';">
                     <div class="p-6 md:p-8">
                         <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">حساب VPN سنوي</h3>
                         <p class="text-gray-600 text-sm md:text-base mb-6">تصفح آمن وخاص مع اشتراك VPN لمدة عام.</p>
                         <div class="flex flex-col space-y-3 md:space-y-4">
-                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="6">
                                 تفاصيل المنتج
                             </button>
                             <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
@@ -286,7 +282,7 @@
                 <div class="flex flex-col items-center p-6 md:p-8 bg-blue-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-blue-100">
                     <div class="text-blue-600 text-6xl md:text-7xl mb-4">
                         <i class="fas fa-university"></i> </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">الكريمي نقطة حاسب</h3>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">نقطة حاسب كريمي</h3>
                     <p class="text-gray-700 text-base md:text-lg">باسم: <span class="font-extrabold text-gray-900">متجر صابر</span></p>
                     <p class="text-gray-700 text-base md:text-lg">رقم النقطة: <span class="font-extrabold text-gray-900">1302092</span></p>
                 </div>
@@ -377,7 +373,7 @@
     </footer>
 
     <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative transform scale-95 opacity-0 transition-all duration-300 ease-out modal-content">
+        <div class="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative modal-content">
             <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-4xl font-bold transition-colors duration-300">&times;</button>
             <h2 id="modal-product-name" class="text-3xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200"></h2>
             <p id="modal-product-description" class="text-gray-700 text-lg leading-relaxed mb-8"></p>
@@ -448,44 +444,43 @@
         function openModal(product) {
             modalProductName.textContent = product.name;
             modalProductDescription.textContent = product.fullDescription;
-            modalWhatsappBtn.dataset.productName = product.name; // Set product name for WhatsApp button in modal
+            modalWhatsappBtn.dataset.productName = product.name; 
             productModal.classList.remove('hidden');
-            // Trigger reflow to ensure transition plays
-            void modalContent.offsetWidth;
-            modalContent.classList.remove('scale-95', 'opacity-0');
-            modalContent.classList.add('modal-enter-to'); // Use specific animation class
-            modalContent.classList.remove('modal-enter-from');
+            // Force reflow for CSS transition
+            void modalContent.offsetWidth; 
         }
 
         // Function to close the modal
         function closeModal() {
-            modalContent.classList.add('modal-leave-to'); // Use specific animation class
-            modalContent.classList.remove('modal-enter-to');
-            // Hide after animation
-            setTimeout(() => {
-                productModal.classList.add('hidden');
-                modalContent.classList.remove('modal-leave-to');
-                modalContent.classList.add('modal-enter-from'); // Reset for next open
-            }, 400); // Match transition duration
+            // Add classes to trigger exit animation (if you have them)
+            // For now, just hide it
+            productModal.classList.add('hidden');
         }
 
         // Event listeners for "Product Details" buttons
         document.querySelectorAll('.product-details-btn').forEach(button => {
             button.addEventListener('click', (event) => {
-                const productId = parseInt(event.target.dataset.productId);
+                // Get the product ID from the button's data-product-id attribute
+                const productId = parseInt(event.currentTarget.dataset.productId);
                 const product = products.find(p => p.id === productId);
                 if (product) {
                     openModal(product);
+                } else {
+                    console.error('Product not found for ID:', productId);
                 }
             });
         });
 
-        // Event listeners for "Order via WhatsApp" buttons
+        // Event listeners for "Order via WhatsApp" buttons (including the one in the modal)
         document.querySelectorAll('.whatsapp-order-btn').forEach(button => {
             button.addEventListener('click', (event) => {
-                const productName = event.target.dataset.productName;
-                const message = encodeURIComponent(`أود طلب المنتج: ${productName}`);
-                window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+                const productName = event.currentTarget.dataset.productName;
+                if (productName) {
+                    const message = encodeURIComponent(`أود طلب المنتج: ${productName}`);
+                    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+                } else {
+                    console.error('Product name not found for WhatsApp button.');
+                }
             });
         });
 
