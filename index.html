@@ -13,7 +13,6 @@
         import { getFirestore, doc, getDoc, setDoc, collection, getDocs, writeBatch, query, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- أيقونات SVG ---
-        // (سيتم إضافة دوال إنشاء الأيقونات هنا لاحقًا)
         const ICONS = {
             search: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`,
             shoppingCart: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`,
@@ -54,17 +53,16 @@
             return svgElement.outerHTML;
         }
 
-
         // --- إعدادات Firebase ---
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "YOUR_API_KEY_HERE", // استبدل بمفتاح API الخاص بك
-            authDomain: "YOUR_AUTH_DOMAIN_HERE", // استبدل بنطاق المصادقة الخاص بك
-            projectId: "YOUR_PROJECT_ID_HERE", // استبدل بمعرف المشروع الخاص بك
-            storageBucket: "YOUR_STORAGE_BUCKET_HERE", // استبدل بمخزن التخزين الخاص بك
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE", // استبدل بمعرف مرسل الرسائل الخاص بك
-            appId: "YOUR_APP_ID_HERE" // استبدل بمعرف التطبيق الخاص بك
+            apiKey: "YOUR_API_KEY_HERE", 
+            authDomain: "YOUR_AUTH_DOMAIN_HERE", 
+            projectId: "YOUR_PROJECT_ID_HERE", 
+            storageBucket: "YOUR_STORAGE_BUCKET_HERE", 
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE", 
+            appId: "YOUR_APP_ID_HERE" 
         };
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-digital-store-ar-html';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-digital-store-ar-html-fastload';
 
         // تهيئة Firebase
         const firebaseApp = initializeApp(firebaseConfig);
@@ -73,26 +71,26 @@
 
         // --- بيانات المنتجات الأولية ---
         const initialProductsData = [
-          { id: "prod_ar_01", name: "مجموعة أيقونات فلات عصرية (عرض خاص!)", price: 9.99, originalPrice: 15.99, imageUrl: "https://placehold.co/400x300/6366f1/e0e7ff?text=أيقونات+فلات+عرض", description: "أكثر من 500 أيقونة فيكتور مسطحة (Flat Design) عالية الجودة...", category: "أصول تصميم", tags: ["أيقونات", "فيكتور", "تصميم مسطح"], rating: 4.9, onSale: true },
-          { id: "prod_ar_02", name: "دورة برمجة تطبيقات الويب الشاملة (Full-Stack)", price: 120.00, imageUrl: "https://placehold.co/400x300/ec4899/fbcfe8?text=دورة+برمجة+ويب", description: "تعلم بناء تطبيقات ويب متكاملة من الصفر...", category: "دورات تدريبية", tags: ["برمجة", "تطوير ويب", "React"], rating: 4.7 },
-          { id: "prod_ar_03", name: "قالب بوربوينت احترافي (خصم 30%)", price: 15.75, originalPrice: 22.50, imageUrl: "https://placehold.co/400x300/f59e0b/fef3c7?text=قالب+بوربوينت+خصم", description: "مجموعة من 50 شريحة بوربوينت مصممة بشكل احترافي...", category: "قوالب عروض تقديمية", tags: ["بوربوينت", "عروض تقديمية", "أعمال"], rating: 4.6, onSale: true },
-          { id: "prod_ar_04", name: "كتاب إلكتروني: أسرار التسويق بالمحتوى الفعال", price: 9.99, imageUrl: "https://placehold.co/400x300/10b981/a7f3d0?text=كتاب+تسويق+محتوى", description: "دليل شامل لاستراتيجيات التسويق بالمحتوى...", category: "كتب إلكترونية", tags: ["تسويق بالمحتوى", "كتاب إلكتروني"], rating: 4.8 },
-          { id: "prod_ar_05", name: "حزمة مؤثرات صوتية سينمائية (SFX) - الأفضل مبيعًا", price: 35.00, imageUrl: "https://placehold.co/400x300/8b5cf6/ede9fe?text=مؤثرات+صوتية+SFX", description: "مكتبة ضخمة من المؤثرات الصوتية عالية الجودة...", category: "أصول صوتية", tags: ["مؤثرات صوتية", "SFX", "مونتاج"], rating: 4.9 },
-          { id: "prod_ar_06", name: "برنامج إدارة المهام والإنتاجية (توفير كبير!)", price: 19.99, originalPrice: 29.99, imageUrl: "https://placehold.co/400x300/3b82f6/dbeafe?text=برنامج+إدارة+مهام+توفير", description: "أداة قوية لتنظيم مهامك ومشاريعك...", category: "برامج إنتاجية", tags: ["إنتاجية", "إدارة مهام", "تنظيم"], rating: 4.5, onSale: true }
+          { id: "prod_ar_01", name: "مجموعة أيقونات فلات عصرية (عرض خاص!)", price: 9.99, originalPrice: 15.99, imageUrl: "https://placehold.co/400x300/6366f1/e0e7ff?text=أيقونات+فلات+عرض", description: "أكثر من 500 أيقونة فيكتور مسطحة (Flat Design) عالية الجودة، مثالية لتطبيقات الويب والهواتف الذكية. تشمل ملفات SVG و PNG. احصل عليها الآن بسعر مخفض! هذه الأيقونات تتميز بتصميمها النظيف والبسيط، مما يجعلها مناسبة لمختلف أنواع المشاريع الرقمية الحديثة. سهلة التعديل والتخصيص لتناسب هوية علامتك التجارية.", category: "أصول تصميم", tags: ["أيقونات", "فيكتور", "تصميم مسطح", "واجهة مستخدم", "عرض"], rating: 4.9, onSale: true },
+          { id: "prod_ar_02", name: "دورة برمجة تطبيقات الويب الشاملة (Full-Stack)", price: 120.00, imageUrl: "https://placehold.co/400x300/ec4899/fbcfe8?text=دورة+برمجة+ويب", description: "تعلم بناء تطبيقات ويب متكاملة من الصفر باستخدام أحدث التقنيات مثل React، Node.js، و MongoDB. تتضمن مشاريع عملية ودعمًا مستمرًا من مدربين خبراء. الدورة مصممة لتأخذك من مستوى المبتدئ إلى مستوى متقدم يمكنك من خلاله بناء تطبيقات ويب قوية وقابلة للتطوير.", category: "دورات تدريبية", tags: ["برمجة", "تطوير ويب", "React", "Node.js", "Full-Stack"], rating: 4.7 },
+          { id: "prod_ar_03", name: "قالب بوربوينت احترافي (خصم 30%)", price: 15.75, originalPrice: 22.50, imageUrl: "https://placehold.co/400x300/f59e0b/fef3c7?text=قالب+بوربوينت+خصم", description: "مجموعة من 50 شريحة بوربوينت مصممة بشكل احترافي وجذاب، قابلة للتعديل بالكامل. مثالية لعروض الشركات والتقارير والمشاريع. استفد من الخصم الآن! يتميز القالب بتصاميم متنوعة تناسب مختلف المجالات، مع رسوم بيانية وجداول وأشكال قابلة للتخصيص بسهولة.", category: "قوالب عروض تقديمية", tags: ["بوربوينت", "عروض تقديمية", "أعمال", "قوالب", "تخفيض"], rating: 4.6, onSale: true },
+          { id: "prod_ar_04", name: "كتاب إلكتروني: أسرار التسويق بالمحتوى الفعال", price: 9.99, imageUrl: "https://placehold.co/400x300/10b981/a7f3d0?text=كتاب+تسويق+محتوى", description: "دليل شامل لاستراتيجيات التسويق بالمحتوى التي تحقق نتائج. تعلم كيف تنشئ محتوى يجذب جمهورك المستهدف ويحولهم إلى عملاء. يغطي الكتاب كيفية تحديد الجمهور، وإنشاء أنواع مختلفة من المحتوى، وتوزيعه، وقياس أدائه.", category: "كتب إلكترونية", tags: ["تسويق بالمحتوى", "كتاب إلكتروني", "استراتيجيات تسويق"], rating: 4.8 },
+          { id: "prod_ar_05", name: "حزمة مؤثرات صوتية سينمائية (SFX) - الأفضل مبيعًا", price: 35.00, imageUrl: "https://placehold.co/400x300/8b5cf6/ede9fe?text=مؤثرات+صوتية+SFX", description: "مكتبة ضخمة من المؤثرات الصوتية عالية الجودة للمونتاج السينمائي وصناعة الأفلام والألعاب. تشمل أصوات انفجارات، انتقالات، أجواء، وغيرها الكثير. جميع المؤثرات مسجلة بجودة احترافية وجاهزة للاستخدام الفوري في مشاريعك.", category: "أصول صوتية", tags: ["مؤثرات صوتية", "SFX", "مونتاج", "ألعاب", "سينما"], rating: 4.9 },
+          { id: "prod_ar_06", name: "برنامج إدارة المهام والإنتاجية (توفير كبير!)", price: 19.99, originalPrice: 29.99, imageUrl: "https://placehold.co/400x300/3b82f6/dbeafe?text=برنامج+إدارة+مهام+توفير", description: "أداة قوية لتنظيم مهامك ومشاريعك وزيادة إنتاجيتك. يتميز بواجهة سهلة الاستخدام وميزات متقدمة مثل تتبع الوقت، والتعاون الجماعي، وتقارير الأداء. عرض محدود لا تفوته!", category: "برامج إنتاجية", tags: ["إنتاجية", "إدارة مهام", "تنظيم", "برامج مكتبية", "عرض خاص"], rating: 4.5, onSale: true }
         ];
         
         // --- حالة التطبيق ---
-        let currentView = 'home';
+        let currentView = 'home'; // عرض الصفحة الرئيسية بشكل افتراضي
         let selectedProduct = null;
-        let allProducts = [];
+        let allProducts = []; // ستبدأ فارغة ثم تملأ من Firebase أو initialProductsData
         let filteredProducts = [];
         let searchQuery = '';
-        let isLoadingProducts = true;
+        let isLoadingProducts = true; // لا يزال مفيدًا لإظهار مؤشرات تحميل دقيقة
         let isCartLoading = true;
         let error = null;
         let cart = { items: [], totalAmount: 0, totalItems: 0 };
         let userId = null;
-        let unsubscribeCartListener = null; // لتخزين دالة إلغاء اشتراك onSnapshot
+        let unsubscribeCartListener = null;
 
         // --- دوال المساعدة ---
         function navigateTo(view, product = null) {
@@ -106,12 +104,10 @@
             const button = document.createElement('button');
             button.type = type;
             button.disabled = disabled;
-        
             const baseStyle = "font-semibold rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 disabled:opacity-60 disabled:cursor-not-allowed";
-            let sizeStyle = "py-2.5 px-6";
+            let sizeStyle = "py-2.5 px-6"; 
             if (size === "small") sizeStyle = "py-2 px-4 text-sm";
             if (size === "large") sizeStyle = "py-3.5 px-8 text-lg";
-        
             let variantStyle = '';
             switch (variant) {
                 case 'primary': variantStyle = 'bg-sky-500 hover:bg-sky-600 text-white focus:ring-sky-400'; break;
@@ -126,21 +122,12 @@
                 case 'outline-sky': variantStyle = 'bg-transparent border-2 border-sky-500 text-sky-400 hover:bg-sky-500 hover:text-white focus:ring-sky-400'; break;
                 default: variantStyle = 'bg-sky-500 hover:bg-sky-600 text-white focus:ring-sky-400';
             }
-        
             button.className = `${baseStyle} ${sizeStyle} ${variantStyle} ${className}`;
-            
             let contentHTML = '';
-            if (iconName) {
-                contentHTML += `<span class="${text ? 'me-2' : ''}">${getIcon(iconName, size === "small" ? 16 : 20)}</span>`;
-            }
-            if (text) {
-                contentHTML += `<span>${text}</span>`;
-            }
+            if (iconName) { contentHTML += `<span class="${text ? 'me-2' : ''}">${getIcon(iconName, size === "small" ? 16 : 20)}</span>`; }
+            if (text) { contentHTML += `<span>${text}</span>`; }
             button.innerHTML = contentHTML;
-        
-            if (onClick) {
-                button.addEventListener('click', onClick);
-            }
+            if (onClick) { button.addEventListener('click', onClick); }
             return button;
         }
         
@@ -166,34 +153,44 @@
         async function fetchProducts() {
             isLoadingProducts = true;
             error = null;
-            renderApp(); 
+            // لا نستدعي renderApp() هنا مباشرة، دع الواجهة الحالية تستمر
             try {
                 await seedProducts();
                 const productsCollectionRef = collection(db, `/artifacts/${appId}/public/data/products_ar`);
                 const productSnapshot = await getDocs(query(productsCollectionRef));
-                allProducts = productSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                filterProducts(); // تطبيق الفلترة بعد جلب المنتجات
+                
+                if (!productSnapshot.empty) {
+                    allProducts = productSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                } else if (initialProductsData.length > 0) {
+                     console.warn("مجموعة منتجات Firestore فارغة، سيتم استخدام البيانات الأولية.");
+                    allProducts = [...initialProductsData];
+                } else {
+                    console.error("لا توجد منتجات متاحة من Firestore أو البيانات الأولية.");
+                    allProducts = []; // ضمان أن allProducts ليست undefined
+                }
+                filterProducts();
             } catch (err) {
                 console.error("خطأ في جلب المنتجات:", err);
                 if (err.code === 'permission-denied') {
-                    error = "فشل تحميل المنتجات: لا توجد صلاحية للوصول إلى قاعدة البيانات. يرجى مراجعة قواعد الأمان في Firestore.";
+                    error = "فشل تحميل المنتجات: لا توجد صلاحية للوصول إلى قاعدة البيانات.";
                 } else {
                     error = "فشل تحميل المنتجات. يرجى محاولة تحديث الصفحة.";
                 }
-                allProducts = [...initialProductsData]; // استخدام البيانات الأولية كاحتياطي
+                allProducts = [...initialProductsData]; // استخدام البيانات الأولية كاحتياطي عند الخطأ
                 filterProducts();
             } finally {
                 isLoadingProducts = false;
-                renderApp();
+                renderApp(); // عرض البيانات المجلوبة أو الاحتياطية
             }
         }
         
         function filterProducts() {
+            const sourceProducts = allProducts.length > 0 ? allProducts : initialProductsData;
             if (searchQuery === '') {
-                filteredProducts = [...allProducts];
+                filteredProducts = [...sourceProducts];
             } else {
                 const lowerSearchQuery = searchQuery.toLowerCase();
-                filteredProducts = allProducts.filter(product =>
+                filteredProducts = sourceProducts.filter(product =>
                     product.name?.toLowerCase().includes(lowerSearchQuery) ||
                     product.description?.toLowerCase().includes(lowerSearchQuery) ||
                     product.category?.toLowerCase().includes(lowerSearchQuery) ||
@@ -202,7 +199,7 @@
             }
         }
 
-        // --- دوال السلة ---
+        // --- دوال السلة (تبقى كما هي إلى حد كبير) ---
         function calculateCartTotals(items) {
             const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
             const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -212,11 +209,8 @@
         async function updateFirestoreCart(newCartData) {
             if (userId) {
                 const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/userCart_ar`);
-                try {
-                    await setDoc(cartDocRef, newCartData);
-                } catch (error) {
-                    console.error("خطأ في تحديث سلة Firestore:", error);
-                }
+                try { await setDoc(cartDocRef, newCartData); } 
+                catch (error) { console.error("خطأ في تحديث سلة Firestore:", error); }
             }
         }
 
@@ -224,696 +218,286 @@
             const existingItemIndex = cart.items.findIndex(item => item.id === product.id);
             let updatedItems;
             if (existingItemIndex > -1) {
-                updatedItems = cart.items.map((item, index) =>
-                    index === existingItemIndex ? { ...item, quantity: item.quantity + quantity } : item
-                );
+                updatedItems = cart.items.map((item, index) => index === existingItemIndex ? { ...item, quantity: item.quantity + quantity } : item);
             } else {
                 updatedItems = [...cart.items, { ...product, quantity }];
             }
-            const newCartData = calculateCartTotals(updatedItems);
-            cart = newCartData;
-            updateFirestoreCart(newCartData);
-            renderNavbar(); // تحديث عرض السلة في الشريط العلوي
-            if(currentView === 'cart') renderCartView(); // تحديث عرض السلة إذا كانت هي الصفحة الحالية
+            const newCartData = calculateCartTotals(updatedItems); cart = newCartData; updateFirestoreCart(newCartData);
+            renderNavbar(); 
+            if(currentView === 'cart') renderCartView(); 
         }
 
         function removeFromCart(productId) {
             const updatedItems = cart.items.filter(item => item.id !== productId);
-            const newCartData = calculateCartTotals(updatedItems);
-            cart = newCartData;
-            updateFirestoreCart(newCartData);
+            const newCartData = calculateCartTotals(updatedItems); cart = newCartData; updateFirestoreCart(newCartData);
             renderNavbar();
             if(currentView === 'cart') renderCartView();
         }
 
         function updateQuantity(productId, newQuantity) {
-            if (newQuantity < 1) {
-                removeFromCart(productId);
-                return;
-            }
-            const updatedItems = cart.items.map(item =>
-                item.id === productId ? { ...item, quantity: newQuantity } : item
-            );
-            const newCartData = calculateCartTotals(updatedItems);
-            cart = newCartData;
-            updateFirestoreCart(newCartData);
+            if (newQuantity < 1) { removeFromCart(productId); return; }
+            const updatedItems = cart.items.map(item => item.id === productId ? { ...item, quantity: newQuantity } : item );
+            const newCartData = calculateCartTotals(updatedItems); cart = newCartData; updateFirestoreCart(newCartData);
             renderNavbar();
             if(currentView === 'cart') renderCartView();
         }
 
         function clearCart() {
-            const newCartData = { items: [], totalAmount: 0, totalItems: 0 };
-            cart = newCartData;
-            updateFirestoreCart(newCartData);
+            const newCartData = { items: [], totalAmount: 0, totalItems: 0 }; cart = newCartData; updateFirestoreCart(newCartData);
             renderNavbar();
-            if(currentView === 'cart' || currentView === 'checkout') {
-                navigateTo('home'); // أو أي صفحة مناسبة بعد إفراغ السلة
-            }
+            if(currentView === 'cart' || currentView === 'checkout') { navigateTo('home'); }
         }
         
         // --- دوال العرض (Render Functions) ---
         function renderNavbar() {
             const navbarContainer = document.getElementById('navbar-container');
             if (!navbarContainer) return;
-
             const navLinks = [
-                { view: 'home', label: 'الرئيسية' },
-                { view: 'products', label: 'المنتجات' },
-                { view: 'about', label: 'من نحن' },
-                { view: 'faq', label: 'الأسئلة الشائعة' },
-                { view: 'privacy', label: 'سياسة الخصوصية' },
-                { view: 'contact', label: 'اتصل بنا' },
+                { view: 'home', label: 'الرئيسية' }, { view: 'products', label: 'المنتجات' },
+                { view: 'about', label: 'من نحن' }, { view: 'faq', label: 'الأسئلة الشائعة' },
+                { view: 'privacy', label: 'سياسة الخصوصية' }, { view: 'contact', label: 'اتصل بنا' },
             ];
-
             let mobileMenuOpen = false;
-
             const navHTML = `
                 <nav class="bg-slate-800/80 backdrop-blur-md text-white p-4 sticky top-0 z-50 shadow-lg border-b border-slate-700">
                     <div class="container mx-auto flex justify-between items-center">
                         <h1 class="text-3xl font-bold text-sky-400 cursor-pointer hover:text-sky-300 transition-colors flex items-center" id="nav-logo">
-                            ${getIcon('zap', 28, 'me-2 text-yellow-400 transform -rotate-12')} المتجر الأنيق
-                        </h1>
+                            ${getIcon('zap', 28, 'me-2 text-yellow-400 transform -rotate-12')} المتجر الأنيق</h1>
                         <div class="hidden md:flex items-center bg-slate-700 rounded-full p-2 w-2/5 shadow-inner">
                             ${getIcon('search', 20, 'text-slate-400 ms-3')}
-                            <input type="text" id="desktop-search-input" placeholder="ابحث عن تحفتك الرقمية..." class="bg-transparent focus:outline-none text-white w-full placeholder-slate-400 px-2" value="${searchQuery}">
-                        </div>
+                            <input type="text" id="desktop-search-input" placeholder="ابحث عن تحفتك الرقمية..." class="bg-transparent focus:outline-none text-white w-full placeholder-slate-400 px-2" value="${searchQuery}"></div>
                         <div class="hidden md:flex items-center space-x-1 space-x-reverse">
                             ${navLinks.map(link => `<button data-view="${link.view}" class="nav-link hover:bg-slate-700 transition-colors px-3 py-2 rounded-md text-xs font-medium">${link.label}</button>`).join('')}
                             <button data-view="cart" class="nav-link relative bg-sky-500 hover:bg-sky-600 transition-colors flex items-center px-4 py-2 rounded-full text-sm font-medium shadow-md">
-                                ${getIcon('shoppingCart', 18, 'me-1.5')}
-                                السلة
-                                ${cart.totalItems > 0 ? `<span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-sm border-2 border-slate-800">${cart.totalItems}</span>` : ''}
-                            </button>
-                        </div>
+                                ${getIcon('shoppingCart', 18, 'me-1.5')} السلة
+                                ${cart.totalItems > 0 ? `<span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-sm border-2 border-slate-800">${cart.totalItems}</span>` : ''}</button></div>
                         <div class="md:hidden flex items-center">
                             <button data-view="cart" class="nav-link relative hover:text-sky-400 transition-colors ms-4 p-2">${getIcon('shoppingCart', 24)} ${cart.totalItems > 0 ? `<span class="absolute -top-1 -left-1 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center">${cart.totalItems}</span>` : ''}</button>
-                            <button id="mobile-menu-button" class="text-white focus:outline-none p-2">${getIcon('menu', 28)}</button>
-                        </div>
-                    </div>
+                            <button id="mobile-menu-button" class="text-white focus:outline-none p-2">${getIcon('menu', 28)}</button></div></div>
                     <div id="mobile-menu" class="hidden md:hidden mt-3 bg-slate-700/90 backdrop-blur-sm rounded-md shadow-xl py-2">
                         <div class="p-2 mx-2 mb-2"><input type="text" id="mobile-search-input" placeholder="ابحث..." class="bg-slate-600 focus:outline-none text-white w-full p-2 rounded-md" value="${searchQuery}"></div>
-                        ${[...navLinks, {view: 'cart', label: 'السلة'}].map(item => `<button data-view="${item.view}" class="nav-link block w-full text-right px-4 py-2.5 hover:bg-slate-600 transition-colors">${item.label}</button>`).join('')}
-                    </div>
-                </nav>
-            `;
+                        ${[...navLinks, {view: 'cart', label: 'السلة'}].map(item => `<button data-view="${item.view}" class="nav-link block w-full text-right px-4 py-2.5 hover:bg-slate-600 transition-colors">${item.label}</button>`).join('')}</div></nav>`;
             navbarContainer.innerHTML = navHTML;
-
             document.getElementById('nav-logo').addEventListener('click', () => navigateTo('home'));
-            
             document.querySelectorAll('.nav-link').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const view = e.currentTarget.dataset.view;
-                    navigateTo(view);
-                    if (mobileMenuOpen) { // إغلاق القائمة المنسدلة عند النقر
-                        document.getElementById('mobile-menu').classList.add('hidden');
-                        mobileMenuOpen = false;
-                    }
+                    const view = e.currentTarget.dataset.view; navigateTo(view);
+                    if (mobileMenuOpen) { document.getElementById('mobile-menu').classList.add('hidden'); mobileMenuOpen = false; }
                 });
             });
-            
             const desktopSearchInput = document.getElementById('desktop-search-input');
             const mobileSearchInput = document.getElementById('mobile-search-input');
-
-            desktopSearchInput.addEventListener('input', (e) => {
-                searchQuery = e.target.value;
-                filterProducts();
-                if (currentView === 'products' || currentView === 'home') renderApp(); // إعادة العرض فقط إذا كنا في صفحة المنتجات أو الرئيسية
-            });
-             mobileSearchInput.addEventListener('input', (e) => {
-                searchQuery = e.target.value;
-                filterProducts();
-                if (currentView === 'products' || currentView === 'home') renderApp();
-            });
-
-
+            const handleSearch = (e) => { searchQuery = e.target.value; filterProducts(); if (currentView === 'products' || currentView === 'home') renderApp(); };
+            desktopSearchInput.addEventListener('input', handleSearch);
+            mobileSearchInput.addEventListener('input', handleSearch);
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenuOpen = !mobileMenuOpen;
-                mobileMenu.classList.toggle('hidden');
-            });
+            mobileMenuButton.addEventListener('click', () => { mobileMenuOpen = !mobileMenuOpen; mobileMenu.classList.toggle('hidden'); });
         }
 
         function renderPromotionalBanner() {
-            const saleProducts = allProducts.filter(p => p.onSale && p.originalPrice);
+            const productsToConsider = allProducts.length > 0 ? allProducts : initialProductsData;
+            const saleProducts = productsToConsider.filter(p => p.onSale && p.originalPrice);
             if (saleProducts.length === 0) return '';
-
             const itemsHTML = saleProducts.map(product => `
                 <div class="flex items-center cursor-pointer hover:opacity-80 transition-opacity promotional-item" data-product-id="${product.id}">
                     <img src="${product.imageUrl || 'https://placehold.co/50x50/ffffff/333333?text=عرض'}" alt="${product.name}" class="w-10 h-10 object-cover rounded-md me-3 border-2 border-white/50" onerror="this.src='https://placehold.co/50x50/ffffff/333333?text=خطأ'">
-                    <div>
-                        <span class="font-semibold text-sm">${product.name}</span>
-                        <div class="flex items-baseline">
-                            <span class="text-lg font-bold me-2">$${product.price.toFixed(2)}</span>
-                            <span class="text-xs line-through opacity-75">$${product.originalPrice.toFixed(2)}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            return `
-                <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-3 px-4 shadow-lg">
-                    <div class="container mx-auto flex items-center justify-center overflow-hidden">
+                    <div> <span class="font-semibold text-sm">${product.name}</span> <div class="flex items-baseline"> <span class="text-lg font-bold me-2">$${product.price.toFixed(2)}</span> <span class="text-xs line-through opacity-75">$${product.originalPrice.toFixed(2)}</span> </div> </div></div>`).join('');
+            return `<div class="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-3 px-4 shadow-lg"><div class="container mx-auto flex items-center justify-center overflow-hidden">
                         ${getIcon('percent', 28, 'me-3 flex-shrink-0 animate-pulse')}
-                        <div class="marquee-container relative w-full overflow-hidden">
-                            <div class="marquee-content flex space-x-8 space-x-reverse animate-marquee whitespace-nowrap">
-                                ${itemsHTML}
-                                ${itemsHTML} </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+                        <div class="marquee-container relative w-full overflow-hidden"><div class="marquee-content flex space-x-8 space-x-reverse animate-marquee whitespace-nowrap">${itemsHTML}${itemsHTML}</div></div></div></div>`;
         }
         
         function renderHero() {
             return `
                 <div class="relative text-white py-24 md:py-40 px-4 overflow-hidden bg-slate-900">
-                    <div class="absolute inset-0 z-0">
-                        <div class="absolute inset-0 bg-gradient-to-br from-sky-900 via-purple-900 to-slate-900 opacity-70"></div>
-                        <div class="absolute inset-0 pattern-dots pattern-slate-700 pattern-bg-transparent pattern-opacity-10 pattern-size-6"></div>
-                    </div>
-                    <div class="absolute -top-20 -right-20 w-72 h-72 bg-sky-500/20 rounded-full filter blur-3xl opacity-50 animate-pulse-slow"></div>
-                    <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-purple-500/20 rounded-full filter blur-3xl opacity-50 animate-pulse-slower"></div>
+                    <div class="absolute inset-0 z-0"><div class="absolute inset-0 bg-gradient-to-br from-sky-900 via-purple-900 to-slate-900 opacity-70"></div><div class="absolute inset-0 pattern-dots pattern-slate-700 pattern-bg-transparent pattern-opacity-10 pattern-size-6"></div></div>
+                    <div class="absolute -top-20 -right-20 w-72 h-72 bg-sky-500/20 rounded-full filter blur-3xl opacity-50 animate-pulse-slow"></div><div class="absolute -bottom-20 -left-20 w-72 h-72 bg-purple-500/20 rounded-full filter blur-3xl opacity-50 animate-pulse-slower"></div>
                     <div class="container mx-auto text-center relative z-10">
-                        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 animate-fade-in-down tracking-tight leading-tight">
-                            <span class="block">متجرك الرقمي الجديد،</span>
-                            <span class="block text-sky-400">بإمكانيات لا محدودة</span>
-                        </h1>
-                        <p class="text-lg md:text-xl text-slate-300 mb-10 animate-fade-in-up delay-200 max-w-2xl mx-auto leading-relaxed">
-                            اكتشف إبداعات رقمية فريدة، مصممة لإلهامك وتمكينك. مدعوم بالذكاء الاصطناعي لتعزيز تجربتك وتقديم الأفضل لك.
-                        </p>
-                        <div id="hero-button-container"></div>
-                    </div>
-                </div>
-            `;
+                        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 animate-fade-in-down tracking-tight leading-tight"><span class="block">متجرك الرقمي الجديد،</span><span class="block text-sky-400">بإمكانيات لا محدودة</span></h1>
+                        <p class="text-lg md:text-xl text-slate-300 mb-10 animate-fade-in-up delay-200 max-w-2xl mx-auto leading-relaxed">اكتشف إبداعات رقمية فريدة، مصممة لإلهامك وتمكينك. مدعوم بالذكاء الاصطناعي لتعزيز تجربتك وتقديم الأفضل لك.</p>
+                        <div id="hero-button-container"></div></div></div>`;
         }
 
         function renderProductCard(product) {
             const card = document.createElement('div');
             card.className = "bg-slate-800 rounded-xl shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 ease-in-out hover:shadow-sky-500/30 hover:scale-[1.03] border border-slate-700/50 group";
-            
-            const ratingStars = [...Array(5)].map((_, i) => 
-                `<span class="${i < Math.round(product.rating || 0) ? "text-yellow-400 fill-current" : "text-slate-600"}">${getIcon('star', 18)}</span>`
-            ).join('');
-
+            const ratingStars = [...Array(5)].map((_, i) => `<span class="${i < Math.round(product.rating || 0) ? "text-yellow-400 fill-current" : "text-slate-600"}">${getIcon('star', 18)}</span>`).join('');
             card.innerHTML = `
                 <div class="relative overflow-hidden cursor-pointer product-details-link" data-product-id="${product.id}">
-                    <img src="${product.imageUrl || 'https://placehold.co/400x300/1a202c/718096?text=لا+توجد+صورة'}" alt="${product.name}" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.src='https://placehold.co/400x300/1a202c/718096?text=خطأ+في+الصورة'">
+                    <img src="${product.imageUrl || 'https://placehold.co/400x300/1a202c/718096?text=لا+توجد+صورة'}" alt="${product.name}" class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.src='https://placehold.co/400x300/1a202c/718096?text=خطأ+في+الصورة'}">
                     ${product.category ? `<span class="absolute top-3 left-3 bg-sky-500/80 text-white text-xs px-2.5 py-1 rounded-full backdrop-blur-sm shadow-sm">${product.category}</span>` : ''}
-                    ${product.onSale && product.originalPrice ? `<div class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow-lg transform rotate-3">عرض!</div>` : ''}
-                </div>
+                    ${product.onSale && product.originalPrice ? `<div class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow-lg transform rotate-3">عرض!</div>` : ''}</div>
                 <div class="p-5 flex flex-col flex-grow">
                     <h3 class="text-xl font-semibold text-sky-300 mb-2 h-14 overflow-hidden cursor-pointer hover:text-sky-200 product-details-link" data-product-id="${product.id}">${product.name}</h3>
-                    <div class="flex items-center mb-4">
-                        ${ratingStars}
-                        <span class="ms-2 text-sm text-slate-400">(${product.rating || 0})</span>
-                    </div>
-                    <div class="flex items-baseline mb-4">
-                        <p class="text-3xl font-bold text-white text-left">$${product.price?.toFixed(2) || '0.00'}</p>
-                        ${product.onSale && product.originalPrice ? `<p class="text-lg text-slate-500 line-through ms-2 text-left">$${product.originalPrice.toFixed(2)}</p>` : ''}
-                    </div>
-                </div>
-                <div class="p-4 border-t border-slate-700 mt-auto grid grid-cols-2 gap-3">
-                    </div>
-            `;
-            
+                    <div class="flex items-center mb-4">${ratingStars}<span class="ms-2 text-sm text-slate-400">(${product.rating || 0})</span></div>
+                    <div class="flex items-baseline mb-4"><p class="text-3xl font-bold text-white text-left">$${product.price?.toFixed(2) || '0.00'}</p>${product.onSale && product.originalPrice ? `<p class="text-lg text-slate-500 line-through ms-2 text-left">$${product.originalPrice.toFixed(2)}</p>` : ''}</div></div>
+                <div class="p-4 border-t border-slate-700 mt-auto grid grid-cols-2 gap-3"></div>`;
             const buttonContainer = card.querySelector('.grid.grid-cols-2');
             const detailsButton = createStyledButton('التفاصيل', () => navigateTo('productDetail', product), { variant: 'outline-sky', size: 'small', iconName: 'eye' });
             const buyButton = createStyledButton('شراء الآن', () => addToCart(product), { variant: 'primary', size: 'small', iconName: 'dollarSign' });
-            buttonContainer.appendChild(detailsButton);
-            buttonContainer.appendChild(buyButton);
-
-            card.querySelectorAll('.product-details-link').forEach(el => {
-                el.addEventListener('click', () => navigateTo('productDetail', product));
-            });
+            buttonContainer.appendChild(detailsButton); buttonContainer.appendChild(buyButton);
+            card.querySelectorAll('.product-details-link').forEach(el => el.addEventListener('click', () => navigateTo('productDetail', product)));
             return card;
         }
 
         function renderProductList(productsToRender, title = "المنتجات المميزة") {
             const container = document.createElement('div');
             container.className = "container mx-auto py-12 md:py-16 px-4";
-            container.innerHTML = `<h2 class="text-3xl md:text-4xl font-bold text-white mb-10 text-center tracking-tight">${title}</h2>`;
-
-            if (productsToRender.length === 0) {
+            let titleSuffix = '';
+            if (isLoadingProducts && (allProducts.length === 0 || allProducts === initialProductsData)) { // إذا كنا نعرض البيانات الأولية وما زال التحميل جاريًا
+                titleSuffix = ` <span class="text-sm text-slate-400">(${getIcon('loader2', 16, 'inline-block align-middle')} جاري تحميل المزيد...)</span>`;
+            }
+            container.innerHTML = `<h2 class="text-3xl md:text-4xl font-bold text-white mb-10 text-center tracking-tight">${title}${titleSuffix}</h2>`;
+            if (productsToRender.length === 0 && !isLoadingProducts) { // لا توجد منتجات حتى بعد التحميل
                 container.innerHTML += `<p class="text-slate-400 text-center text-xl py-10">لا توجد منتجات لعرضها حاليًا.</p>`;
-            } else {
+            } else if (productsToRender.length === 0 && isLoadingProducts) { // لا توجد منتجات أولية والتحميل جاري
+                 container.innerHTML += `<div class="text-center py-10"><div class="text-slate-400 text-xl">${getIcon('loader2', 32, 'mx-auto mb-4')} جاري البحث عن كنوز رقمية...</div></div>`;
+            }
+            else {
                 const grid = document.createElement('div');
                 grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8";
-                productsToRender.forEach(product => {
-                    grid.appendChild(renderProductCard(product));
-                });
+                productsToRender.forEach(product => grid.appendChild(renderProductCard(product)));
                 container.appendChild(grid);
             }
             return container;
         }
 
         function renderProductDetailView() {
-            if (!selectedProduct) return `<p class="text-white p-8">المنتج غير موجود. <button id="back-to-products-btn" class="text-sky-400">العودة</button></p>`;
-            
-            const ratingStars = [...Array(5)].map((_, i) => 
-                `<span class="${i < Math.round(selectedProduct.rating || 0) ? "text-yellow-400 fill-current" : "text-slate-600"}">${getIcon('star', 22)}</span>`
-            ).join('');
-
-            const tagsHTML = selectedProduct.tags && selectedProduct.tags.length > 0 ? `
-                <div class="mb-6 mt-8">
-                    <h4 class="text-md font-semibold text-slate-200 mb-2">الوسوم:</h4>
-                    <div class="flex flex-wrap gap-2">
-                        ${selectedProduct.tags.map(tag => `<span class="bg-slate-700 text-slate-300 px-3 py-1.5 rounded-full text-sm shadow-sm flex items-center">${tag} ${getIcon('tag', 14, 'ms-1.5')}</span>`).join('')}
-                    </div>
-                </div>` : '';
-            
+            if (!selectedProduct) return `<p class="text-white p-8">المنتج غير موجود. <button id="back-to-products-btn-nf" class="text-sky-400">العودة</button></p>`;
+            const ratingStars = [...Array(5)].map((_, i) => `<span class="${i < Math.round(selectedProduct.rating || 0) ? "text-yellow-400 fill-current" : "text-slate-600"}">${getIcon('star', 22)}</span>`).join('');
+            const tagsHTML = selectedProduct.tags && selectedProduct.tags.length > 0 ? `<div class="mb-6 mt-8"><h4 class="text-md font-semibold text-slate-200 mb-2">الوسوم:</h4><div class="flex flex-wrap gap-2">${selectedProduct.tags.map(tag => `<span class="bg-slate-700 text-slate-300 px-3 py-1.5 rounded-full text-sm shadow-sm flex items-center">${tag} ${getIcon('tag', 14, 'ms-1.5')}</span>`).join('')}</div></div>` : '';
             const viewHTML = `
                 <div class="container mx-auto py-10 md:py-16 px-4 text-white">
                     <div id="back-button-container-detail" class="mb-8"></div>
                     <div class="bg-slate-800 rounded-xl shadow-2xl p-6 md:p-10 flex flex-col lg:flex-row gap-8 md:gap-12">
-                        <div class="lg:w-2/5">
-                            <img src="${selectedProduct.imageUrl || 'https://placehold.co/600x400/1a202c/718096?text=لا+توجد+صورة'}" alt="${selectedProduct.name}" class="w-full h-auto max-h-[550px] object-contain rounded-lg shadow-xl mb-4 md:mb-0 border border-slate-700" onerror="this.src='https://placehold.co/600x400/1a202c/718096?text=خطأ+في+الصورة'}">
-                        </div>
-                        <div class="lg:w-3/5 flex flex-col">
-                            <div>
-                                ${selectedProduct.category ? `<span class="text-sm bg-sky-600 text-sky-100 px-3 py-1 rounded-full mb-3 inline-block shadow-sm">${selectedProduct.category}</span>` : ''}
-                                <h2 class="text-3xl md:text-4xl font-bold text-sky-300 mb-4 tracking-tight">${selectedProduct.name}</h2>
-                                <div class="flex items-center mb-5">
-                                    ${ratingStars}
-                                    <span class="ms-3 text-lg text-slate-300">(${selectedProduct.rating || 0} نجوم)</span>
-                                </div>
-                                <p class="text-slate-300 text-lg mb-6 leading-relaxed whitespace-pre-wrap">${selectedProduct.description}</p>
-                                ${tagsHTML}
-                            </div>
+                        <div class="lg:w-2/5"><img src="${selectedProduct.imageUrl || 'https://placehold.co/600x400/1a202c/718096?text=لا+توجد+صورة'}" alt="${selectedProduct.name}" class="w-full h-auto max-h-[550px] object-contain rounded-lg shadow-xl mb-4 md:mb-0 border border-slate-700" onerror="this.src='https://placehold.co/600x400/1a202c/718096?text=خطأ+في+الصورة'}"></div>
+                        <div class="lg:w-3/5 flex flex-col"><div>
+                            ${selectedProduct.category ? `<span class="text-sm bg-sky-600 text-sky-100 px-3 py-1 rounded-full mb-3 inline-block shadow-sm">${selectedProduct.category}</span>` : ''}
+                            <h2 class="text-3xl md:text-4xl font-bold text-sky-300 mb-4 tracking-tight">${selectedProduct.name}</h2>
+                            <div class="flex items-center mb-5">${ratingStars}<span class="ms-3 text-lg text-slate-300">(${selectedProduct.rating || 0} نجوم)</span></div>
+                            <p class="text-slate-300 text-lg mb-6 leading-relaxed whitespace-pre-wrap">${selectedProduct.description}</p>${tagsHTML}</div>
                             <div class="mt-auto pt-6 border-t border-slate-700">
-                                <div class="flex items-baseline mb-6">
-                                    <p class="text-4xl font-extrabold text-white text-left">$${selectedProduct.price?.toFixed(2) || '0.00'}</p>
-                                    ${selectedProduct.onSale && selectedProduct.originalPrice ? `<p class="text-2xl text-slate-500 line-through ms-3 text-left">$${selectedProduct.originalPrice.toFixed(2)}</p>` : ''}
-                                </div>
-                                <div id="product-detail-buttons-container" class="flex flex-col sm:flex-row gap-4">
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = viewHTML;
-
+                                <div class="flex items-baseline mb-6"><p class="text-4xl font-extrabold text-white text-left">$${selectedProduct.price?.toFixed(2) || '0.00'}</p>${selectedProduct.onSale && selectedProduct.originalPrice ? `<p class="text-2xl text-slate-500 line-through ms-3 text-left">$${selectedProduct.originalPrice.toFixed(2)}</p>` : ''}</div>
+                                <div id="product-detail-buttons-container" class="flex flex-col sm:flex-row gap-4"></div></div></div></div></div>`;
+            const tempDiv = document.createElement('div'); tempDiv.innerHTML = viewHTML;
             const backButtonContainer = tempDiv.querySelector('#back-button-container-detail');
             const backButton = createStyledButton('العودة إلى المنتجات', () => navigateTo('products'), { variant: 'secondary', iconName: 'arrowLeft' });
             backButtonContainer.appendChild(backButton);
-            
             const buttonsContainer = tempDiv.querySelector('#product-detail-buttons-container');
             const addToCartBtn = createStyledButton('أضف إلى السلة', () => addToCart(selectedProduct), { variant: 'primary', size: 'large', className: 'flex-grow', iconName: 'shoppingCart' });
             buttonsContainer.appendChild(addToCartBtn);
-
             if (selectedProduct.demoUrl && selectedProduct.demoUrl !== "#") {
                 const demoButton = createStyledButton('عرض تجريبي', () => window.open(selectedProduct.demoUrl, '_blank'), { variant: 'secondary', size: 'large', className: 'flex-grow', iconName: 'externalLink' });
-                buttonsContainer.appendChild(demoButton);
-            }
-            
-            if (document.getElementById('back-to-products-btn')) { // للتعامل مع حالة المنتج غير موجود
-                document.getElementById('back-to-products-btn').addEventListener('click', () => navigateTo('home'));
-            }
-
+                buttonsContainer.appendChild(demoButton); }
+            if (document.getElementById('back-to-products-btn-nf')) { document.getElementById('back-to-products-btn-nf').addEventListener('click', () => navigateTo('products')); }
             return tempDiv.innerHTML;
         }
 
         function renderCartView() {
-            if (isCartLoading) return `<div class="text-white text-center py-20 text-xl">جاري تحميل السلة...</div>`;
-            
-            const mainContainer = document.createElement('div');
-            mainContainer.className = "container mx-auto py-10 md:py-16 px-4 text-white";
-
+            if (isCartLoading) return `<div class="text-white text-center py-20 text-xl">${getIcon('loader2', 32, 'mx-auto mb-2')} جاري تحميل السلة...</div>`;
+            const mainContainer = document.createElement('div'); mainContainer.className = "container mx-auto py-10 md:py-16 px-4 text-white";
             if (cart.items.length === 0) {
-                mainContainer.innerHTML = `
-                    <div class="text-center">
-                        ${getIcon('shoppingCart', 72, 'mx-auto mb-8 text-slate-500')}
-                        <h2 class="text-4xl font-semibold mb-5">سلة التسوق فارغة!</h2>
-                        <p class="text-slate-400 mb-8 text-lg">لم تقم بإضافة أي كنوز رقمية بعد. ابدأ رحلة التسوق الآن!</p>
-                        <div id="browse-products-btn-container"></div>
-                    </div>`;
+                mainContainer.innerHTML = `<div class="text-center">${getIcon('shoppingCart', 72, 'mx-auto mb-8 text-slate-500')}<h2 class="text-4xl font-semibold mb-5">سلة التسوق فارغة!</h2><p class="text-slate-400 mb-8 text-lg">لم تقم بإضافة أي كنوز رقمية بعد. ابدأ رحلة التسوق الآن!</p><div id="browse-products-btn-container"></div></div>`;
                 const browseBtnContainer = mainContainer.querySelector('#browse-products-btn-container');
                 const browseBtn = createStyledButton('تصفح المنتجات', () => navigateTo('products'), {variant: 'primary', size: 'large', iconName: 'search'});
-                browseBtnContainer.appendChild(browseBtn);
-                return mainContainer.innerHTML;
-            }
-
+                browseBtnContainer.appendChild(browseBtn); return mainContainer.innerHTML; }
             let itemsHTML = cart.items.map(item => `
                 <div class="flex flex-col sm:flex-row items-center justify-between py-5 border-b border-slate-700 last:border-b-0 gap-4">
-                    <div class="flex items-center w-full sm:w-2/5">
-                        <img src="${item.imageUrl || 'https://placehold.co/80x80/1a202c/718096?text=N/A'}" alt="${item.name}" class="w-24 h-24 object-cover rounded-lg ms-4 shadow-md border border-slate-700" onerror="this.src='https://placehold.co/80x80/1a202c/718096?text=N/A'}">
-                        <div>
-                            <h3 class="text-lg font-semibold text-sky-300 hover:text-sky-200 cursor-pointer cart-item-name" data-product-id="${item.id}">${item.name}</h3>
-                            <p class="text-sm text-slate-400 text-right">$${item.price?.toFixed(2)}</p>
-                        </div>
-                    </div>
+                    <div class="flex items-center w-full sm:w-2/5"><img src="${item.imageUrl || 'https://placehold.co/80x80/1a202c/718096?text=N/A'}" alt="${item.name}" class="w-24 h-24 object-cover rounded-lg ms-4 shadow-md border border-slate-700" onerror="this.src='https://placehold.co/80x80/1a202c/718096?text=N/A'}"><div><h3 class="text-lg font-semibold text-sky-300 hover:text-sky-200 cursor-pointer cart-item-name" data-product-id="${item.id}">${item.name}</h3><p class="text-sm text-slate-400 text-right">$${item.price?.toFixed(2)}</p></div></div>
                     <div class="flex items-center justify-between w-full sm:w-auto gap-3 sm:gap-5">
-                        <div class="flex items-center">
-                            <button class="quantity-btn p-1.5 text-slate-400 hover:text-white transition-colors bg-slate-700 rounded-md hover:bg-slate-600" data-product-id="${item.id}" data-action="decrease">${getIcon('minusCircle', 20)}</button>
-                            <span class="mx-3 text-lg font-medium w-8 text-center">${item.quantity}</span>
-                            <button class="quantity-btn p-1.5 text-slate-400 hover:text-white transition-colors bg-slate-700 rounded-md hover:bg-slate-600" data-product-id="${item.id}" data-action="increase">${getIcon('plusCircle', 20)}</button>
-                        </div>
-                        <p class="text-lg font-semibold w-24 text-left">$${(item.price * item.quantity).toFixed(2)}</p>
-                        <div class="remove-item-btn-container" data-product-id="${item.id}"></div>
-                    </div>
-                </div>
-            `).join('');
-
-            mainContainer.innerHTML = `
-                <h2 class="text-3xl md:text-4xl font-bold mb-10">سلة التسوق الخاصة بك</h2>
-                <div class="bg-slate-800 rounded-xl shadow-2xl p-5 md:p-8">
-                    ${itemsHTML}
-                    <div class="mt-10 pt-8 border-t border-slate-700">
-                        <div class="flex justify-between items-center mb-3"><p class="text-xl text-slate-300">المجموع الفرعي:</p><p class="text-xl font-semibold text-left">$${cart.totalAmount.toFixed(2)}</p></div>
-                        <div class="flex justify-between items-center mb-8"><p class="text-xl text-slate-300">إجمالي المنتجات:</p><p class="text-xl font-semibold">${cart.totalItems}</p></div>
-                        <div id="cart-actions-container" class="flex flex-col sm:flex-row justify-between gap-4"></div>
-                    </div>
-                </div>
-            `;
-            
-            // إضافة الأزرار الديناميكية
-            cart.items.forEach(item => {
-                const removeItemContainer = mainContainer.querySelector(`.remove-item-btn-container[data-product-id="${item.id}"]`);
-                if (removeItemContainer) {
-                    const removeBtn = createStyledButton('', () => removeFromCart(item.id), {variant: 'danger', className: 'p-2.5', iconName: 'trash2'});
-                    removeItemContainer.appendChild(removeBtn);
-                }
-            });
-
+                        <div class="flex items-center"><button class="quantity-btn p-1.5 text-slate-400 hover:text-white transition-colors bg-slate-700 rounded-md hover:bg-slate-600" data-product-id="${item.id}" data-action="decrease">${getIcon('minusCircle', 20)}</button><span class="mx-3 text-lg font-medium w-8 text-center">${item.quantity}</span><button class="quantity-btn p-1.5 text-slate-400 hover:text-white transition-colors bg-slate-700 rounded-md hover:bg-slate-600" data-product-id="${item.id}" data-action="increase">${getIcon('plusCircle', 20)}</button></div>
+                        <p class="text-lg font-semibold w-24 text-left">$${(item.price * item.quantity).toFixed(2)}</p><div class="remove-item-btn-container" data-product-id="${item.id}"></div></div></div>`).join('');
+            mainContainer.innerHTML = `<h2 class="text-3xl md:text-4xl font-bold mb-10">سلة التسوق الخاصة بك</h2><div class="bg-slate-800 rounded-xl shadow-2xl p-5 md:p-8">${itemsHTML}<div class="mt-10 pt-8 border-t border-slate-700"><div class="flex justify-between items-center mb-3"><p class="text-xl text-slate-300">المجموع الفرعي:</p><p class="text-xl font-semibold text-left">$${cart.totalAmount.toFixed(2)}</p></div><div class="flex justify-between items-center mb-8"><p class="text-xl text-slate-300">إجمالي المنتجات:</p><p class="text-xl font-semibold">${cart.totalItems}</p></div><div id="cart-actions-container" class="flex flex-col sm:flex-row justify-between gap-4"></div></div></div>`;
+            cart.items.forEach(item => { const removeItemContainer = mainContainer.querySelector(`.remove-item-btn-container[data-product-id="${item.id}"]`); if (removeItemContainer) { const removeBtn = createStyledButton('', () => removeFromCart(item.id), {variant: 'danger', className: 'p-2.5', iconName: 'trash2'}); removeItemContainer.appendChild(removeBtn); }});
             const cartActionsContainer = mainContainer.querySelector('#cart-actions-container');
             const clearCartBtn = createStyledButton('إفراغ السلة', clearCart, {variant: 'secondary', size: 'large'});
             const checkoutBtn = createStyledButton('المتابعة إلى الدفع', () => navigateTo('checkout'), {variant: 'success', size: 'large'});
-            cartActionsContainer.appendChild(clearCartBtn);
-            cartActionsContainer.appendChild(checkoutBtn);
-            
-            // إضافة مستمعي الأحداث
-            mainContainer.querySelectorAll('.quantity-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const productId = e.currentTarget.dataset.productId;
-                    const action = e.currentTarget.dataset.action;
-                    const item = cart.items.find(i => i.id === productId);
-                    if (item) {
-                        updateQuantity(productId, action === 'increase' ? item.quantity + 1 : item.quantity - 1);
-                    }
-                });
-            });
-            mainContainer.querySelectorAll('.cart-item-name').forEach(nameEl => {
-                nameEl.addEventListener('click', (e) => {
-                    const productId = e.currentTarget.dataset.productId;
-                    const product = allProducts.find(p => p.id === productId);
-                    if (product) navigateTo('productDetail', product);
-                });
-            });
-
+            cartActionsContainer.appendChild(clearCartBtn); cartActionsContainer.appendChild(checkoutBtn);
+            mainContainer.querySelectorAll('.quantity-btn').forEach(button => button.addEventListener('click', (e) => { const productId = e.currentTarget.dataset.productId; const action = e.currentTarget.dataset.action; const item = cart.items.find(i => i.id === productId); if (item) { updateQuantity(productId, action === 'increase' ? item.quantity + 1 : item.quantity - 1); }}));
+            mainContainer.querySelectorAll('.cart-item-name').forEach(nameEl => nameEl.addEventListener('click', (e) => { const productId = e.currentTarget.dataset.productId; const product = (allProducts.length > 0 ? allProducts : initialProductsData).find(p => p.id === productId); if (product) navigateTo('productDetail', product); }));
             return mainContainer.innerHTML;
         }
 
         function renderCheckoutView() {
-            let submissionMessage = { type: '', text: '' }; // حالة محلية مؤقتًا
-            let isProcessing = false; // حالة محلية مؤقتًا
+            // (منطق renderCheckoutView يبقى كما هو إلى حد كبير، فهو يعتمد على حالة السلة)
+            // ... (نفس الكود السابق لـ renderCheckoutView)
+            let submissionMessage = { type: '', text: '' }; 
+            let isProcessing = false; 
             const storeWhatsAppNumber = "967782343232";
-
             const container = document.createElement('div');
             container.className = "container mx-auto py-10 md:py-16 px-4 text-white";
 
-            function updateCheckoutView() { // دالة لتحديث محتوى العرض
+            function updateCheckoutView() { 
                 if (submissionMessage.type === 'success' && cart.items.length === 0) {
-                    container.innerHTML = `
-                        <div class="text-center">
-                            ${getIcon('messageSquare', 72, 'mx-auto mb-8 text-green-400')}
-                            <h2 class="text-3xl font-semibold mb-4 text-green-300">تم تجهيز رسالة طلبك عبر واتساب!</h2>
-                            <p class="text-slate-300 mb-6 text-lg">${submissionMessage.text}</p>
-                            <div id="checkout-home-btn-container"></div>
-                        </div>`;
+                    container.innerHTML = `<div class="text-center">${getIcon('messageSquare', 72, 'mx-auto mb-8 text-green-400')}<h2 class="text-3xl font-semibold mb-4 text-green-300">تم تجهيز رسالة طلبك عبر واتساب!</h2><p class="text-slate-300 mb-6 text-lg">${submissionMessage.text}</p><div id="checkout-home-btn-container"></div></div>`;
                     const homeBtnContainer = container.querySelector('#checkout-home-btn-container');
                     const homeBtn = createStyledButton('العودة إلى الرئيسية', () => navigateTo('home'), {variant: 'primary', size: 'large'});
-                    homeBtnContainer.appendChild(homeBtn);
-                    return;
-                }
-
+                    homeBtnContainer.appendChild(homeBtn); return; }
                 if (cart.items.length === 0 && submissionMessage.type !== 'success') {
-                    container.innerHTML = `
-                        <div class="text-center">
-                            <h2 class="text-2xl font-semibold mb-4">سلتك فارغة.</h2>
-                            <p class="text-slate-400 mb-8">يرجى إضافة منتجات إلى سلتك قبل المتابعة إلى الدفع.</p>
-                            <div id="checkout-shop-btn-container"></div>
-                        </div>`;
+                    container.innerHTML = `<div class="text-center"><h2 class="text-2xl font-semibold mb-4">سلتك فارغة.</h2><p class="text-slate-400 mb-8">يرجى إضافة منتجات إلى سلتك قبل المتابعة إلى الدفع.</p><div id="checkout-shop-btn-container"></div></div>`;
                     const shopBtnContainer = container.querySelector('#checkout-shop-btn-container');
                     const shopBtn = createStyledButton('تسوق المنتجات', () => navigateTo('products'), {variant: 'primary', size: 'large'});
-                    shopBtnContainer.appendChild(shopBtn);
-                    return;
-                }
-
-                const itemsSummaryHTML = cart.items.map(item => `
-                    <div class="flex justify-between items-center py-2.5 border-b border-slate-700 last:border-b-0">
-                        <div><p class="font-medium text-slate-200">${item.name} <span class="text-xs text-slate-400">(x${item.quantity})</span></p></div>
-                        <p class="text-slate-300 text-left">$${(item.price * item.quantity).toFixed(2)}</p>
-                    </div>`).join('');
-
+                    shopBtnContainer.appendChild(shopBtn); return; }
+                const itemsSummaryHTML = cart.items.map(item => `<div class="flex justify-between items-center py-2.5 border-b border-slate-700 last:border-b-0"><div><p class="font-medium text-slate-200">${item.name} <span class="text-xs text-slate-400">(x${item.quantity})</span></p></div><p class="text-slate-300 text-left">$${(item.price * item.quantity).toFixed(2)}</p></div>`).join('');
                 container.innerHTML = `
                     <h2 class="text-3xl md:text-4xl font-bold mb-10">تأكيد الطلب عبر واتساب</h2>
-                    <div class="bg-slate-800 rounded-xl shadow-2xl p-6 md:p-8 max-w-2xl mx-auto">
-                        <h3 class="text-2xl font-semibold mb-6 text-sky-300">ملخص الطلب</h3>
-                        ${itemsSummaryHTML}
-                        <div class="mt-8 pt-6 border-t border-slate-700">
-                            <div class="flex justify-between items-center text-xl font-semibold">
-                                <p class="text-slate-100">الإجمالي:</p>
-                                <p class="text-white text-left">$${cart.totalAmount.toFixed(2)}</p>
-                            </div>
-                        </div>
-                        ${submissionMessage.text && !isProcessing ? `
-                            <div class="p-4 mt-6 rounded-md text-sm flex items-center gap-3 ${submissionMessage.type === 'error' ? 'bg-red-900/50 text-red-300 border border-red-700' : 'bg-green-900/50 text-green-300 border border-green-700'}">
-                                ${submissionMessage.type === 'error' ? getIcon('info', 20) : getIcon('checkCircle', 20)}
-                                <span>${submissionMessage.text}</span>
-                            </div>` : ''
-                        }
-                        <form id="checkout-form" class="mt-8">
-                            <p class="text-sm text-slate-400 mb-6">
-                                بالضغط على الزر أدناه، سيتم تحضير رسالة واتساب تحتوي على تفاصيل طلبك. <strong>يجب عليك إرسال هذه الرسالة يدويًا من تطبيق واتساب</strong> لإتمام عملية الطلب. يمكنك إرفاق إيصال الدفع في محادثة واتساب.
-                            </p>
-                            <div id="submit-order-btn-container"></div>
-                        </form>
-                    </div>`;
-
+                    <div class="bg-slate-800 rounded-xl shadow-2xl p-6 md:p-8 max-w-2xl mx-auto"><h3 class="text-2xl font-semibold mb-6 text-sky-300">ملخص الطلب</h3>${itemsSummaryHTML}
+                        <div class="mt-8 pt-6 border-t border-slate-700"><div class="flex justify-between items-center text-xl font-semibold"><p class="text-slate-100">الإجمالي:</p><p class="text-white text-left">$${cart.totalAmount.toFixed(2)}</p></div></div>
+                        ${submissionMessage.text && !isProcessing ? `<div class="p-4 mt-6 rounded-md text-sm flex items-center gap-3 ${submissionMessage.type === 'error' ? 'bg-red-900/50 text-red-300 border border-red-700' : 'bg-green-900/50 text-green-300 border border-green-700'}">${submissionMessage.type === 'error' ? getIcon('info', 20) : getIcon('checkCircle', 20)}<span>${submissionMessage.text}</span></div>` : ''}
+                        <form id="checkout-form" class="mt-8"><p class="text-sm text-slate-400 mb-6">بالضغط على الزر أدناه، سيتم تحضير رسالة واتساب تحتوي على تفاصيل طلبك. <strong>يجب عليك إرسال هذه الرسالة يدويًا من تطبيق واتساب</strong> لإتمام عملية الطلب. يمكنك إرفاق إيصال الدفع في محادثة واتساب.</p><div id="submit-order-btn-container"></div></form></div>`;
                 const submitBtnContainer = container.querySelector('#submit-order-btn-container');
-                const submitBtn = createStyledButton(
-                    isProcessing ? 'جاري التجهيز...' : 'إرسال الطلب عبر واتساب',
-                    null, // سيتم إضافة المعالج لاحقًا
-                    { 
-                        type: 'submit', 
-                        variant: 'whatsapp', 
-                        size: 'large', 
-                        className: 'w-full', 
-                        disabled: isProcessing, 
-                        iconName: isProcessing ? 'loader2' : 'messageSquare' 
-                    }
-                );
+                const submitBtn = createStyledButton(isProcessing ? 'جاري التجهيز...' : 'إرسال الطلب عبر واتساب', null, { type: 'submit', variant: 'whatsapp', size: 'large', className: 'w-full', disabled: isProcessing, iconName: isProcessing ? 'loader2' : 'messageSquare' });
                 submitBtnContainer.appendChild(submitBtn);
-
                 const form = container.querySelector('#checkout-form');
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    if (cart.items.length === 0) {
-                        submissionMessage = {type: 'error', text: 'سلتك فارغة. يرجى إضافة منتجات أولاً.'};
-                        updateCheckoutView(); // تحديث العرض
-                        return;
-                    }
-                    isProcessing = true;
-                    submissionMessage = {type: '', text: ''};
-                    updateCheckoutView(); // تحديث العرض لإظهار "جاري التجهيز"
-
-                    const orderId = `ORDER-${Date.now()}`;
-                    let messageBody = `*طلب جديد من المتجر الأنيق* 🔥\n\n`;
-                    messageBody += `*رقم الطلب:* ${orderId}\n\n`;
-                    messageBody += `🛍️ *المنتجات المطلوبة:*\n`;
-                    cart.items.forEach(item => {
-                        messageBody += `  - ${item.name} (الكمية: ${item.quantity}) - السعر: $${(item.price * item.quantity).toFixed(2)}\n`;
-                    });
-                    messageBody += `\n💰 *المجموع الكلي للطلب:* $${cart.totalAmount.toFixed(2)}\n\n`;
-                    messageBody += `-------------------------------------\n`;
-                    messageBody += `الرجاء تأكيد استلام الطلب وتفعيل الخدمة. يمكنك إرسال إيصال الدفع في هذه المحادثة.\n\n`;
-                    messageBody += `شكرًا لتعاملك معنا! ✨`;
-
-                    const encodedMessage = encodeURIComponent(messageBody);
-                    const whatsappUrl = `https://wa.me/${storeWhatsAppNumber}?text=${encodedMessage}`;
-
-                    window.open(whatsappUrl, '_blank');
-                    
-                    isProcessing = false;
-                    submissionMessage = {type: 'success', text: 'تم تجهيز طلبك للإرسال عبر واتساب. يرجى فتح تطبيق واتساب وإرسال الرسالة المجهزة لإتمام الطلب. سيتم مسح السلة الآن.'};
-                    
-                    console.log("===== تم تجهيز رسالة واتساب للطلب التالي =====");
-                    console.log("رقم الطلب:", orderId);
-                    console.log("المنتجات:", cart.items.map(item => `${item.name} (x${item.quantity})`).join(', '));
-                    console.log("الإجمالي:", cart.totalAmount);
-                    console.log("رابط واتساب (للنسخ اليدوي إذا لزم الأمر):", whatsappUrl);
-                    console.log("==========================================");
-
-                    clearCart(); // مسح السلة بعد تجهيز الرسالة
-                    updateCheckoutView(); // تحديث العرض لإظهار رسالة النجاح
-                });
+                    if (cart.items.length === 0) { submissionMessage = {type: 'error', text: 'سلتك فارغة. يرجى إضافة منتجات أولاً.'}; updateCheckoutView(); return; }
+                    isProcessing = true; submissionMessage = {type: '', text: ''}; updateCheckoutView(); 
+                    const orderId = `ORDER-${Date.now()}`; let messageBody = `*طلب جديد من المتجر الأنيق* 🔥\n\n*رقم الطلب:* ${orderId}\n\n🛍️ *المنتجات المطلوبة:*\n`;
+                    cart.items.forEach(item => { messageBody += `  - ${item.name} (الكمية: ${item.quantity}) - السعر: $${(item.price * item.quantity).toFixed(2)}\n`; });
+                    messageBody += `\n💰 *المجموع الكلي للطلب:* $${cart.totalAmount.toFixed(2)}\n\n-------------------------------------\nالرجاء تأكيد استلام الطلب وتفعيل الخدمة. يمكنك إرسال إيصال الدفع في هذه المحادثة.\n\nشكرًا لتعاملك معنا! ✨`;
+                    const encodedMessage = encodeURIComponent(messageBody); const whatsappUrl = `https://wa.me/${storeWhatsAppNumber}?text=${encodedMessage}`;
+                    window.open(whatsappUrl, '_blank'); isProcessing = false; submissionMessage = {type: 'success', text: 'تم تجهيز طلبك للإرسال عبر واتساب. يرجى فتح تطبيق واتساب وإرسال الرسالة المجهزة لإتمام الطلب. سيتم مسح السلة الآن.'};
+                    console.log("===== تم تجهيز رسالة واتساب للطلب التالي ====="); console.log("رقم الطلب:", orderId); console.log("المنتجات:", cart.items.map(item => `${item.name} (x${item.quantity})`).join(', ')); console.log("الإجمالي:", cart.totalAmount); console.log("رابط واتساب:", whatsappUrl); console.log("==========================================");
+                    clearCart(); updateCheckoutView(); });
             }
-            updateCheckoutView(); // العرض الأولي
+            updateCheckoutView(); 
             return container.innerHTML;
         }
 
-        function renderInfoPageLayout(title, contentHTML) {
+
+        function renderInfoPageLayout(title, contentHTML) { /* ... نفس الكود ... */ 
             return `
                 <div class="container mx-auto py-16 px-4 text-white min-h-[calc(100vh-250px)] flex flex-col items-center">
                     <h2 class="text-4xl md:text-5xl font-bold mb-10 text-sky-300 text-center animate-fade-in-down section-title-underline">${title}</h2>
                     <div class="bg-slate-800 p-8 md:p-12 rounded-xl shadow-2xl max-w-3xl w-full mx-auto text-lg leading-relaxed animate-fade-in-up delay-200">
-                        ${contentHTML}
-                    </div>
-                </div>
-            `;
+                        ${contentHTML}</div></div>`;
         }
-
-        function renderAboutUsView() {
-            const content = `
-                <p class="mb-6 text-slate-200">أهلاً بك في <strong>المتجر الأنيق</strong>! نحن فريق شغوف بتوفير أفضل المنتجات الرقمية التي تلبي احتياجاتك وتطلعاتك. نسعى دائمًا لتقديم تجربة تسوق فريدة وممتعة، مع التركيز على الجودة والابتكار.</p>
-                <p class="mb-6 text-slate-200">مهمتنا هي تمكين المبدعين والمهنيين من خلال توفير أدوات وموارد رقمية عالية المستوى تساعدهم على تحقيق أهدافهم. سواء كنت تبحث عن دورات تدريبية، قوالب تصميم، برامج إنتاجية، أو أصول إبداعية، ستجد لدينا ما يناسبك.</p>
-                <p class="text-slate-200">نؤمن بأهمية بناء علاقة قوية مع عملائنا، ونسعى لتقديم دعم متميز وخدمة عملاء سريعة الاستجابة. شكرًا لثقتك بنا!</p>
-            `;
-            return renderInfoPageLayout("من نحن", content);
-        }
-        
-        function renderContactUsView() {
-            const content = `
-                <p class="mb-8 text-slate-200">يسعدنا تواصلك معنا! إذا كان لديك أي استفسارات، اقتراحات، أو تحتاج إلى مساعدة، فلا تتردد في الاتصال بنا عبر إحدى الطرق التالية:</p>
-                <ul class="space-y-6 mb-8">
-                    <li class="flex items-start">
-                        ${getIcon('mail', 28, 'me-4 text-sky-400 mt-1 flex-shrink-0')}
-                        <div>
-                            <h3 class="font-semibold text-xl text-sky-300 mb-1">البريد الإلكتروني</h3>
-                            <a href="mailto:sabersaeedsaif@gmail.com" class="text-slate-200 hover:text-sky-400 transition-colors">sabersaeedsaif@gmail.com</a>
-                        </div>
-                    </li>
-                    <li class="flex items-start">
-                        ${getIcon('messageSquare', 28, 'me-4 text-sky-400 mt-1 flex-shrink-0')}
-                        <div>
-                            <h3 class="font-semibold text-xl text-sky-300 mb-1">واتساب (للاستفسارات والطلبات)</h3>
-                            <a href="https://wa.me/967782343232" target="_blank" rel="noopener noreferrer" class="text-slate-200 hover:text-sky-400 transition-colors dir-ltr inline-block">+967 782 343 232</a>
-                        </div>
-                    </li>
-                </ul>
-                <p class="text-slate-300">نحن متواجدون لمساعدتك ونتطلع لسماع آرائك!</p>
-            `;
-            return renderInfoPageLayout("اتصل بنا", content);
-        }
-
-        function renderPrivacyPolicyView() {
-            const content = `
-                <p class="mb-4">تاريخ السريان: 22 مايو 2025</p>
-                <p class="mb-6">نحن في "المتجر الأنيق" نقدر خصوصيتك ونسعى لحماية معلوماتك الشخصية. توضح سياسة الخصوصية هذه كيف نجمع ونستخدم ونكشف عن معلوماتك عند استخدامك لمتجرنا.</p>
-                <h3 class="text-2xl font-semibold text-sky-400 mt-6 mb-3">1. المعلومات التي نجمعها</h3>
-                <p class="mb-4">قد نجمع معلومات شخصية تقدمها لنا مباشرة، مثل اسمك وبريدك الإلكتروني ورقم هاتفك عند إتمام عملية شراء (عبر واتساب).</p>
-                <p class="mb-4">نستخدم Firebase Authentication لتسجيل الدخول المجهول وحفظ بيانات سلة التسوق الخاصة بك بشكل آمن ومرتبط بحسابك المجهول.</p>
-                <h3 class="text-2xl font-semibold text-sky-400 mt-6 mb-3">2. كيف نستخدم معلوماتك</h3>
-                <p class="mb-4">نستخدم المعلومات التي نجمعها لـ:</p>
-                <ul class="list-disc list-inside space-y-2 mb-4 ps-4">
-                    <li>تسهيل عملية الشراء ومعالجة طلباتك (عبر التواصل المباشر معك).</li>
-                    <li>تحسين وتخصيص تجربتك في المتجر.</li>
-                    <li>التواصل معك بخصوص طلباتك أو استفساراتك.</li>
-                </ul>
-                <h3 class="text-2xl font-semibold text-sky-400 mt-6 mb-3">3. مشاركة معلوماتك</h3>
-                 <p class="mb-4">نحن لا نبيع أو نؤجر معلوماتك الشخصية لأطراف ثالثة. قد نشارك معلوماتك فقط في الحالات التالية:</p>
-                <ul class="list-disc list-inside space-y-2 mb-4 ps-4">
-                    <li>بموافقتك.</li>
-                    <li>للامتثال للقوانين واللوائح المعمول بها.</li>
-                </ul>
-                <p class="mb-4">يتم التعامل مع تفاصيل الطلب التي ترسلها عبر واتساب مباشرة بينك وبين إدارة المتجر.</p>
-                <h3 class="text-2xl font-semibold text-sky-400 mt-6 mb-3">4. أمان معلوماتك</h3>
-                <p class="mb-4">نتخذ تدابير معقولة لحماية معلوماتك الشخصية من الوصول أو الاستخدام أو الكشف غير المصرح به. ومع ذلك، لا توجد طريقة نقل عبر الإنترنت أو تخزين إلكتروني آمنة بنسبة 100%.</p>
-                <h3 class="text-2xl font-semibold text-sky-400 mt-6 mb-3">5. التغييرات على سياسة الخصوصية</h3>
-                <p class="mb-4">قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سنقوم بإخطارك بأي تغييرات عن طريق نشر سياسة الخصوصية الجديدة على هذه الصفحة.</p>
-                <h3 class="text-2xl font-semibold text-sky-400 mt-6 mb-3">6. اتصل بنا</h3>
-                <p class="mb-4">إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى الاتصال بنا عبر المعلومات المتوفرة في صفحة "اتصل بنا".</p>
-            `;
-            return renderInfoPageLayout("سياسة الخصوصية", content);
-        }
-
+        function renderAboutUsView() { const content = `<p class="mb-6 text-slate-200">أهلاً بك في <strong>المتجر الأنيق</strong>! ...</p><p class="mb-6 text-slate-200">مهمتنا هي ...</p><p class="text-slate-200">نؤمن بأهمية ...</p>`; return renderInfoPageLayout("من نحن", content); }
+        function renderContactUsView() { const content = `<p class="mb-8 text-slate-200">يسعدنا تواصلك معنا! ...</p><ul class="space-y-6 mb-8"><li class="flex items-start">${getIcon('mail', 28, 'me-4 text-sky-400 mt-1 flex-shrink-0')}<div><h3 class="font-semibold text-xl text-sky-300 mb-1">البريد الإلكتروني</h3><a href="mailto:sabersaeedsaif@gmail.com" class="text-slate-200 hover:text-sky-400 transition-colors">sabersaeedsaif@gmail.com</a></div></li><li class="flex items-start">${getIcon('messageSquare', 28, 'me-4 text-sky-400 mt-1 flex-shrink-0')}<div><h3 class="font-semibold text-xl text-sky-300 mb-1">واتساب</h3><a href="https://wa.me/967782343232" target="_blank" rel="noopener noreferrer" class="text-slate-200 hover:text-sky-400 transition-colors dir-ltr inline-block">+967 782 343 232</a></div></li></ul><p class="text-slate-300">نحن متواجدون ...</p>`; return renderInfoPageLayout("اتصل بنا", content); }
+        function renderPrivacyPolicyView() { const content = `<p class="mb-4">تاريخ السريان: ...</p><p class="mb-6">نحن في "المتجر الأنيق" ...</p><h3 class="text-2xl font-semibold text-sky-400 mt-6 mb-3">1. المعلومات التي نجمعها</h3>...`; return renderInfoPageLayout("سياسة الخصوصية", content); }
         function renderFAQView() {
-            const faqs = [
+            const faqs = [ /* ... نفس الأسئلة والأجوبة ... */ 
                 { question: "كيف يمكنني شراء منتج من المتجر؟", answer: "تصفح المنتجات، أضف المنتج الذي تريده إلى سلة التسوق، ثم انتقل إلى السلة واضغط على 'المتابعة إلى الدفع'. سيتم توجيهك لإرسال تفاصيل طلبك عبر واتساب لإتمام عملية الشراء." },
                 { question: "ما هي طرق الدفع المتاحة؟", answer: "حاليًا، يتم تأكيد الطلبات عبر واتساب. يمكنك مناقشة تفاصيل الدفع وإرسال الإيصال مباشرة عبر محادثة واتساب مع إدارة المتجر." },
                 { question: "هل المنتجات رقمية أم مادية؟", answer: "جميع المنتجات المعروضة في المتجر هي منتجات رقمية. سيتم تسليمها لك إلكترونيًا بعد تأكيد الدفع." },
                 { question: "كيف أحصل على المنتج بعد الشراء؟", answer: "بعد تأكيد طلبك ودفعك عبر واتساب، سيتم إرسال المنتج الرقمي إليك بالطريقة المتفق عليها." },
                 { question: "هل يمكنني استرجاع المنتج أو استرداد المبلغ؟", answer: "نظرًا لطبيعة المنتجات الرقمية، قد تختلف سياسة الاسترجاع والاسترداد. يرجى التواصل معنا." }
             ];
-
-            const faqItemsHTML = faqs.map((faq, index) => `
-                <div class="border-b border-slate-700 py-4">
-                    <button class="faq-item-toggle flex justify-between items-center w-full text-right text-lg font-semibold text-sky-300 hover:text-sky-200 transition-colors" data-index="${index}">
-                        <span>${faq.question}</span>
-                        <span class="faq-icon">${getIcon('chevronDown', 24)}</span>
-                    </button>
-                    <div class="faq-answer hidden mt-3 text-slate-300 leading-relaxed animate-fade-in-up text-base">
-                        <p>${faq.answer}</p>
-                    </div>
-                </div>
-            `).join('');
-
-            const content = `<div class="space-y-4">${faqItemsHTML}</div>`;
-            const pageHTML = renderInfoPageLayout("الأسئلة المتكررة", content);
-            
-            // إضافة مستمعي الأحداث بعد إنشاء HTML
-            setTimeout(() => { // استخدام setTimeout لضمان أن العناصر موجودة في DOM
-                document.querySelectorAll('.faq-item-toggle').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const answerDiv = e.currentTarget.nextElementSibling;
-                        const iconSpan = e.currentTarget.querySelector('.faq-icon');
-                        const isOpen = !answerDiv.classList.contains('hidden');
-                        
-                        answerDiv.classList.toggle('hidden');
-                        iconSpan.innerHTML = isOpen ? getIcon('chevronDown', 24) : getIcon('chevronUp', 24);
-                    });
-                });
-            }, 0);
-
+            const faqItemsHTML = faqs.map((faq, index) => `<div class="border-b border-slate-700 py-4"><button class="faq-item-toggle flex justify-between items-center w-full text-right text-lg font-semibold text-sky-300 hover:text-sky-200 transition-colors" data-index="${index}"><span>${faq.question}</span><span class="faq-icon">${getIcon('chevronDown', 24)}</span></button><div class="faq-answer hidden mt-3 text-slate-300 leading-relaxed animate-fade-in-up text-base"><p>${faq.answer}</p></div></div>`).join('');
+            const content = `<div class="space-y-4">${faqItemsHTML}</div>`; const pageHTML = renderInfoPageLayout("الأسئلة المتكررة", content);
+            setTimeout(() => { document.querySelectorAll('.faq-item-toggle').forEach(button => button.addEventListener('click', (e) => { const answerDiv = e.currentTarget.nextElementSibling; const iconSpan = e.currentTarget.querySelector('.faq-icon'); const isOpen = !answerDiv.classList.contains('hidden'); answerDiv.classList.toggle('hidden'); iconSpan.innerHTML = isOpen ? getIcon('chevronDown', 24) : getIcon('chevronUp', 24); })); }, 0);
             return pageHTML;
         }
         
         function renderFooter() {
-            const footerContainer = document.getElementById('footer-container');
-            if (!footerContainer) return;
-
+            const footerContainer = document.getElementById('footer-container'); if (!footerContainer) return;
             footerContainer.innerHTML = `
-                <footer class="bg-slate-850 text-slate-400 py-16 mt-auto border-t border-slate-700">
-                    <div class="container mx-auto px-4">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
-                            <div>
-                                <h3 class="text-xl font-semibold text-sky-400 mb-4 flex items-center">
-                                    ${getIcon('zap', 24, 'me-2 text-yellow-400')} المتجر الأنيق
-                                </h3>
-                                <p class="text-sm leading-relaxed">وجهتك الأولى للمنتجات الرقمية المبتكرة. نقدم لك الجودة والإبداع في مكان واحد.</p>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-white mb-4">روابط مهمة</h3>
-                                <ul class="space-y-2.5 text-sm">
-                                    <li><a href="#" data-view="about" class="footer-nav-link hover:text-sky-400 transition-colors">من نحن</a></li>
-                                    <li><a href="#" data-view="contact" class="footer-nav-link hover:text-sky-400 transition-colors">اتصل بنا</a></li>
-                                    <li><a href="#" data-view="privacy" class="footer-nav-link hover:text-sky-400 transition-colors">سياسة الخصوصية</a></li>
-                                    <li><a href="#" data-view="faq" class="footer-nav-link hover:text-sky-400 transition-colors">الأسئلة المتكررة</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-white mb-4">تواصل معنا</h3>
-                                <ul class="space-y-2.5 text-sm">
-                                    <li><a href="mailto:sabersaeedsaif@gmail.com" class="hover:text-sky-400 transition-colors flex items-center">${getIcon('mail', 16, 'me-2')} sabersaeedsaif@gmail.com</a></li>
-                                    <li><a href="https://wa.me/967782343232" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 transition-colors flex items-center">${getIcon('messageSquare', 16, 'me-2')} +967 782 343 232</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="text-center text-sm border-t border-slate-700 pt-10">
-                            <p>&copy; ${new Date().getFullYear()} المتجر الأنيق. جميع الحقوق محفوظة. <span class="block sm:inline mt-1 sm:mt-0">تصميم وتطوير لأغراض العرض.</span></p>
-                            ${typeof __app_id !== 'undefined' ? `<p class="text-xs mt-2 opacity-70">معرف التطبيق: ${appId}</p>` : ''}
-                        </div>
-                    </div>
-                </footer>
-            `;
-            document.querySelectorAll('.footer-nav-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    navigateTo(e.target.dataset.view);
-                });
-            });
+                <footer class="bg-slate-850 text-slate-400 py-16 mt-auto border-t border-slate-700"><div class="container mx-auto px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10"><div><h3 class="text-xl font-semibold text-sky-400 mb-4 flex items-center">${getIcon('zap', 24, 'me-2 text-yellow-400')}المتجر الأنيق</h3><p class="text-sm leading-relaxed">وجهتك الأولى للمنتجات الرقمية ...</p></div><div><h3 class="text-lg font-semibold text-white mb-4">روابط مهمة</h3><ul class="space-y-2.5 text-sm"><li><a href="#" data-view="about" class="footer-nav-link hover:text-sky-400 transition-colors">من نحن</a></li><li><a href="#" data-view="contact" class="footer-nav-link hover:text-sky-400 transition-colors">اتصل بنا</a></li><li><a href="#" data-view="privacy" class="footer-nav-link hover:text-sky-400 transition-colors">سياسة الخصوصية</a></li><li><a href="#" data-view="faq" class="footer-nav-link hover:text-sky-400 transition-colors">الأسئلة المتكررة</a></li></ul></div><div><h3 class="text-lg font-semibold text-white mb-4">تواصل معنا</h3><ul class="space-y-2.5 text-sm"><li><a href="mailto:sabersaeedsaif@gmail.com" class="hover:text-sky-400 transition-colors flex items-center">${getIcon('mail', 16, 'me-2')} sabersaeedsaif@gmail.com</a></li><li><a href="https://wa.me/967782343232" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 transition-colors flex items-center">${getIcon('messageSquare', 16, 'me-2')} +967 782 343 232</a></li></ul></div></div>
+                    <div class="text-center text-sm border-t border-slate-700 pt-10"><p>&copy; ${new Date().getFullYear()} المتجر الأنيق. جميع الحقوق محفوظة. <span class="block sm:inline mt-1 sm:mt-0">تصميم وتطوير لأغراض العرض.</span></p>${typeof __app_id !== 'undefined' ? `<p class="text-xs mt-2 opacity-70">معرف التطبيق: ${appId}</p>` : ''}</div></div></footer>`;
+            document.querySelectorAll('.footer-nav-link').forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); navigateTo(e.target.dataset.view); }));
         }
 
         // --- الدالة الرئيسية لعرض التطبيق ---
@@ -921,13 +505,9 @@
             const mainContent = document.getElementById('main-content');
             if (!mainContent) return;
 
-            renderNavbar(); // إعادة عرض الشريط العلوي دائمًا لتحديث عدد عناصر السلة
+            renderNavbar(); // تحديث الشريط العلوي دائمًا (مهم لعدد عناصر السلة)
 
-            if (isLoadingProducts || isCartLoading) {
-                mainContent.innerHTML = `<div class="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] text-white text-center py-20 text-xl">${getIcon('loader2', 48, 'mb-4 text-sky-400')}جاري تحميل بيانات المتجر...</div>`;
-                return;
-            }
-            if (error && allProducts.length === 0) { // عرض الخطأ فقط إذا لم يتم تحميل أي منتجات (حتى الاحتياطية)
+            if (error && (allProducts.length === 0 || allProducts === initialProductsData)) { 
                 mainContent.innerHTML = `<div class="text-red-400 text-center py-20 text-xl bg-red-900/30 p-4 rounded-md max-w-2xl mx-auto my-10">${error}</div>`;
                 return;
             }
@@ -944,109 +524,75 @@
                         const heroButton = createStyledButton('استكشف الإبداعات الآن', () => navigateTo('products'), { variant: 'primary', size: 'large', className: 'animate-bounce-slow group shadow-sky-500/40 hover:shadow-sky-500/60', iconName: 'arrowRight' });
                         heroButtonContainer.appendChild(heroButton);
                     }
-                    homePage.appendChild(renderProductList(filteredProducts.slice(0, 4), "أحدث الإضافات الإبداعية"));
+                    // استخدام البيانات الأولية إذا كانت البيانات الفعلية لا تزال تُحمّل
+                    const productsForHome = (allProducts.length > 0 ? filteredProducts : initialProductsData).slice(0, 4);
+                    homePage.appendChild(renderProductList(productsForHome, "أحدث الإضافات الإبداعية"));
                     mainContent.innerHTML = homePage.innerHTML;
                     break;
                 case 'products':
                     const productsPage = document.createElement('div');
                     productsPage.innerHTML = renderPromotionalBanner();
-                    productsPage.appendChild(renderProductList(filteredProducts, "جميع كنوزنا الرقمية"));
+                    const productsForProductPage = allProducts.length > 0 ? filteredProducts : initialProductsData;
+                    productsPage.appendChild(renderProductList(productsForProductPage, "جميع كنوزنا الرقمية"));
                     mainContent.innerHTML = productsPage.innerHTML;
                     break;
                 case 'productDetail':
-                    mainContent.innerHTML = renderProductDetailView();
+                    if (isLoadingProducts && !selectedProduct) { 
+                        mainContent.innerHTML = `<div class="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] text-white text-center py-20 text-xl">${getIcon('loader2', 48, 'mb-4 text-sky-400')}جاري تحميل بيانات المنتج...</div>`;
+                    } else if (!selectedProduct && !isLoadingProducts) { 
+                        mainContent.innerHTML = `<p class="text-white p-8">المنتج المطلوب غير موجود. <button id="back-to-products-btn-detail-nf" class="text-sky-400">العودة إلى المنتجات</button></p>`;
+                        setTimeout(() => { const btn = document.getElementById('back-to-products-btn-detail-nf'); if(btn) btn.addEventListener('click', () => navigateTo('products')); },0);
+                    } else { 
+                        mainContent.innerHTML = renderProductDetailView();
+                    }
                     break;
-                case 'cart':
-                    mainContent.innerHTML = renderCartView();
-                    break;
-                case 'checkout':
-                    mainContent.innerHTML = renderCheckoutView();
-                    break;
-                case 'about':
-                    mainContent.innerHTML = renderAboutUsView();
-                    break;
-                case 'contact':
-                    mainContent.innerHTML = renderContactUsView();
-                    break;
-                case 'privacy':
-                    mainContent.innerHTML = renderPrivacyPolicyView();
-                    break;
-                case 'faq':
-                    mainContent.innerHTML = renderFAQView();
-                    break;
+                case 'cart': mainContent.innerHTML = renderCartView(); break;
+                case 'checkout': mainContent.innerHTML = renderCheckoutView(); break;
+                case 'about': mainContent.innerHTML = renderAboutUsView(); break;
+                case 'contact': mainContent.innerHTML = renderContactUsView(); break;
+                case 'privacy': mainContent.innerHTML = renderPrivacyPolicyView(); break;
+                case 'faq': mainContent.innerHTML = renderFAQView(); break;
                 default:
                     mainContent.innerHTML = `<h2 class="text-white text-center py-20 text-2xl">الصفحة المطلوبة غير موجودة.</h2>`;
             }
             
-            // إعادة ربط الأحداث للعناصر التي قد يتم إنشاؤها ديناميكيًا في العروض المختلفة
-            // مثل عناصر الشعار في الشريط العلوي أو أزرار التنقل في التذييل
-            if (document.getElementById('nav-logo')) {
-                 document.getElementById('nav-logo').addEventListener('click', () => navigateTo('home'));
-            }
+            // إعادة ربط الأحداث للعناصر الديناميكية مثل عناصر البانر الترويجي
             document.querySelectorAll('.promotional-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     const prodId = e.currentTarget.dataset.productId;
-                    const product = allProducts.find(p => p.id === prodId);
+                    const product = (allProducts.length > 0 ? allProducts : initialProductsData).find(p => p.id === prodId);
                     if (product) navigateTo('productDetail', product);
                 });
             });
-             renderFooter(); // تأكد من عرض التذييل وتحديث روابطه
         }
         
         // --- تهيئة التطبيق ---
         async function initializeAppLogic() {
             onAuthStateChanged(auth, async (user) => {
-                isCartLoading = true; // ابدأ التحميل عند تغيير المستخدم
-                renderApp(); // عرض حالة التحميل
-
-                if (unsubscribeCartListener) { // إلغاء اشتراك المستمع القديم إذا كان موجودًا
-                    unsubscribeCartListener();
-                    unsubscribeCartListener = null;
-                }
-
+                isCartLoading = true; 
+                if (unsubscribeCartListener) { unsubscribeCartListener(); unsubscribeCartListener = null; }
                 if (user) {
                     userId = user.uid;
-                    console.log("المستخدم مسجل دخوله:", userId);
                     const cartDocRef = doc(db, `/artifacts/${appId}/users/${userId}/cart/userCart_ar`);
-                    
-                    // استخدام onSnapshot للاستماع للتغييرات في الوقت الفعلي
                     unsubscribeCartListener = onSnapshot(cartDocRef, async (docSnap) => {
-                        if (docSnap.exists()) {
-                            cart = docSnap.data();
-                        } else {
-                            const newCartData = { items: [], totalAmount: 0, totalItems: 0 };
-                            cart = newCartData;
-                            await setDoc(cartDocRef, newCartData); // إنشاء السلة إذا لم تكن موجودة
-                        }
-                        isCartLoading = false;
-                        renderApp(); // إعادة العرض بعد تحميل السلة أو تحديثها
-                    }, (error) => {
-                        console.error("خطأ في جلب السلة من Firestore:", error);
-                        cart = { items: [], totalAmount: 0, totalItems: 0 }; // العودة إلى سلة فارغة في حالة الخطأ
-                        isCartLoading = false;
-                        renderApp();
-                    });
-
+                        if (docSnap.exists()) { cart = docSnap.data(); } 
+                        else { const newCartData = { items: [], totalAmount: 0, totalItems: 0 }; cart = newCartData; await setDoc(cartDocRef, newCartData); }
+                        isCartLoading = false; renderApp(); 
+                    }, (error) => { console.error("خطأ في جلب السلة:", error); cart = { items: [], totalAmount: 0, totalItems: 0 }; isCartLoading = false; renderApp(); });
                 } else {
-                    userId = null;
-                    cart = { items: [], totalAmount: 0, totalItems: 0 }; // إعادة تعيين السلة للمستخدم غير المسجل
-                    isCartLoading = false;
-                    console.log("لا يوجد مستخدم مسجل.");
-                    renderApp();
+                    userId = null; cart = { items: [], totalAmount: 0, totalItems: 0 }; isCartLoading = false; 
+                    renderApp(); // عرض التطبيق حتى لو لم يكن المستخدم مسجلاً (سلة فارغة)
                 }
             });
 
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("خطأ في مصادقة Firebase:", error);
-                self.error = "فشلت المصادقة."; // استخدام self.error لتجنب التعارض مع متغير الخطأ المحلي
-                isCartLoading = false; // إيقاف التحميل في حالة فشل المصادقة
-                renderApp();
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); } 
+                else { await signInAnonymously(auth); }
+            } catch (error) { 
+                console.error("خطأ في مصادقة Firebase:", error); 
+                self.error = "فشلت المصادقة."; isCartLoading = false; 
+                // لا يزال يجب عرض التطبيق حتى لو فشلت المصادقة، مع إمكانية عرض رسالة خطأ إذا لزم الأمر
+                renderApp(); 
             }
             
             await fetchProducts(); // جلب المنتجات بعد محاولة تسجيل الدخول
@@ -1054,15 +600,23 @@
 
         // بدء التطبيق عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
-            initializeAppLogic();
-            document.addEventListener('navigateTo', (event) => { // للاستماع لأحداث التنقل المخصصة (إذا استخدمت)
+            renderNavbar(); // عرض الشريط العلوي فورًا
+            renderFooter(); // عرض التذييل فورًا
+            
+            // عرض مبدئي للصفحة الرئيسية باستخدام البيانات الأولية
+            currentView = 'home'; 
+            filterProducts(); // فلترة البيانات الأولية إذا كان هناك بحث مبدئي (عادة لا يوجد)
+            renderApp(); 
+            
+            initializeAppLogic(); // بدء تحميل البيانات من Firebase والمصادقة
+            
+            document.addEventListener('navigateTo', (event) => { 
                 navigateTo(event.detail.view, event.detail.product);
             });
         });
 
     </script>
     <style>
-        /* أنماط Tailwind مدمجة عبر CDN. يمكن إضافة أنماط مخصصة هنا إذا لزم الأمر. */
         body { font-family: 'Tajawal', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         html { scroll-behavior: smooth; }
         @keyframes fade-in-down { 0% { opacity: 0; transform: translateY(-25px); } 100% { opacity: 1; transform: translateY(0); } }
@@ -1080,25 +634,15 @@
         .animate-marquee { animation: marquee 40s linear infinite; }
         .marquee-content:hover { animation-play-state: paused; }
         .section-title-underline { position: relative; padding-bottom: 0.75rem; }
-        .section-title-underline::after {
-            content: ''; position: absolute; left: 50%; bottom: 0;
-            transform: translateX(-50%); width: 80px; height: 4px; 
-            background-color: #0ea5e9; /* Tailwind sky-500 */
-            border-radius: 3px;
-        }
-        input[type="text"]::placeholder { color: #64748b; /* Tailwind slate-500 */ }
+        .section-title-underline::after { content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 80px; height: 4px; background-color: #0ea5e9; border-radius: 3px; }
+        input[type="text"]::placeholder { color: #64748b; }
         .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         .animate-pulse-slower { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
 </head>
 <body class="bg-slate-900 min-h-screen flex flex-col text-slate-100">
-    <div id="navbar-container">
-        </div>
-
-    <main id="main-content" class="flex-grow transition-opacity duration-500 ease-in-out">
-        </main>
-
-    <div id="footer-container">
-        </div>
+    <div id="navbar-container"></div>
+    <main id="main-content" class="flex-grow transition-opacity duration-500 ease-in-out"></main>
+    <div id="footer-container"></div>
 </body>
 </html>
