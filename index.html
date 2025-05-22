@@ -131,6 +131,15 @@
         .product-image-clickable, .product-name-clickable {
             cursor: pointer;
         }
+        .cart-action-button:disabled {
+            background-color: #9CA3AF; /* Tailwind gray-400 */
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .cart-action-button:disabled:hover {
+            background-color: #9CA3AF; /* Keep same color on hover when disabled */
+        }
+
 
     </style>
 </head>
@@ -203,7 +212,7 @@
                         <label for="modal-quantity" class="ml-2 font-semibold">الكمية:</label>
                         <input type="number" id="modal-quantity" value="1" min="1" class="w-20 border border-gray-300 rounded-md p-2 text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <button id="modal-add-to-cart-button" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center">
+                    <button id="modal-add-to-cart-button" class="cart-action-button w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center" disabled>
                         <i class="fas fa-cart-plus mr-2"></i> إضافة إلى السلة
                     </button>
                 </div>
@@ -269,20 +278,28 @@
             serverTimestamp
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // !!!!!! تنبيه هام جداً عند الرفع إلى GitHub Pages !!!!!!
+        // 1. استبدل القيم أدناه بمعلومات مشروع Firebase الحقيقية الخاصة بك.
+        //    يمكنك العثور عليها في لوحة تحكم Firebase -> إعدادات المشروع -> تطبيقاتك -> Firebase SDK snippet -> Config.
+        // 2. تأكد من إضافة نطاق GitHub Pages الخاص بك (مثال: yourusername.github.io)
+        //    إلى "النطاقات المعتمدة" في Firebase Console -> Authentication -> Sign-in method.
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "YOUR_API_KEY", 
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "YOUR_ACTUAL_API_KEY_FROM_FIREBASE",
+            authDomain: "YOUR_ACTUAL_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_ACTUAL_PROJECT_ID",
+            storageBucket: "YOUR_ACTUAL_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_ACTUAL_MESSAGING_SENDER_ID",
+            appId: "YOUR_ACTUAL_APP_ID_WEB"
         };
+        // !!!!!! نهاية التنبيه !!!!!!
+
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // استخدم appId من إعداداتك الفعلية عند الرفع، أو قيمة افتراضية إذا لم يتم توفيرها
+        const appId = (typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.appId) || 'saber-discounts-app'; 
         let userId = null; 
         let globalCartItems = []; 
 
@@ -339,56 +356,64 @@
             }, duration);
         }
 
-        // --- Authentication (Revised) ---
-        let authInitializationAttempted = false;
+        function setAllCartButtonsDisabled(disabled) {
+            document.querySelectorAll('.cart-action-button').forEach(button => {
+                button.disabled = disabled;
+            });
+        }
+
         const authReadyPromise = new Promise((resolve, reject) => {
+            let authAttempted = false;
             const unsubscribe = onAuthStateChanged(auth, async (user) => {
+                console.log("Auth state changed. User:", user ? user.uid : "null");
                 if (user) {
                     userId = user.uid;
-                    console.log("Firebase Auth: User signed in/state changed. UID:", userId);
-                    loadCart(); // Load cart as soon as user (even anonymous) is confirmed
-                    unsubscribe(); // Important: Unsubscribe after first successful user confirmation
+                    console.log("User authenticated. UID:", userId);
+                    setAllCartButtonsDisabled(false); 
+                    loadCart();
+                    unsubscribe(); 
                     resolve(userId);
-                } else if (!authInitializationAttempted) {
-                    authInitializationAttempted = true; 
-                    console.log("Firebase Auth: No user, attempting initial sign-in...");
+                } else if (!authAttempted) {
+                    authAttempted = true;
+                    console.log("No user, attempting initial sign-in...");
                     try {
+                        // __initial_auth_token is specific to some dev environments,
+                        // for GitHub Pages, it will likely be undefined.
                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                             await signInWithCustomToken(auth, __initial_auth_token);
-                            // onAuthStateChanged will fire again with the user, resolving the promise.
                         } else {
                             await signInAnonymously(auth);
-                            // onAuthStateChanged will fire again with the user, resolving the promise.
                         }
                     } catch (error) {
-                        console.error("Firebase Auth: Initial sign-in attempt failed:", error);
+                        console.error("Initial sign-in attempt failed:", error);
                         showToast("فشل في المصادقة الأولية. السلة قد لا تعمل.", "error");
+                        setAllCartButtonsDisabled(true); 
                         unsubscribe(); 
-                        reject(error); 
+                        reject(error);
                     }
                 } else {
-                    // This case implies a sign-out or persistent failure after the initial attempt.
-                    // For a no-login store, this state means cart won't work.
-                    console.log("Firebase Auth: User became null after initial auth process or failed attempt.");
+                    console.log("User is null after auth attempt. Cart functionality disabled.");
                     userId = null;
                     clearCartUI();
-                    // We don't reject the promise here again if it was already rejected or resolved.
-                    // If it resolved and then user became null, it's a state change, not an init failure.
+                    setAllCartButtonsDisabled(true);
                 }
-            }, (error) => { 
-                console.error("Firebase Auth: onAuthStateChanged listener error:", error);
+            }, (error) => {
+                console.error("onAuthStateChanged listener error:", error);
+                setAllCartButtonsDisabled(true);
                 unsubscribe();
                 reject(error);
             });
         });
 
+
         async function initializeAuthentication() {
+            console.log("Initializing authentication...");
+            setAllCartButtonsDisabled(true); 
             try {
-                await authReadyPromise; // Wait for the promise to resolve or reject
-                console.log("Authentication initialized. User ID:", userId ? userId : "Not available");
+                await authReadyPromise;
+                console.log("Authentication successfully initialized. User ID:", userId);
             } catch (error) {
-                // Error already logged and toast shown by the promise rejection logic
-                console.error("Failed to complete initial authentication steps:", error);
+                console.error("Authentication initialization failed:", error);
             }
         }
 
@@ -414,7 +439,7 @@
                                 <p class="text-2xl font-extrabold text-green-500">$${product.price.toFixed(2)}</p>
                                 ${product.originalPrice ? `<p class="text-sm text-gray-400 line-through">$${product.originalPrice.toFixed(2)}</p>` : ''}
                             </div>
-                            <button data-product-id="${product.id}" class="add-to-cart-from-card-button w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md transition duration-300 flex items-center justify-center text-sm">
+                            <button data-product-id="${product.id}" class="add-to-cart-from-card-button cart-action-button w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md transition duration-300 flex items-center justify-center text-sm" disabled>
                                 <i class="fas fa-cart-plus mr-2"></i> أضف للسلة
                             </button>
                         </div>
@@ -453,6 +478,7 @@
             }
             modalQuantityInput.value = 1;
             modal.classList.add('active');
+            modalAddToCartButton.disabled = !userId;
         }
 
         closeModalButton.addEventListener('click', () => modal.classList.remove('active'));
@@ -474,7 +500,7 @@
 
         async function addItemToCart(productId, quantity = 1) {
             if (!userId) {
-                showToast("خطأ في المصادقة. لا يمكن إضافة المنتج. يرجى تحديث الصفحة أو المحاولة لاحقاً.", "error");
+                showToast("خطأ في المصادقة. لا يمكن إضافة المنتج. يرجى تحديث الصفحة.", "error");
                 console.error("addItemToCart: userId is null. Authentication might have failed or is not complete.");
                 return; 
             }
@@ -553,7 +579,7 @@
                 clearCartUI();
                 return;
             }
-            
+            console.log("loadCart: Loading cart for user", userId);
             const cartColRef = collection(db, `artifacts/${appId}/users/${userId}/cart`);
             onSnapshot(cartColRef, (snapshot) => {
                 globalCartItems = []; 
@@ -701,18 +727,11 @@
             document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // --- Initialization ---
         async function initializeAppCore() {
-            // Initialize authentication and wait for it to complete
-            await initializeAuthentication(); 
-            
-            // Render products after authentication is ready (or has attempted and potentially failed)
-            // This ensures that if auth fails, we still try to show products,
-            // but cart operations will be blocked by the !userId check in addItemToCart
+            console.log("Starting app initialization...");
             renderProducts(); 
-            
-            // loadCart() is called from within the onAuthStateChanged logic in initializeAuthentication
-            // once a user (anonymous or otherwise) is confirmed.
+            await initializeAuthentication(); 
+            console.log("App initialization complete.");
         }
 
         initializeAppCore();
@@ -720,3 +739,13 @@
     </script>
 </body>
 </html>
+```
+
+**بعد تطبيق هذه الخطوات بدقة (خاصة الخطوتين 1 و 2 المتعلقتين بإعدادات Firebase)، قم بما يلي:**
+
+1.  **ارفع التغييرات إلى GitHub.**
+2.  **انتظر بضع دقائق** حتى يتم تحديث GitHub Pages.
+3.  **امسح ذاكرة التخزين المؤقت للمتصفح بالكامل** لموقع GitHub Pages الخاص بك أو افتحه في **نافذة تصفح متخفي (Incognito/Private window)**. هذا مهم جدًا للتأكد من أنك لا تستخدم نسخة قديمة من الملفات.
+4.  **افتح أدوات المطور (Developer Console)** في المتصفح على صفحة GitHub Pages وراقب أي رسائل خطأ تظهر.
+
+إذا استمر الخطأ حتى بعد التأكد من صحة `firebaseConfig` وإضافة النطاق المعتمد، فإن رسائل الخطأ في الـ Console على GitHub Pages ستكون هي المفتاح لمعرفة ما يحدث بالضبط. يرجى مشاركتها معي إذا ظه
