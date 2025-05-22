@@ -3,327 +3,720 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عرض Canva Pro لا يُفوّت! - تخفيضات صابر الرقميه</title>
+    <title>تخفيضات صابر - متجر رقمي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #3B82F6; /* Tailwind blue-500 */
+            --secondary-color: #10B981; /* Tailwind emerald-500 */
+            --accent-color: #F59E0B; /* Tailwind amber-500 */
+            --light-color: #F9FAFB; /* Tailwind gray-50 */
+            --dark-color: #1F2937; /* Tailwind gray-800 */
+            --text-light: #F3F4F6; /* Tailwind gray-100 */
+            --text-dark: #374151; /* Tailwind gray-700 */
+            --danger-color: #EF4444; /* Tailwind red-500 */
+            --font-family-primary: 'Tajawal', sans-serif;
+            --font-family-secondary: 'Almarai', sans-serif;
+        }
+
         body {
-            font-family: 'Tajawal', sans-serif;
-            scroll-behavior: smooth;
-            background-color: #f0f4f8; /* Light grayish blue background */
+            font-family: var(--font-family-primary);
+            background-color: var(--light-color);
+            color: var(--text-dark);
+            line-height: 1.7;
         }
-        .hero-gradient-new {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Sophisticated Purple/Blue */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
-        .btn-primary-new {
-            background: linear-gradient(45deg, #ff7e5f, #feb47b); /* Coral to Peach */
-            color: white;
-            font-weight: 800;
-            padding: 0.9rem 2.2rem;
-            border-radius: 50px; /* Pill shape */
-            transition: all 0.3s ease-out;
-            box-shadow: 0 8px 25px rgba(255, 126, 95, 0.4);
-            border: none;
+        ::-webkit-scrollbar-track {
+            background: var(--light-color);
         }
-        .btn-primary-new:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 30px rgba(255, 126, 95, 0.5);
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            border: 2px solid var(--light-color);
         }
-        .btn-whatsapp-new {
-            background-color: #25D366;
-            color: white;
-            font-weight: 700;
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            transition: all 0.3s ease-out;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
-            border: none;
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #2563EB; 
         }
-        .btn-whatsapp-new:hover {
-            background-color: #1DAE50;
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(29, 174, 80, 0.45);
+
+        .logo-font {
+            font-family: var(--font-family-secondary);
         }
-        .price-display {
-            font-weight: 900;
-            font-size: 3.8rem; /* Even larger price */
-            color: #ffc107; /* Bright Yellow/Gold */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+
+        .product-card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1);
         }
-        .price-currency {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffeb3b; /* Lighter Yellow */
+        
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .section-title-enhanced {
-            font-weight: 900;
-            color: #3f3cbb; /* Deep Indigo */
-            position: relative;
-            padding-bottom: 15px;
-            margin-bottom: 2rem;
+        .modal-content {
+            transition: transform 0.3s ease;
         }
-        .section-title-enhanced::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 50%; /* For RTL, start from right */
-            transform: translateX(50%); /* Center it */
-            width: 100px;
-            height: 5px;
-            background: linear-gradient(90deg, #ff7e5f, #feb47b); /* Coral to Peach gradient */
-            border-radius: 3px;
-        }
-        .card-enhanced {
-            background-color: white;
-            border-radius: 20px; /* More rounded */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
-            overflow: hidden; /* For image rounding if any */
-        }
-        .card-enhanced:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-        }
-        .feature-icon-enhanced {
-            font-size: 2.5rem;
-            padding: 1.5rem;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            margin-bottom: 1.5rem;
-            display: inline-block;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        .store-name-gradient {
-            font-weight: 900;
-            background: linear-gradient(45deg, #667eea, #764ba2, #ff7e5f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
-        /* Animation for sections */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .animate-on-scroll.is-visible {
+        .modal.active {
             opacity: 1;
-            transform: translateY(0);
+            visibility: visible;
         }
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .cart-panel {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 20px;
+            background-color: var(--dark-color);
+            color: var(--text-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            visibility: hidden;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            visibility: visible;
+        }
+        .toast.success {
+            background-color: var(--secondary-color);
+        }
+        .toast.error {
+            background-color: var(--danger-color);
+        }
+        .product-image-clickable, .product-name-clickable {
+            cursor: pointer;
+        }
+
     </style>
 </head>
-<body class="text-slate-700">
+<body class="bg-gray-50 text-gray-800">
 
-    <nav class="bg-white shadow-lg sticky top-0 z-50 py-3">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" class="text-3xl store-name-gradient">
-                تخفيضات صابر الرقميه
-            </a>
-            <a href="#offer-details" class="hidden md:inline-block btn-primary-new text-sm">
-                <i class="fas fa-tags ml-2"></i> اغتنم الفرصة الآن!
-            </a>
-        </div>
-    </nav>
-
-    <header class="hero-gradient-new text-white py-24 md:py-32 relative overflow-hidden">
-        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-72 h-72 bg-white opacity-10 rounded-full animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-60 h-60 bg-white opacity-5 rounded-full"></div>
-
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-5 leading-tight tracking-tight">
-                لا تقول مش معقول<span class="text-yellow-300 animate-ping inline-block relative top-2">🔥</span><span class="relative">😎</span>
-            </h1>
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6">
-                بـ <span class="price-display">1500</span> <span class="price-currency">ريال يمني</span> فقط!
-                <span class="block text-2xl mt-1 opacity-80">(يعادل 3$ فقط لا غير!)</span>
-            </h2>
-            <p class="text-xl md:text-2xl mb-8 font-semibold max-w-3xl mx-auto">
-                احصل الآن على اشتراك <span class="font-black text-yellow-300">Canva Pro</span> الرسمي لمدة سنة كاملة ✅👑
-            </p>
-            <div class="max-w-3xl mx-auto text-lg md:text-xl space-y-5 mb-12 bg-white bg-opacity-10 p-8 rounded-2xl shadow-xl backdrop-blur-md border border-white border-opacity-20">
-                <p>👈 إذا كنت <strong class="text-yellow-200">صاحب متجر</strong> وتحتاج تصاميم احترافية لمنتجاتك أو شعار جذاب!</p>
-                <p>👈 إذا كنت <strong class="text-yellow-200">مستقل (Freelancer)</strong> وتقدم تصاميم لعملائك وتبحث عن مكتبة ضخمة من القوالب الجاهزة!</p>
-                <p>👈 إذا كنت ترغب بإنشاء <strong class="text-yellow-200">فيديوهات ترويجية</strong> مذهلة بدون خبرة في المونتاج! 🖥️🖱️</p>
-                <p>👈 إذا كنت تدير <strong class="text-yellow-200">حسابات تواصل اجتماعي</strong> متعددة وتريد تنظيم عملك من مكان واحد! 📢🚀</p>
-                <p class="font-bold text-2xl mt-6 text-yellow-300">🎁 هذا العرض صُمم خصيصاً لك! 👇</p>
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" id="home-link" class="text-3xl font-bold logo-font text-blue-600">تخفيضات صابر<i class="fas fa-tags ml-2 text-green-500"></i></a>
+            <nav class="hidden md:flex items-center space-x-reverse space-x-6">
+                <a href="#" id="nav-home" class="text-gray-600 hover:text-blue-600 transition duration-300">الرئيسية</a>
+                <a href="#products-section-nav" id="nav-products" class="text-gray-600 hover:text-blue-600 transition duration-300">المنتجات</a>
+                <a href="#" id="nav-offers" class="text-gray-600 hover:text-blue-600 transition duration-300">العروض</a>
+                <a href="#" id="nav-about" class="text-gray-600 hover:text-blue-600 transition duration-300">من نحن</a>
+            </nav>
+            <div class="flex items-center space-x-reverse space-x-4">
+                <button id="cart-button" class="relative text-gray-700 hover:text-blue-600 transition duration-300">
+                    <i class="fas fa-shopping-cart text-2xl"></i>
+                    <span id="cart-item-count" class="badge hidden">0</span>
+                </button>
+                <button id="menu-button" class="md:hidden text-gray-700 hover:text-blue-600">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
             </div>
-            <a href="#offer-details" class="btn-primary-new text-xl">
-                <i class="fas fa-gift mr-2"></i> أريد هذا العرض الخرافي!
-            </a>
+        </div>
+        <div id="mobile-menu" class="md:hidden bg-white shadow-lg absolute top-full left-0 right-0 hidden">
+            <a href="#" id="mobile-nav-home" class="block px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition duration-300">الرئيسية</a>
+            <a href="#products-section-nav" id="mobile-nav-products" class="block px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition duration-300">المنتجات</a>
+            <a href="#" id="mobile-nav-offers" class="block px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition duration-300">العروض</a>
+            <a href="#" id="mobile-nav-about" class="block px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition duration-300">من نحن</a>
         </div>
     </header>
 
-    <section id="intro-canva-pro" class="py-20 bg-slate-50">
-        <div class="container mx-auto px-6 animate-on-scroll">
-            <h2 class="text-4xl text-center section-title-enhanced">ما هو Canva Pro؟ ولماذا تحتاجه؟</h2>
-            <div class="max-w-3xl mx-auto text-center bg-white p-10 rounded-2xl shadow-2xl card-enhanced">
-                <p class="text-slate-700 leading-relaxed text-xl md:text-2xl mb-6">
-                    مع Canva Pro، ستتمكن من إنشاء محتوى مذهل بسرعة وسهولة، حتى لو لم تكن لديك أي خبرة سابقة في التصميم. <strong class="text-purple-700">"نعم، تصاميم احترافية بكل معنى الكلمة بين يديك!"</strong> 😎
-                </p>
-                <p class="text-slate-700 leading-relaxed text-xl md:text-2xl">
-                    الاشتراك يفتح لك أبواباً لا حصر لها من الإمكانيات: <span class="font-semibold text-indigo-600">أداة تغيير الحجم السحرية</span>، أكثر من <span class="font-semibold text-indigo-600">100 مليون صورة وفيديو ومقطع صوتي</span>، قوالب فاخرة، والمزيد من الميزات التي ستذهلك! 🫠✨👇
-                </p>
-            </div>
-        </div>
-    </section>
+    <main id="main-content" class="container mx-auto px-4 py-8">
+        <section id="hero-section" class="bg-gradient-to-br from-blue-500 to-green-400 text-white p-8 md:p-16 rounded-xl shadow-2xl mb-12 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold logo-font mb-6">مرحباً بك في تخفيضات صابر!</h1>
+            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">أفضل المنتجات الرقمية والعروض الحصرية بأسعار لا تقاوم.</p>
+            <a href="#products-section" class="bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 transform hover:scale-105 text-lg">
+                اكتشف المنتجات <i class="fas fa-arrow-left mr-2"></i>
+            </a>
+        </section>
 
-    <section id="offer-details" class="py-20 bg-gray-800 text-white">
-        <div class="container mx-auto px-6 animate-on-scroll">
-            <h2 class="text-4xl text-center section-title-enhanced !text-yellow-400 after:!bg-yellow-400">العرض الذي لن يتكرر!</h2>
-            <p class="text-center text-slate-300 mb-16 max-w-xl mx-auto text-lg">فرصتك الذهبية للحصول على Canva Pro بأقل سعر على الإطلاق، مقدمة من <span class="font-bold store-name-gradient text-xl">تخفيضات صابر الرقميه</span>:</p>
-            <div class="max-w-2xl mx-auto bg-white text-slate-800 p-8 md:p-12 rounded-3xl shadow-2xl card-enhanced">
-                <div class="text-center mb-10">
-                    <img src="https://placehold.co/120x120/FF7E5F/FFFFFF?text=Canva+Pro" alt="أيقونة Canva Pro" class="w-32 h-32 mx-auto mb-6 rounded-full border-4 border-peach-300 shadow-lg">
-                    <h3 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">Canva Pro - اشتراك سنوي رسمي</h3>
+        <section id="products-section">
+            <h2 class="text-3xl font-bold text-center mb-10 logo-font text-gray-800 relative pb-3">
+                أحدث المنتجات
+                <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 rounded"></span>
+            </h2>
+            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div class="flex justify-center items-center col-span-full h-64">
+                    <div class="loading-spinner"></div>
                 </div>
-                <div class="text-center mb-10">
-                    <p class="text-slate-500 line-through text-2xl">السعر العالمي: <span class="font-mono">~109.99$~</span></p>
-                    <p class="price-display mt-2">3$</p>
-                    <p class="text-indigo-700 font-bold text-3xl mt-1">أو <span class="price-display !text-4xl !text-indigo-700">1500</span> <span class="price-currency !text-indigo-600">ريال يمني</span></p>
-                    <p class="text-green-600 font-bold mt-4 text-xl"> (خصم يفوق الخيال! 🤑) </p>
-                </div>
-                <ul class="space-y-5 text-slate-700 mb-12 text-lg">
-                    <li class="flex items-start"><i class="fas fa-star text-yellow-500 ml-4 text-2xl mt-1 shrink-0"></i><span>جميع مميزات Canva Pro الكاملة بدون أي نقصان.</span></li>
-                    <li class="flex items-start"><i class="fas fa-calendar-check text-green-500 ml-4 text-2xl mt-1 shrink-0"></i><span>اشتراك رسمي وآمن لمدة سنة كاملة (365 يوم).</span></li>
-                    <li class="flex items-start"><i class="fas fa-bolt text-orange-500 ml-4 text-2xl mt-1 shrink-0"></i><span><strong class="text-pink-600">تفعيل فوري بعد الدفع:</strong> اختر تفعيل بريدك الإلكتروني الحالي بحساب Canva Pro، أو استلم رابط تفعيل مباشر (بدون إرسال البريد).</span></li>
-                    <li class="flex items-start"><i class="fas fa-headset text-blue-500 ml-4 text-2xl mt-1 shrink-0"></i><span>دعم فني متميز وسريع من فريق <span class="font-semibold store-name-gradient">تخفيضات صابر الرقميه</span>.</span></li>
-                </ul>
-                
-                <div class="mt-12 pt-8 border-t border-slate-200">
-                    <h4 class="text-2xl font-bold text-slate-800 mb-8 text-center">💳 للدفع والاشتراك الفوري:</h4>
-                    <div class="bg-slate-100 p-6 rounded-xl shadow-inner mb-8">
-                        <p class="text-slate-700 mb-3 text-center md:text-right text-lg"><strong class="font-semibold text-blue-700">نقطة حاسب كريمي:</strong> متجر صابر رقم <br class="sm:hidden"><strong class="font-mono bg-blue-100 text-blue-700 px-3 py-1 rounded-md text-xl shadow-md inline-block mt-1">1302092</strong></p>
-                        <p class="text-slate-600 my-3 text-center md:text-right text-md">تتوفر لدينا جميع طرق الدفع الأخرى. لمزيد من التفاصيل أو للدفع بطرق أخرى، تفضل بالتواصل معنا عبر واتساب.</p>
+            </div>
+        </section>
+    </main>
+
+    <div id="product-detail-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 invisible z-[100]">
+        <div class="modal-content bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl transform scale-95 -translate-y-10">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-product-name" class="text-2xl font-bold logo-font text-blue-600"></h3>
+                <button id="close-modal-button" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+            </div>
+            <div class="md:flex md:space-x-reverse md:space-x-6">
+                <img id="modal-product-image" src="1.png" alt="Product Image" class="w-full md:w-1/2 h-64 object-cover rounded-lg mb-4 md:mb-0" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E2E8F0/AAAAAA?text=صورة+غير+متوفرة';">
+                <div class="md:w-1/2">
+                    <p id="modal-product-description" class="text-gray-700 mb-4"></p>
+                    <div class="mb-4">
+                        <span id="modal-product-price" class="text-3xl font-bold text-green-500"></span>
+                        <span id="modal-product-original-price" class="text-gray-500 line-through ml-2 text-lg"></span>
                     </div>
-                    <a href="https://wa.me/967782343232" target="_blank" class="w-full block text-center btn-whatsapp-new text-xl">
-                        <i class="fab fa-whatsapp mr-2"></i> تواصل واتساب الآن
-                    </a>
+                    <div class="flex items-center mb-6">
+                        <label for="modal-quantity" class="ml-2 font-semibold">الكمية:</label>
+                        <input type="number" id="modal-quantity" value="1" min="1" class="w-20 border border-gray-300 rounded-md p-2 text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <button id="modal-add-to-cart-button" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-cart-plus mr-2"></i> إضافة إلى السلة
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="how-to-get-the-offer" class="py-20 bg-slate-50">
-        <div class="container mx-auto px-6 animate-on-scroll">
-            <h2 class="text-4xl text-center section-title-enhanced">خطوات بسيطة للاشتراك الفوري:</h2>
-            <p class="text-center text-slate-600 mb-16 max-w-xl mx-auto text-lg">دقائق معدودة تفصلك عن عالم الإبداع اللامحدود مع Canva Pro:</p>
-            <div class="grid md:grid-cols-3 gap-8 text-center">
-                <div class="card-enhanced p-8">
-                    <div class="feature-icon-enhanced"><i class="fab fa-whatsapp"></i></div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-3">1. تواصل معنا</h3>
-                    <p class="text-md text-slate-600 leading-relaxed">اضغط على زر "تواصل واتساب" الموجود في قسم العرض أعلاه لبدء محادثة معنا.</p>
-                </div>
-                <div class="card-enhanced p-8">
-                    <div class="feature-icon-enhanced"><i class="fas fa-money-check-alt"></i></div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-3">2. أكمل الدفع</h3>
-                    <p class="text-md text-slate-600 leading-relaxed">اختر طريقة الدفع التي تناسبك (نقطة حاسب كريمي أو استفسر عن الطرق الأخرى عبر واتساب).</p>
-                </div>
-                <div class="card-enhanced p-8">
-                    <div class="feature-icon-enhanced"><i class="fas fa-paper-plane"></i></div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-3">3. استلم تفعيلك فوراً</h3>
-                    <p class="text-md text-slate-600 leading-relaxed">بعد تأكيد الدفع، سنقوم بتفعيل اشتراك Canva Pro الخاص بك على الفور بالطريقة التي تفضلها.</p>
-                </div>
-            </div>
+    <div id="cart-panel" class="cart-panel fixed top-0 left-0 h-full w-full md:w-96 bg-white shadow-2xl p-6 transform -translate-x-full z-[150] overflow-y-auto">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+            <h3 class="text-2xl font-bold logo-font text-blue-600">سلة التسوق</h3>
+            <button id="close-cart-button" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
         </div>
-    </section>
+        <div id="cart-items-container" class="space-y-4 mb-6">
+            <p id="empty-cart-message" class="text-gray-500 text-center py-8">سلة التسوق فارغة حالياً.</p>
+        </div>
+        <div id="cart-summary" class="border-t border-gray-200 pt-6 hidden">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-lg font-semibold">الإجمالي الفرعي:</span>
+                <span id="cart-subtotal" class="text-lg font-bold text-gray-800">$0.00</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-4">سيتم التواصل معك لتأكيد الطلب وتفاصيل الشحن.</p>
+            <button id="checkout-button" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center">
+                <i class="fab fa-whatsapp mr-2"></i> إرسال الطلب عبر واتساب
+            </button>
+        </div>
+    </div>
     
-    <section class="py-16 bg-gradient-to-r from-slate-200 to-slate-300">
-        <div class="container mx-auto px-6 text-center animate-on-scroll">
-            <h3 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-                <i class="fas fa-fire-alt text-orange-500"></i> منتجات رقمية إضافية بأسعار رمزية! <i class="fas fa-fire-alt text-orange-500"></i>
-            </h3>
-            <p class="text-slate-700 text-lg max-w-xl mx-auto mb-6">لا تقتصر عروضنا على Canva Pro! استكشف مجموعتنا المتنوعة من المنتجات والاشتراكات الرقمية الأخرى التي قد تلبي احتياجاتك.</p>
-            <a href="https://wa.me/967782343232" target="_blank" class="btn-primary-new text-lg opacity-90 hover:opacity-100">
-                <i class="fas fa-shopping-bag mr-2"></i> استعرض باقي المنتجات
-            </a>
-        </div>
-    </section>
+    <div id="toast-notification" class="toast">
+        <span id="toast-message"></span>
+    </div>
 
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-6 animate-on-scroll">
-            <h2 class="text-4xl text-center section-title-enhanced">ماذا يقول عملاؤنا عن عروضنا؟</h2>
-             <p class="text-center text-slate-600 mb-16 max-w-xl mx-auto text-lg">رضاكم هو غايتنا، وهذه بعض انطباعات عملائنا الكرام الذين وثقوا بنا:</p>
-            <div class="grid md:grid-cols-2 gap-10">
-                <div class="card-enhanced p-8 border-t-8 border-purple-500">
-                    <img src="https://placehold.co/80x80/667EEA/FFFFFF?text=نجم" alt="[صورة العميل نجم]" class="w-24 h-24 rounded-full mx-auto mb-5 border-4 border-white shadow-lg">
-                    <p class="text-slate-700 italic mb-5 text-center text-lg leading-relaxed">"بصراحة، أفضل سعر لكنفا برو وجدته على الإطلاق! التفعيل كان فوري والخدمة أكثر من ممتازة. شكراً جزيلاً <span class="font-semibold store-name-gradient">تخفيضات صابر الرقميه</span>، أنتم الأفضل."</p>
-                    <p class="font-bold text-purple-700 text-center text-md">- نجم الدين العوامي</p>
-                </div>
-                <div class="card-enhanced p-8 border-t-8 border-pink-500">
-                    <img src="https://placehold.co/80x80/FF7E5F/FFFFFF?text=أمل" alt="[صورة العميلة أمل]" class="w-24 h-24 rounded-full mx-auto mb-5 border-4 border-white shadow-lg">
-                    <p class="text-slate-700 italic mb-5 text-center text-lg leading-relaxed">"كنت مترددة في البداية بسبب السعر المنخفض، لكن التجربة فاقت توقعاتي! فريق <span class="font-semibold store-name-gradient">تخفيضات صابر الرقميه</span> محترف جداً ومتعاون. أنصح الجميع بهذا العرض."</p>
-                    <p class="font-bold text-pink-700 text-center text-md">- أمل السعيدي</p>
-                </div>
+    <footer class="bg-gray-800 text-gray-300 py-12 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="logo-font text-2xl mb-4">&copy; 2025 تخفيضات صابر. جميع الحقوق محفوظة.</p>
+            <div class="space-x-reverse space-x-4 mb-4">
+                <a href="#" class="hover:text-blue-400 transition duration-300">سياسة الخصوصية</a>
+                <a href="#" class="hover:text-blue-400 transition duration-300">شروط الخدمة</a>
             </div>
-        </div>
-    </section>
-
-    <footer class="bg-slate-900 text-slate-400 py-16">
-        <div class="container mx-auto px-6 text-center">
-            <a href="#" class="text-4xl mb-5 inline-block store-name-gradient">
-                تخفيضات صابر الرقميه
-            </a>
-            <p class="mb-6 text-lg max-w-md mx-auto">بوابتك الموثوقة لأفضل العروض على الاشتراكات والمنتجات الرقمية بأسعار تنافسية.</p>
-            <div class="flex justify-center space-x-reverse space-x-6 mb-8">
-                <a href="https://wa.me/967782343232" target="_blank" class="text-green-400 hover:text-green-300 transition-transform duration-300 hover:scale-125 text-4xl" aria-label="WhatsApp"><i class="fab fa-whatsapp-square"></i></a>
-                <a href="#" class="hover:text-pink-400 transition-transform duration-300 hover:scale-125 text-3xl" aria-label="Facebook"><i class="fab fa-facebook-square"></i></a>
-                <a href="#" class="hover:text-pink-400 transition-transform duration-300 hover:scale-125 text-3xl" aria-label="Instagram"><i class="fab fa-instagram-square"></i></a>
-                <a href="mailto:support@saberdigital.com" class="hover:text-pink-400 transition-transform duration-300 hover:scale-125 text-3xl" aria-label="Email"><i class="fas fa-envelope-square"></i></a>
+            <div class="flex justify-center space-x-reverse space-x-5 text-xl">
+                <a href="https://wa.me/967782343232" target="_blank" class="hover:text-green-400 transition duration-300"><i class="fab fa-whatsapp"></i></a>
             </div>
-            <p class="text-sm">&copy; <span id="currentYear"></span> <span class="font-semibold store-name-gradient">تخفيضات صابر الرقميه</span>. جميع الحقوق محفوظة.</p>
-            <p class="text-xs mt-2 opacity-70">نعمل بشغف لتقديم الأفضل لكم دائماً.</p>
         </div>
     </footer>
 
-    <script>
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInAnonymously, 
+            signInWithCustomToken, 
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc, 
+            deleteDoc, 
+            collection, 
+            onSnapshot,
+            runTransaction,
+            updateDoc, 
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Intersection Observer for animations
-        const animatedElements = document.querySelectorAll('.animate-on-scroll');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Optional: stop observing once animated
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "YOUR_API_KEY", 
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        let userId = null; 
+        let globalCartItems = []; 
+
+        const productList = document.getElementById('product-list');
+        const cartButton = document.getElementById('cart-button');
+        const cartPanel = document.getElementById('cart-panel');
+        const closeCartButton = document.getElementById('close-cart-button');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartItemCount = document.getElementById('cart-item-count');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const cartSummary = document.getElementById('cart-summary');
+        const cartSubtotal = document.getElementById('cart-subtotal');
+        const checkoutButton = document.getElementById('checkout-button'); 
+        
+        const modal = document.getElementById('product-detail-modal');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductImage = document.getElementById('modal-product-image');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const modalProductPrice = document.getElementById('modal-product-price');
+        const modalProductOriginalPrice = document.getElementById('modal-product-original-price');
+        const modalQuantityInput = document.getElementById('modal-quantity');
+        const modalAddToCartButton = document.getElementById('modal-add-to-cart-button');
+        let currentModalProductId = null;
+
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        const toastNotification = document.getElementById('toast-notification');
+        const toastMessage = document.getElementById('toast-message');
+        let toastTimeout;
+
+        const products = [
+            { id: 'prod_001', name: 'برنامج تحرير صور احترافي', description: 'أطلق العنان لإبداعك مع أقوى برنامج لتحرير الصور وتصميم الجرافيك. مزايا متقدمة وواجهة سهلة الاستخدام.', price: 79.99, originalPrice: 99.99, image: '1.png', category: 'برامج' },
+            { id: 'prod_002', name: 'دورة تطوير ويب شاملة', description: 'تعلم تطوير الويب من الصفر إلى الاحتراف. HTML, CSS, JavaScript, Node.js, React والمزيد. شهادة معتمدة.', price: 149.50, image: '2.png', category: 'دورات' },
+            { id: 'prod_003', name: 'قالب موقع شركة عصري', description: 'قالب HTML/CSS متجاوب بالكامل، مثالي للشركات الناشئة والصغيرة. تصميم أنيق وسهل التخصيص.', price: 25.00, originalPrice: 40.00, image: '3.png', category: 'قوالب' },
+            { id: 'prod_004', name: 'مجموعة أيقونات فلات', description: 'أكثر من 1000 أيقونة فلات عالية الجودة بصيغ SVG و PNG. مثالية لمشاريع التصميم والويب.', price: 19.99, image: '4.png', category: 'تصميم' },
+            { id: 'prod_005', name: 'استضافة ويب سريعة', description: 'خطة استضافة ويب ممتازة مع مساحة تخزين SSD غير محدودة ودعم فني 24/7. ضمان استعادة الأموال.', price: 9.99, originalPrice: 15.00, image: '5.png', category: 'خدمات' },
+            { id: 'prod_006', name: 'كتاب التسويق الرقمي', description: 'دليلك الشامل لأسرار التسويق الرقمي الناجح. استراتيجيات فعالة لزيادة مبيعاتك وجمهورك.', price: 35.00, image: '6.png', category: 'كتب' },
+        ];
+
+        function showToast(message, type = 'info', duration = 3000) {
+            toastMessage.textContent = message;
+            toastNotification.className = 'toast show'; 
+            if (type === 'success') {
+                toastNotification.classList.add('success');
+            } else if (type === 'error') {
+                toastNotification.classList.add('error');
+            }
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toastNotification.classList.remove('show');
+            }, duration);
+        }
+
+        // --- Authentication (Revised) ---
+        let authInitializationAttempted = false;
+        const authReadyPromise = new Promise((resolve, reject) => {
+            const unsubscribe = onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    userId = user.uid;
+                    console.log("Firebase Auth: User signed in/state changed. UID:", userId);
+                    loadCart(); // Load cart as soon as user (even anonymous) is confirmed
+                    unsubscribe(); // Important: Unsubscribe after first successful user confirmation
+                    resolve(userId);
+                } else if (!authInitializationAttempted) {
+                    authInitializationAttempted = true; 
+                    console.log("Firebase Auth: No user, attempting initial sign-in...");
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                            // onAuthStateChanged will fire again with the user, resolving the promise.
+                        } else {
+                            await signInAnonymously(auth);
+                            // onAuthStateChanged will fire again with the user, resolving the promise.
+                        }
+                    } catch (error) {
+                        console.error("Firebase Auth: Initial sign-in attempt failed:", error);
+                        showToast("فشل في المصادقة الأولية. السلة قد لا تعمل.", "error");
+                        unsubscribe(); 
+                        reject(error); 
+                    }
+                } else {
+                    // This case implies a sign-out or persistent failure after the initial attempt.
+                    // For a no-login store, this state means cart won't work.
+                    console.log("Firebase Auth: User became null after initial auth process or failed attempt.");
+                    userId = null;
+                    clearCartUI();
+                    // We don't reject the promise here again if it was already rejected or resolved.
+                    // If it resolved and then user became null, it's a state change, not an init failure.
                 }
+            }, (error) => { 
+                console.error("Firebase Auth: onAuthStateChanged listener error:", error);
+                unsubscribe();
+                reject(error);
             });
-        }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
-
-        animatedElements.forEach(el => {
-            observer.observe(el);
         });
-    </script>
-</body>
-</html>
-    <form id="email-form">
-        <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" required>
-        <button type="submit">تحقق</button>
-    </form>
-    <p class="message" id="result"></p>
 
-    <script>
-        document.getElementById('email-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const email = document.getElementById('email').value;
-            const result = document.getElementById('result');
-
+        async function initializeAuthentication() {
             try {
-                const response = await fetch('https://your-server-url/check_email.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email })
-                });
-
-                const data = await response.text();
-                result.textContent = data;
+                await authReadyPromise; // Wait for the promise to resolve or reject
+                console.log("Authentication initialized. User ID:", userId ? userId : "Not available");
             } catch (error) {
-                result.textContent = 'حدث خطأ أثناء التحقق. حاول مرة أخرى.';
+                // Error already logged and toast shown by the promise rejection logic
+                console.error("Failed to complete initial authentication steps:", error);
+            }
+        }
+
+
+        function renderProducts() {
+            productList.innerHTML = ''; 
+            if (!products || products.length === 0) {
+                productList.innerHTML = '<p class="col-span-full text-center text-gray-500">لا توجد منتجات لعرضها حالياً.</p>';
+                return;
+            }
+            products.forEach(product => {
+                const discountPercentage = product.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
+                const productCardHTML = `
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 product-card-hover flex flex-col">
+                        ${discountPercentage > 0 ? `<div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full z-10">خصم ${discountPercentage}%</div>` : ''}
+                        <div class="h-56 overflow-hidden product-image-clickable" data-product-id="${product.id}">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E2E8F0/AAAAAA?text=صورة+غير+متوفرة';">
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800 truncate product-name-clickable" title="${product.name}" data-product-id="${product.id}">${product.name}</h3>
+                            <p class="text-gray-600 text-sm mb-3 flex-grow">${product.description.substring(0, 70)}...</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <p class="text-2xl font-extrabold text-green-500">$${product.price.toFixed(2)}</p>
+                                ${product.originalPrice ? `<p class="text-sm text-gray-400 line-through">$${product.originalPrice.toFixed(2)}</p>` : ''}
+                            </div>
+                            <button data-product-id="${product.id}" class="add-to-cart-from-card-button w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md transition duration-300 flex items-center justify-center text-sm">
+                                <i class="fas fa-cart-plus mr-2"></i> أضف للسلة
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productList.insertAdjacentHTML('beforeend', productCardHTML);
+            });
+
+            document.querySelectorAll('.add-to-cart-from-card-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    addItemToCart(e.currentTarget.dataset.productId, 1);
+                });
+            });
+            document.querySelectorAll('.product-image-clickable, .product-name-clickable').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    openProductModal(e.currentTarget.dataset.productId);
+                });
+            });
+        }
+        
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            currentModalProductId = productId;
+            modalProductName.textContent = product.name;
+            modalProductImage.src = product.image; 
+            modalProductImage.alt = product.name;
+            modalProductDescription.textContent = product.description;
+            modalProductPrice.textContent = `$${product.price.toFixed(2)}`;
+            if (product.originalPrice) {
+                modalProductOriginalPrice.textContent = `$${product.originalPrice.toFixed(2)}`;
+                modalProductOriginalPrice.classList.remove('hidden');
+            } else {
+                modalProductOriginalPrice.classList.add('hidden');
+            }
+            modalQuantityInput.value = 1;
+            modal.classList.add('active');
+        }
+
+        closeModalButton.addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', (e) => { 
+            if (e.target === modal) modal.classList.remove('active');
+        });
+
+        modalAddToCartButton.addEventListener('click', () => {
+            if (currentModalProductId) {
+                const quantity = parseInt(modalQuantityInput.value);
+                if (quantity > 0) {
+                    addItemToCart(currentModalProductId, quantity);
+                    modal.classList.remove('active');
+                } else {
+                    showToast("الرجاء إدخال كمية صحيحة.", "error");
+                }
             }
         });
+
+        async function addItemToCart(productId, quantity = 1) {
+            if (!userId) {
+                showToast("خطأ في المصادقة. لا يمكن إضافة المنتج. يرجى تحديث الصفحة أو المحاولة لاحقاً.", "error");
+                console.error("addItemToCart: userId is null. Authentication might have failed or is not complete.");
+                return; 
+            }
+
+            const product = products.find(p => p.id === productId);
+            if (!product) {
+                showToast("المنتج غير موجود.", "error");
+                return;
+            }
+
+            const cartItemRef = doc(db, `artifacts/${appId}/users/${userId}/cart`, productId);
+            
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const cartItemDoc = await transaction.get(cartItemRef);
+                    if (!cartItemDoc.exists()) {
+                        transaction.set(cartItemRef, {
+                            name: product.name,
+                            price: product.price,
+                            image: product.image, 
+                            quantity: quantity,
+                            addedAt: serverTimestamp()
+                        });
+                    } else {
+                        const newQuantity = cartItemDoc.data().quantity + quantity;
+                        transaction.update(cartItemRef, { quantity: newQuantity });
+                    }
+                });
+                showToast(`تمت إضافة "${product.name}" إلى السلة!`, "success");
+            } catch (error) {
+                console.error("Error adding item to cart: ", error);
+                showToast("خطأ أثناء إضافة المنتج للسلة.", "error");
+            }
+        }
+
+        async function updateCartItemQuantity(productId, newQuantity) {
+            if (!userId) return;
+            if (newQuantity < 1) {
+                await removeItemFromCart(productId);
+                return;
+            }
+            const cartItemRef = doc(db, `artifacts/${appId}/users/${userId}/cart`, productId);
+            try {
+                await updateDoc(cartItemRef, { quantity: newQuantity });
+                showToast("تم تحديث كمية المنتج.", "success");
+            } catch (error) {
+                console.error("Error updating cart item quantity: ", error);
+                showToast("خطأ في تحديث الكمية.", "error");
+            }
+        }
+        
+        async function removeItemFromCart(productId) {
+            if (!userId) return;
+            const cartItemRef = doc(db, `artifacts/${appId}/users/${userId}/cart`, productId);
+            try {
+                await deleteDoc(cartItemRef);
+                showToast("تم إزالة المنتج من السلة.", "info");
+            } catch (error) {
+                console.error("Error removing item from cart: ", error);
+                showToast("خطأ في إزالة المنتج.", "error");
+            }
+        }
+        
+        function clearCartUI() {
+            cartItemsContainer.innerHTML = '';
+            globalCartItems = [];
+            emptyCartMessage.classList.remove('hidden');
+            cartSummary.classList.add('hidden');
+            cartItemCount.textContent = '0';
+            cartItemCount.classList.add('hidden');
+        }
+
+        function loadCart() {
+            if (!userId) {
+                console.log("loadCart: No userId, cannot load cart.");
+                clearCartUI();
+                return;
+            }
+            
+            const cartColRef = collection(db, `artifacts/${appId}/users/${userId}/cart`);
+            onSnapshot(cartColRef, (snapshot) => {
+                globalCartItems = []; 
+                snapshot.forEach((doc) => {
+                    globalCartItems.push({ id: doc.id, ...doc.data() });
+                });
+                renderCart(globalCartItems);
+            }, (error) => {
+                console.error("Error loading cart from Firestore: ", error);
+                showToast("حدث خطأ أثناء تحميل السلة.", "error");
+                clearCartUI(); 
+            });
+        }
+
+        function renderCart(cartItems) {
+            cartItemsContainer.innerHTML = '';
+            let subtotal = 0;
+            let totalItems = 0;
+
+            if (cartItems.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+                cartSummary.classList.add('hidden');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                cartSummary.classList.remove('hidden');
+                
+                cartItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex items-center space-x-reverse space-x-3 p-3 border-b border-gray-100';
+                    itemElement.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/E2E8F0/AAAAAA?text=صورة';">
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-sm truncate" title="${item.name}">${item.name}</h4>
+                            <p class="text-xs text-gray-500">$${item.price.toFixed(2)} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="number" value="${item.quantity}" min="1" data-id="${item.id}" class="cart-item-quantity w-12 border border-gray-300 rounded-md p-1 text-center text-sm mx-2">
+                            <p class="font-semibold text-gray-700 text-sm w-16 text-left">$${(item.price * item.quantity).toFixed(2)}</p>
+                        </div>
+                        <button data-id="${item.id}" class="remove-cart-item text-red-500 hover:text-red-700 transition duration-300 text-lg">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    `;
+                    cartItemsContainer.appendChild(itemElement);
+                    subtotal += item.price * item.quantity;
+                    totalItems += item.quantity;
+                });
+            }
+
+            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            cartItemCount.textContent = totalItems;
+            if (totalItems > 0) {
+                cartItemCount.classList.remove('hidden');
+            } else {
+                cartItemCount.classList.add('hidden');
+            }
+
+            document.querySelectorAll('.cart-item-quantity').forEach(input => {
+                input.addEventListener('change', (e) => { 
+                    const newQuantity = parseInt(e.target.value);
+                     if (newQuantity >= 1) {
+                        updateCartItemQuantity(e.target.dataset.id, newQuantity);
+                    } else {
+                        e.target.value = 1; 
+                        updateCartItemQuantity(e.target.dataset.id, 1);
+                        showToast("الكمية يجب أن تكون 1 على الأقل.", "error");
+                    }
+                });
+            });
+            document.querySelectorAll('.remove-cart-item').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    removeItemFromCart(e.currentTarget.dataset.id);
+                });
+            });
+        }
+
+        checkoutButton.addEventListener('click', () => {
+            if (globalCartItems.length === 0) {
+                showToast("سلة التسوق فارغة!", "error");
+                return;
+            }
+
+            let message = "مرحباً تخفيضات صابر،\n\nأرغب في طلب المنتجات التالية:\n\n";
+            let subtotalForMessage = 0;
+
+            globalCartItems.forEach(item => {
+                message += `📦 *${item.name}*\n`;
+                message += `   - الكمية: ${item.quantity}\n`;
+                message += `   - السعر للقطعة: $${item.price.toFixed(2)}\n`;
+                message += `   - الإجمالي للمنتج: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+                subtotalForMessage += item.price * item.quantity;
+            });
+            
+            message += "--------------------\n";
+            message += `💰 *الإجمالي الكلي للطلب: $${subtotalForMessage.toFixed(2)}*\n\n`;
+            message += "يرجى تأكيد الطلب وتزويدي بتفاصيل الدفع والشحن.\n\n";
+            message += "شكراً لك!";
+
+            const whatsappUrl = `https://wa.me/967782343232?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            showToast("يتم تحويلك إلى واتساب لإكمال الطلب...", "success");
+        });
+
+        cartButton.addEventListener('click', () => {
+            cartPanel.classList.remove('-translate-x-full');
+            cartPanel.classList.add('translate-x-0');
+        });
+        closeCartButton.addEventListener('click', () => {
+            cartPanel.classList.add('-translate-x-full');
+            cartPanel.classList.remove('translate-x-0');
+        });
+        
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.hash !== "") {
+                    const targetElement = document.querySelector(this.hash === '#products-section-nav' ? '#products-section' : this.hash);
+                    if (targetElement) {
+                        e.preventDefault(); 
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        if (this.closest('#mobile-menu')) {
+                           mobileMenu.classList.add('hidden');
+                        }
+                    }
+                }
+            });
+        });
+        
+        document.getElementById('home-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' });
+        });
+         document.getElementById('nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' });
+        });
+         document.getElementById('mobile-nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.add('hidden');
+            document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // --- Initialization ---
+        async function initializeAppCore() {
+            // Initialize authentication and wait for it to complete
+            await initializeAuthentication(); 
+            
+            // Render products after authentication is ready (or has attempted and potentially failed)
+            // This ensures that if auth fails, we still try to show products,
+            // but cart operations will be blocked by the !userId check in addItemToCart
+            renderProducts(); 
+            
+            // loadCart() is called from within the onAuthStateChanged logic in initializeAuthentication
+            // once a user (anonymous or otherwise) is confirmed.
+        }
+
+        initializeAppCore();
+
     </script>
 </body>
 </html>
