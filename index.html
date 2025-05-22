@@ -55,17 +55,24 @@
             box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
         }
 
-        #product-modal.hidden .modal-content {
-            transform: scale(0.7) translateY(50px);
-            opacity: 0;
+        /* Modal Styling and Animation */
+        #product-modal {
+            /* Backdrop styles are handled by Tailwind classes */
         }
         #product-modal .modal-content {
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            max-height: 90vh; /* Limit height to 90% of viewport height */
+            overflow-y: auto; /* Add scroll if content overflows */
+        }
+        #product-modal.hidden .modal-content {
+            transform: scale(0.7) translateY(50px);
+            opacity: 0;
         }
         #product-modal:not(.hidden) .modal-content {
             transform: scale(1) translateY(0);
             opacity: 1;
         }
+
 
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
@@ -416,20 +423,23 @@
     </footer>
 
     <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative modal-content">
-            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-4xl font-bold transition-colors duration-300">&times;</button>
-            <h2 id="modal-product-name" class="text-3xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200"></h2>
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative modal-content">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-4xl font-bold transition-colors duration-300 z-10">&times;</button>
+            <h2 id="modal-product-name" class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200"></h2>
             
             <div class="mb-6">
                 <div class="price-container">
                      <div>
-                        <span id="modal-current-price" class="current-price"></span><span id="modal-current-currency" class="price-currency"></span>
+                        <span id="modal-current-price" class="current-price text-3xl md:text-4xl"></span><span id="modal-current-currency" class="price-currency text-xl md:text-2xl"></span>
                     </div>
-                    <span id="modal-original-price" class="original-price"></span>
+                    <span id="modal-original-price" class="original-price text-md md:text-lg"></span>
                 </div>
             </div>
             
-            <p id="modal-product-description" class="text-gray-700 text-lg leading-relaxed mb-8"></p>
+            <div class="prose prose-sm sm:prose-base max-w-none text-gray-700 leading-relaxed mb-8 modal-description-scroll">
+                 <p id="modal-product-description" class="whitespace-pre-line"></p>
+            </div>
+
             <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg w-full text-lg"
                     id="modal-whatsapp-btn" data-product-name="" data-product-price="">
                 <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
@@ -486,7 +496,7 @@
                 shortDescription: "مساحة Google One 2TB ونماذج Gemini المتقدمة.",
                 fullDescription: "✨🎉 عرض حصري من تخفيضات صابر لمدة شهر بسعر 4$ 🎉✨\n\n🔹 اشترك الآن بـ 4 دولار فقط واستمتع لمدة شهر بكل ما تحتاجه:\n• مساحة Google One: 2 تيرابايت\n\nوختار النماذج الذي تناسبك 👇\n• Gemini Flash 2.0 للمساعدة الشاملة الفورية\n• Gemini Flash 2.5 (Preview) بتحديثات أقوى\n• Gemini Pro (Preview) للاستدلال والبرمجة\n• Personalization (Preview) لتجربة مخصصة لك\n\n📲 للطلب والتفاصيل: راسلنا الآن على واتساب.\n\n🔥 العرض محدود! كن من الأوائل واحصل على قوة الذكاء الاصطناعي ومساحة التخزين.",
                 price: 4.00,
-                originalPrice: 8.00, // تم وضع سعر أصلي لعرض الخصم
+                originalPrice: 8.00, 
                 image: "s5.png"
             },
             {
@@ -500,7 +510,6 @@
             }
         ];
 
-        // Get modal elements
         const productModal = document.getElementById('product-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
         const modalProductName = document.getElementById('modal-product-name');
@@ -515,7 +524,8 @@
 
         function openModal(product) {
             modalProductName.textContent = product.name;
-            modalProductDescription.textContent = product.fullDescription;
+            // Preserve line breaks from the fullDescription
+            modalProductDescription.innerHTML = product.fullDescription.replace(/\n/g, '<br>');
             
             modalCurrentPrice.textContent = `$${product.price.toFixed(2)}`;
             modalCurrentCurrency.textContent = "USD";
@@ -531,6 +541,8 @@
             modalWhatsappBtn.dataset.productPrice = product.price; 
             
             productModal.classList.remove('hidden');
+            // Ensure the modal content is scrolled to the top when opened
+            modalContent.scrollTop = 0;
             void modalContent.offsetWidth; 
         }
 
@@ -569,6 +581,7 @@
 
         closeModalBtn.addEventListener('click', closeModal);
         productModal.addEventListener('click', (event) => {
+            // Close if clicked on the backdrop (productModal) itself, not on its children (modalContent)
             if (event.target === productModal) {
                 closeModal();
             }
