@@ -3,749 +3,508 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تخفيضات صابر - متجر رقمي</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>تخفيضات صابر</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #3B82F6; /* Tailwind blue-500 */
-            --secondary-color: #10B981; /* Tailwind emerald-500 */
-            --accent-color: #F59E0B; /* Tailwind amber-500 */
-            --light-color: #F9FAFB; /* Tailwind gray-50 */
-            --dark-color: #1F2937; /* Tailwind gray-800 */
-            --text-light: #F3F4F6; /* Tailwind gray-100 */
-            --text-dark: #374151; /* Tailwind gray-700 */
-            --danger-color: #EF4444; /* Tailwind red-500 */
-            --font-family-primary: 'Tajawal', sans-serif;
-            --font-family-secondary: 'Almarai', sans-serif;
-        }
-
         body {
-            font-family: var(--font-family-primary);
-            background-color: var(--light-color);
-            color: var(--text-dark);
-            line-height: 1.7;
+            font-family: 'Cairo', 'Inter', sans-serif; /* Prioritize Cairo for Arabic text */
+            background: linear-gradient(135deg, #f8faff 0%, #e0e7ff 100%); /* Subtle animated background */
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            line-height: 1.7; /* Slightly increased line height for readability */
+            color: #333; /* Softer dark text color */
         }
-
+        /* Custom scrollbar for better aesthetics */
         ::-webkit-scrollbar {
             width: 8px;
-            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: var(--light-color);
+            background: #e0e7ff; /* Lighter track */
+            border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
-            background-color: var(--primary-color);
+            background: #8da4e0; /* Softer blue for thumb */
             border-radius: 10px;
-            border: 2px solid var(--light-color);
         }
         ::-webkit-scrollbar-thumb:hover {
-            background-color: #2563EB; 
+            background: #6b84d4; /* Darker blue on hover */
         }
 
-        .logo-font {
-            font-family: var(--font-family-secondary);
+        /* Custom button styles with gradients and subtle hover effects */
+        .btn-primary-gradient {
+            background-image: linear-gradient(to right, #6a82fb 0%, #fc5c7d 51%, #6a82fb 100%);
+            background-size: 200% auto;
+            transition: 0.6s ease-in-out;
+            box-shadow: 0 8px 25px rgba(106, 130, 251, 0.4);
+            border: none;
+            position: relative;
+            z-index: 1;
+        }
+        .btn-primary-gradient:hover {
+            background-position: right center;
+            box-shadow: 0 12px 30px rgba(106, 130, 251, 0.6);
+            transform: translateY(-3px);
+        }
+        .btn-primary-gradient:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(106, 130, 251, 0.4);
         }
 
-        .product-card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.1);
+        .btn-whatsapp-gradient {
+            background-image: linear-gradient(to right, #28a745 0%, #20c997 51%, #28a745 100%);
+            background-size: 200% auto;
+            transition: 0.6s ease-in-out;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+            border: none;
+            position: relative;
+            z-index: 1;
         }
-        
-        .modal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+        .btn-whatsapp-gradient:hover {
+            background-position: right center;
+            box-shadow: 0 12px 30px rgba(40, 167, 69, 0.6);
+            transform: translateY(-3px);
         }
-        .modal-content {
-            transition: transform 0.3s ease;
+        .btn-whatsapp-gradient:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
         }
-        .modal.active {
+
+        /* Modal animation */
+        .modal-enter-active, .modal-leave-active {
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Springy effect */
+        }
+        .modal-enter-from, .modal-leave-to {
+            opacity: 0;
+            transform: scale(0.7) translateY(50px);
+        }
+        .modal-enter-to, .modal-leave-from {
             opacity: 1;
-            visibility: visible;
-        }
-        .modal.active .modal-content {
             transform: scale(1) translateY(0);
         }
 
-        .cart-panel {
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .badge {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: var(--danger-color);
-            color: white;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: var(--primary-color);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
+        /* Custom animations */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes bounce-pulse {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.05);
+                box-shadow: 0 15px 40px rgba(40, 167, 69, 0.6);
+            }
+        }
+        .animate-bounce-pulse {
+            animation: bounce-pulse 4s infinite ease-in-out;
         }
 
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 12px 20px;
-            background-color: var(--dark-color);
-            color: var(--text-light);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            visibility: hidden;
+        @keyframes slide-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-            visibility: visible;
-        }
-        .toast.success {
-            background-color: var(--secondary-color);
-        }
-        .toast.error {
-            background-color: var(--danger-color);
-        }
-        .product-image-clickable, .product-name-clickable {
-            cursor: pointer;
-        }
-        .cart-action-button:disabled {
-            background-color: #9CA3AF; /* Tailwind gray-400 */
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .cart-action-button:disabled:hover {
-            background-color: #9CA3AF; /* Keep same color on hover when disabled */
+        .animate-slide-in-up {
+            animation: slide-in-up 0.8s ease-out forwards;
         }
 
+        @keyframes fade-in-down {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-down {
+            animation: fade-in-down 1s ease-out forwards;
+        }
 
+        /* Testimonial card hover effect */
+        .testimonial-card {
+            transition: all 0.4s ease-in-out;
+            border: 1px solid transparent; /* For subtle border change */
+        }
+        .testimonial-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #6a82fb; /* Accent border on hover */
+        }
+
+        /* Section dividers */
+        .section-divider {
+            height: 3px; /* Thicker divider */
+            background: linear-gradient(to right, #6a82fb, #fc5c7d);
+            width: 120px; /* Slightly wider */
+            margin: 0 auto 4rem auto; /* More margin below */
+            border-radius: 5px;
+            opacity: 0.8;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="text-gray-800">
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#" id="home-link" class="text-3xl font-bold logo-font text-blue-600">تخفيضات صابر<i class="fas fa-tags ml-2 text-green-500"></i></a>
-            <nav class="hidden md:flex items-center space-x-reverse space-x-6">
-                <a href="#" id="nav-home" class="text-gray-600 hover:text-blue-600 transition duration-300">الرئيسية</a>
-                <a href="#products-section-nav" id="nav-products" class="text-gray-600 hover:text-blue-600 transition duration-300">المنتجات</a>
-                <a href="#" id="nav-offers" class="text-gray-600 hover:text-blue-600 transition duration-300">العروض</a>
-                <a href="#" id="nav-about" class="text-gray-600 hover:text-blue-600 transition duration-300">من نحن</a>
-            </nav>
-            <div class="flex items-center space-x-reverse space-x-4">
-                <button id="cart-button" class="relative text-gray-700 hover:text-blue-600 transition duration-300">
-                    <i class="fas fa-shopping-cart text-2xl"></i>
-                    <span id="cart-item-count" class="badge hidden">0</span>
-                </button>
-                <button id="menu-button" class="md:hidden text-gray-700 hover:text-blue-600">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-        </div>
-        <div id="mobile-menu" class="md:hidden bg-white shadow-lg absolute top-full left-0 right-0 hidden">
-            <a href="#" id="mobile-nav-home" class="block px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition duration-300">الرئيسية</a>
-            <a href="#products-section-nav" id="mobile-nav-products" class="block px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition duration-300">المنتجات</a>
-            <a href="#" id="mobile-nav-offers" class="block px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition duration-300">العروض</a>
-            <a href="#" id="mobile-nav-about" class="block px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition duration-300">من نحن</a>
+    <header class="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-16 md:py-24 text-center shadow-2xl rounded-b-3xl relative overflow-hidden">
+        <div class="absolute inset-0 opacity-15" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxmaWx0ZXIgaWQ9Im5vaXNlIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICAgICAgICA8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC43NSIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPgogICAgICAgIDxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz4KICAgICAgICA8ZmVDb21wb3NpdGUgb3BlcmF0b3I9ImluIiBpbjI9IlNvdXJjZUdyYXBoaWMiLz4KICAgICAgICA8ZmVCbGVuZCBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJub2lzZSIvPgogICAgPC9maWx0ZXI+CiAgICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkZGRkZGIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+Cjwvc3ZnPg=='); background-repeat: repeat; background-size: 200px;"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg animate-fade-in-down">
+                <span class="block">تخفيضات صابر</span>
+                <span class="block text-2xl md:text-3xl font-light mt-2 opacity-90">عروض لا تُصدق على المنتجات الرقمية!</span>
+            </h2>
+            <p class="text-xl md:text-2xl font-light opacity-90 max-w-3xl mx-auto">
+                اكتشف مجموعتنا الواسعة من الاشتراكات والحسابات الأصلية بأسعار لا تقبل المنافسة.
+            </p>
         </div>
     </header>
 
-    <main id="main-content" class="container mx-auto px-4 py-8">
-        <section id="hero-section" class="bg-gradient-to-br from-blue-500 to-green-400 text-white p-8 md:p-16 rounded-xl shadow-2xl mb-12 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold logo-font mb-6">مرحباً بك في تخفيضات صابر!</h1>
-            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">أفضل المنتجات الرقمية والعروض الحصرية بأسعار لا تقاوم.</p>
-            <a href="#products-section" class="bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 transform hover:scale-105 text-lg">
-                اكتشف المنتجات <i class="fas fa-arrow-left mr-2"></i>
-            </a>
+    <main class="container mx-auto px-4 py-16 max-w-7xl">
+        <section id="products-grid" class="mb-24">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-6 leading-tight animate-fade-in-down">منتجاتنا المميزة</h2>
+            <div class="section-divider animate-fade-in-down" style="animation-delay: 0.2s;"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up">
+                    <img src="s1.png" alt="اشتراك شات جي بي تي" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/4a90e2/FFFFFF?text=ChatGPT';">
+                    <div class="p-6 md:p-8">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">اشتراك شات جي بي تي</h3>
+                        <p class="text-gray-600 text-sm md:text-base mb-6">بريد إلكتروني + كلمة سر جاهزة للاستخدام الفوري.</p>
+                        <div class="flex flex-col space-y-3 md:space-y-4">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                                تفاصيل المنتج
+                            </button>
+                            <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
+                                    data-product-name="اشتراك شات جي بي تي">
+                                <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.1s;">
+                    <img src="s2.png" alt="اشتراك Canva سنوي" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/20c997/FFFFFF?text=Canva';">
+                    <div class="p-6 md:p-8">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">اشتراك Canva سنوي</h3>
+                        <p class="text-gray-600 text-sm md:text-base mb-6">وصول كامل لميزات Canva Pro لمدة عام.</p>
+                        <div class="flex flex-col space-y-3 md:space-y-4">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                                تفاصيل المنتج
+                            </button>
+                            <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
+                                    data-product-name="اشتراك Canva سنوي">
+                                <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.2s;">
+                    <img src="s3.png" alt="حسابات Office جاهزة" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ff7f50/FFFFFF?text=Office';">
+                    <div class="p-6 md:p-8">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">حسابات Office جاهزة</h3>
+                        <p class="text-gray-600 text-sm md:text-base mb-6">حسابات Office 365 مفعلة وجاهزة للاستخدام.</p>
+                        <div class="flex flex-col space-y-3 md:space-y-4">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                                تفاصيل المنتج
+                            </button>
+                            <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
+                                    data-product-name="حسابات Office جاهزة">
+                                <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.3s;">
+                    <img src="s4.png" alt="مفاتيح Windows أصلية" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/007bff/FFFFFF?text=Windows';">
+                    <div class="p-6 md:p-8">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">مفاتيح Windows أصلية</h3>
+                        <p class="text-gray-600 text-sm md:text-base mb-6">مفاتيح تفعيل أصلية لجميع إصدارات Windows.</p>
+                        <div class="flex flex-col space-y-3 md:space-y-4">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                                تفاصيل المنتج
+                            </button>
+                            <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
+                                    data-product-name="مفاتيح Windows أصلية">
+                                <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.4s;">
+                    <img src="s5.png" alt="اشتراك Gemini شهري + مساحة One" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/6a0dad/FFFFFF?text=Gemini';">
+                    <div class="p-6 md:p-8">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">اشتراك Gemini شهري + مساحة One</h3>
+                        <p class="text-gray-600 text-sm md:text-base mb-6">وصول إلى Gemini ومساحة تخزين إضافية.</p>
+                        <div class="flex flex-col space-y-3 md:space-y-4">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                                تفاصيل المنتج
+                            </button>
+                            <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
+                                    data-product-name="اشتراك Gemini شهري + مساحة One">
+                                <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transform hover:-translate-y-3 transition-all duration-500 ease-in-out group animate-slide-in-up" style="animation-delay: 0.5s;">
+                    <img src="s6.png" alt="حساب VPN سنوي" class="w-full h-56 md:h-60 object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/400x300/17a2b8/FFFFFF?text=VPN';">
+                    <div class="p-6 md:p-8">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">حساب VPN سنوي</h3>
+                        <p class="text-gray-600 text-sm md:text-base mb-6">تصفح آمن وخاص مع اشتراك VPN لمدة عام.</p>
+                        <div class="flex flex-col space-y-3 md:space-y-4">
+                            <button class="product-details-btn btn-primary-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg">
+                                تفاصيل المنتج
+                            </button>
+                            <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
+                                    data-product-name="حساب VPN سنوي">
+                                <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="products-section">
-            <h2 class="text-3xl font-bold text-center mb-10 logo-font text-gray-800 relative pb-3">
-                أحدث المنتجات
-                <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 rounded"></span>
-            </h2>
-            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div class="flex justify-center items-center col-span-full h-64">
-                    <div class="loading-spinner"></div>
+        <section id="payment-methods" class="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-24 animate-slide-in-up" style="animation-delay: 0.6s;">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-6 leading-tight">طرق الدفع المتوفرة</h2>
+            <div class="section-divider"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="flex flex-col items-center p-6 md:p-8 bg-blue-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-blue-100">
+                    <div class="text-blue-600 text-6xl md:text-7xl mb-4">
+                        <i class="fas fa-university"></i> </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">الكريمي نقطة حاسب</h3>
+                    <p class="text-gray-700 text-base md:text-lg">اسم المتجر: <span class="font-extrabold text-gray-900">صابر</span></p>
+                    <p class="text-gray-700 text-base md:text-lg">رقم النقطة: <span class="font-extrabold text-gray-900">1302092</span></p>
+                </div>
+
+                <div class="flex flex-col items-center p-6 md:p-8 bg-green-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-green-100">
+                    <div class="text-green-600 text-6xl md:text-7xl mb-4">
+                        <i class="fas fa-mobile-alt"></i> </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">المحافظ الإلكترونية المحلية</h3>
+                    <ul class="list-none text-gray-700 text-base md:text-lg text-center space-y-2">
+                        <li><i class="fas fa-check-circle text-green-500 ml-2"></i>محفظة جيب</li>
+                        <li><i class="fas fa-check-circle text-green-500 ml-2"></i>محفظة جوالي</li>
+                        <li><i class="fas fa-check-circle text-green-500 ml-2"></i>محفظة موبايل موني</li>
+                        <li><i class="fas fa-check-circle text-green-500 ml-2"></i>محفظة ون كاش</li>
+                    </ul>
+                </div>
+
+                <div class="flex flex-col items-center p-6 md:p-8 bg-purple-50 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-purple-100">
+                    <div class="text-purple-600 text-6xl md:text-7xl mb-4">
+                        <i class="fas fa-wallet"></i> </div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">محافظ أجنبية</h3>
+                    <ul class="list-none text-gray-700 text-base md:text-lg text-center space-y-2">
+                        <li><i class="fas fa-check-circle text-purple-500 ml-2"></i>Binance (بينانس)</li>
+                        <li><i class="fas fa-check-circle text-purple-500 ml-2"></i>PayPal (باي بال)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl shadow-xl p-8 md:p-12 animate-slide-in-up" style="animation-delay: 0.7s;">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 text-center leading-tight">ماذا يقول عملاؤنا؟</h2>
+            <div class="section-divider"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-6 shadow-lg testimonial-card relative">
+                    <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 left-4 -z-0"></i>
+                    <div class="flex items-center mb-4 relative z-10">
+                        <img src="https://placehold.co/70x70/FFD700/FFFFFF?text=A" alt="صورة عميل" class="rounded-full w-16 h-16 md:w-18 md:h-18 object-cover border-4 border-yellow-400 shadow-md">
+                        <div class="mr-4">
+                            <p class="font-extrabold text-lg md:text-xl text-gray-900">أحمد محمد</p>
+                            <div class="text-yellow-500 text-base md:text-lg">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed text-base md:text-lg relative z-10">"خدمة ممتازة ومنتجات رقمية أصلية 100%. سرعة في التسليم ودعم فني رائع. أنصح بالتعامل معهم بشدة!"</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-lg testimonial-card relative">
+                    <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 left-4 -z-0"></i>
+                    <div class="flex items-center mb-4 relative z-10">
+                        <img src="https://placehold.co/70x70/90EE90/FFFFFF?text=F" alt="صورة عميل" class="rounded-full w-16 h-16 md:w-18 md:h-18 object-cover border-4 border-green-400 shadow-md">
+                        <div class="mr-4">
+                            <p class="font-extrabold text-lg md:text-xl text-gray-900">فاطمة علي</p>
+                            <div class="text-yellow-500 text-base md:text-lg">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed text-base md:text-lg relative z-10">"تنوع كبير في المنتجات وأسعار تنافسية. اشتريت اشتراك Canva وكان التفعيل فوري. تجربة تسوق مريحة جداً."</p>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-lg testimonial-card relative">
+                    <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 left-4 -z-0"></i>
+                    <div class="flex items-center mb-4 relative z-10">
+                        <img src="https://placehold.co/70x70/87CEEB/FFFFFF?text=S" alt="صورة عميل" class="rounded-full w-16 h-16 md:w-18 md:h-18 object-cover border-4 border-blue-400 shadow-md">
+                        <div class="mr-4">
+                            <p class="font-extrabold text-lg md:text-xl text-gray-900">سعيد خالد</p>
+                            <div class="text-yellow-500 text-base md:text-lg">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed text-base md:text-lg relative z-10">"المتجر المفضل لدي للمنتجات الرقمية. سهولة في الطلب والتواصل عبر الواتساب. أنصح به كل من يبحث عن الجودة والسعر المناسب."</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <div id="product-detail-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 invisible z-[100]">
-        <div class="modal-content bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl transform scale-95 -translate-y-10">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="modal-product-name" class="text-2xl font-bold logo-font text-blue-600"></h3>
-                <button id="close-modal-button" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
-            </div>
-            <div class="md:flex md:space-x-reverse md:space-x-6">
-                <img id="modal-product-image" src="1.png" alt="Product Image" class="w-full md:w-1/2 h-64 object-cover rounded-lg mb-4 md:mb-0" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E2E8F0/AAAAAA?text=صورة+غير+متوفرة';">
-                <div class="md:w-1/2">
-                    <p id="modal-product-description" class="text-gray-700 mb-4"></p>
-                    <div class="mb-4">
-                        <span id="modal-product-price" class="text-3xl font-bold text-green-500"></span>
-                        <span id="modal-product-original-price" class="text-gray-500 line-through ml-2 text-lg"></span>
-                    </div>
-                    <div class="flex items-center mb-6">
-                        <label for="modal-quantity" class="ml-2 font-semibold">الكمية:</label>
-                        <input type="number" id="modal-quantity" value="1" min="1" class="w-20 border border-gray-300 rounded-md p-2 text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <button id="modal-add-to-cart-button" class="cart-action-button w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center" disabled>
-                        <i class="fas fa-cart-plus mr-2"></i> إضافة إلى السلة
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="cart-panel" class="cart-panel fixed top-0 left-0 h-full w-full md:w-96 bg-white shadow-2xl p-6 transform -translate-x-full z-[150] overflow-y-auto">
-        <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
-            <h3 class="text-2xl font-bold logo-font text-blue-600">سلة التسوق</h3>
-            <button id="close-cart-button" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
-        </div>
-        <div id="cart-items-container" class="space-y-4 mb-6">
-            <p id="empty-cart-message" class="text-gray-500 text-center py-8">سلة التسوق فارغة حالياً.</p>
-        </div>
-        <div id="cart-summary" class="border-t border-gray-200 pt-6 hidden">
-            <div class="flex justify-between items-center mb-3">
-                <span class="text-lg font-semibold">الإجمالي الفرعي:</span>
-                <span id="cart-subtotal" class="text-lg font-bold text-gray-800">$0.00</span>
-            </div>
-            <p class="text-sm text-gray-500 mb-4">سيتم التواصل معك لتأكيد الطلب وتفاصيل الشحن.</p>
-            <button id="checkout-button" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 flex items-center justify-center">
-                <i class="fab fa-whatsapp mr-2"></i> إرسال الطلب عبر واتساب
-            </button>
-        </div>
-    </div>
-    
-    <div id="toast-notification" class="toast">
-        <span id="toast-message"></span>
-    </div>
-
-    <footer class="bg-gray-800 text-gray-300 py-12 mt-16">
-        <div class="container mx-auto px-4 text-center">
-            <p class="logo-font text-2xl mb-4">&copy; 2025 تخفيضات صابر. جميع الحقوق محفوظة.</p>
-            <div class="space-x-reverse space-x-4 mb-4">
-                <a href="#" class="hover:text-blue-400 transition duration-300">سياسة الخصوصية</a>
-                <a href="#" class="hover:text-blue-400 transition duration-300">شروط الخدمة</a>
-            </div>
-            <div class="flex justify-center space-x-reverse space-x-5 text-xl">
-                <a href="https://wa.me/967782343232" target="_blank" class="hover:text-green-400 transition duration-300"><i class="fab fa-whatsapp"></i></a>
+    <footer class="bg-gray-800 text-white py-8 text-center rounded-t-3xl shadow-inner mt-20">
+        <div class="container mx-auto px-4">
+            <p class="text-lg mb-4">&copy; 2025 تخفيضات صابر. جميع الحقوق محفوظة.</p>
+            <div class="flex justify-center space-x-6 text-2xl">
+                <a href="#" class="hover:text-blue-400 transition-colors duration-300" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-blue-300 transition-colors duration-300" aria-label="تويتر"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-pink-400 transition-colors duration-300" aria-label="انستغرام"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/+9677782343232" target="_blank" class="hover:text-green-400 transition-colors duration-300" aria-label="واتساب"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
     </footer>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { 
-            getAuth, 
-            signInAnonymously, 
-            signInWithCustomToken, 
-            onAuthStateChanged
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            getDoc, 
-            deleteDoc, 
-            collection, 
-            onSnapshot,
-            runTransaction,
-            updateDoc, 
-            serverTimestamp
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 hidden backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative transform scale-95 opacity-0 transition-all duration-300 ease-out modal-content">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-4xl font-bold transition-colors duration-300">&times;</button>
+            <h2 id="modal-product-name" class="text-3xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200"></h2>
+            <p id="modal-product-description" class="text-gray-700 text-lg leading-relaxed mb-8"></p>
+            <button class="whatsapp-order-btn btn-whatsapp-gradient text-white font-semibold py-3 px-6 rounded-xl shadow-lg w-full text-lg"
+                    id="modal-whatsapp-btn" data-product-name="">
+                <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
+            </button>
+        </div>
+    </div>
 
-        // !!!!!! تنبيه هام جداً عند الرفع إلى GitHub Pages !!!!!!
-        // 1. استبدل القيم أدناه بمعلومات مشروع Firebase الحقيقية الخاصة بك.
-        //    يمكنك العثور عليها في لوحة تحكم Firebase -> إعدادات المشروع -> تطبيقاتك -> Firebase SDK snippet -> Config.
-        // 2. تأكد من إضافة نطاق GitHub Pages الخاص بك (مثال: yourusername.github.io)
-        //    إلى "النطاقات المعتمدة" في Firebase Console -> Authentication -> Sign-in method.
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "YOUR_ACTUAL_API_KEY_FROM_FIREBASE",
-            authDomain: "YOUR_ACTUAL_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_ACTUAL_PROJECT_ID",
-            storageBucket: "YOUR_ACTUAL_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_ACTUAL_MESSAGING_SENDER_ID",
-            appId: "YOUR_ACTUAL_APP_ID_WEB"
-        };
-        // !!!!!! نهاية التنبيه !!!!!!
+    <a href="https://wa.me/+9677782343232" target="_blank" class="fixed bottom-8 left-8 bg-green-500 text-white p-6 rounded-full shadow-xl text-4xl z-40 transition-all duration-300 animate-bounce-pulse">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        // استخدم appId من إعداداتك الفعلية عند الرفع، أو قيمة افتراضية إذا لم يتم توفيرها
-        const appId = (typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.appId) || 'saber-discounts-app'; 
-        let userId = null; 
-        let globalCartItems = []; 
-
-        const productList = document.getElementById('product-list');
-        const cartButton = document.getElementById('cart-button');
-        const cartPanel = document.getElementById('cart-panel');
-        const closeCartButton = document.getElementById('close-cart-button');
-        const cartItemsContainer = document.getElementById('cart-items-container');
-        const cartItemCount = document.getElementById('cart-item-count');
-        const emptyCartMessage = document.getElementById('empty-cart-message');
-        const cartSummary = document.getElementById('cart-summary');
-        const cartSubtotal = document.getElementById('cart-subtotal');
-        const checkoutButton = document.getElementById('checkout-button'); 
-        
-        const modal = document.getElementById('product-detail-modal');
-        const closeModalButton = document.getElementById('close-modal-button');
-        const modalProductName = document.getElementById('modal-product-name');
-        const modalProductImage = document.getElementById('modal-product-image');
-        const modalProductDescription = document.getElementById('modal-product-description');
-        const modalProductPrice = document.getElementById('modal-product-price');
-        const modalProductOriginalPrice = document.getElementById('modal-product-original-price');
-        const modalQuantityInput = document.getElementById('modal-quantity');
-        const modalAddToCartButton = document.getElementById('modal-add-to-cart-button');
-        let currentModalProductId = null;
-
-        const menuButton = document.getElementById('menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        const toastNotification = document.getElementById('toast-notification');
-        const toastMessage = document.getElementById('toast-message');
-        let toastTimeout;
-
+    <script>
+        // Array of product data
         const products = [
-            { id: 'prod_001', name: 'برنامج تحرير صور احترافي', description: 'أطلق العنان لإبداعك مع أقوى برنامج لتحرير الصور وتصميم الجرافيك. مزايا متقدمة وواجهة سهلة الاستخدام.', price: 79.99, originalPrice: 99.99, image: '1.png', category: 'برامج' },
-            { id: 'prod_002', name: 'دورة تطوير ويب شاملة', description: 'تعلم تطوير الويب من الصفر إلى الاحتراف. HTML, CSS, JavaScript, Node.js, React والمزيد. شهادة معتمدة.', price: 149.50, image: '2.png', category: 'دورات' },
-            { id: 'prod_003', name: 'قالب موقع شركة عصري', description: 'قالب HTML/CSS متجاوب بالكامل، مثالي للشركات الناشئة والصغيرة. تصميم أنيق وسهل التخصيص.', price: 25.00, originalPrice: 40.00, image: '3.png', category: 'قوالب' },
-            { id: 'prod_004', name: 'مجموعة أيقونات فلات', description: 'أكثر من 1000 أيقونة فلات عالية الجودة بصيغ SVG و PNG. مثالية لمشاريع التصميم والويب.', price: 19.99, image: '4.png', category: 'تصميم' },
-            { id: 'prod_005', name: 'استضافة ويب سريعة', description: 'خطة استضافة ويب ممتازة مع مساحة تخزين SSD غير محدودة ودعم فني 24/7. ضمان استعادة الأموال.', price: 9.99, originalPrice: 15.00, image: '5.png', category: 'خدمات' },
-            { id: 'prod_006', name: 'كتاب التسويق الرقمي', description: 'دليلك الشامل لأسرار التسويق الرقمي الناجح. استراتيجيات فعالة لزيادة مبيعاتك وجمهورك.', price: 35.00, image: '6.png', category: 'كتب' },
+            {
+                id: 1,
+                name: "اشتراك شات جي بي تي",
+                shortDescription: "بريد إلكتروني + كلمة سر جاهزة للاستخدام الفوري.",
+                fullDescription: "احصل على وصول فوري إلى أقوى نماذج الذكاء الاصطناعي مع اشتراك شات جي بي تي. يأتي مع بريد إلكتروني وكلمة سر جاهزين، مما يضمن لك تجربة سلسة وبدون أي تعقيدات. مثالي للطلاب، الباحثين، والمحترفين الذين يحتاجون إلى مساعدة في الكتابة، البرمجة، أو توليد الأفكار."
+            },
+            {
+                id: 2,
+                name: "اشتراك Canva سنوي",
+                shortDescription: "وصول كامل لميزات Canva Pro لمدة عام.",
+                fullDescription: "أطلق العنان لإبداعك مع اشتراك Canva Pro لمدة عام كامل. استمتع بوصول غير محدود إلى ملايين القوالب، الصور، الخطوط، والأدوات الاحترافية. مثالي للمصممين، المسوقين، وأي شخص يحتاج إلى إنشاء محتوى بصري جذاب بسهولة."
+            },
+            {
+                id: 3,
+                name: "حسابات Office جاهزة",
+                shortDescription: "حسابات Office 365 مفعلة وجاهزة للاستخدام.",
+                fullDescription: "احصل على حسابات Office 365 مفعلة بالكامل وجاهزة للاستخدام الفوري. تتضمن هذه الحسابات وصولاً إلى Word، Excel، PowerPoint، Outlook، والمزيد. مثالية للإنتاجية الشخصية والمهنية."
+            },
+            {
+                id: 4,
+                name: "مفاتيح Windows أصلية",
+                shortDescription: "مفاتيح تفعيل أصلية لجميع إصدارات Windows.",
+                fullDescription: "قم بتفعيل نظام التشغيل Windows الخاص بك بمفاتيح أصلية 100%. تدعم هذه المفاتيح جميع إصدارات Windows وتضمن لك الحصول على التحديثات الأمنية والدعم من Microsoft. تفعيل دائم وآمن لجهازك."
+            },
+            {
+                id: 5,
+                name: "اشتراك Gemini شهري + مساحة One",
+                shortDescription: "وصول إلى Gemini ومساحة تخزين إضافية.",
+                fullDescription: "استفد من قوة الذكاء الاصطناعي مع اشتراك Gemini الشهري، بالإضافة إلى مساحة تخزين إضافية على Google One. مثالي للمستخدمين الذين يحتاجون إلى قدرات AI متقدمة ومساحة كافية لحفظ بياناتهم."
+            },
+            {
+                id: 6,
+                name: "حساب VPN سنوي",
+                shortDescription: "تصفح آمن وخاص مع اشتراك VPN لمدة عام.",
+                fullDescription: "احمِ خصوصيتك وتصفح الإنترنت بأمان مع حساب VPN سنوي. يتيح لك الوصول إلى المحتوى المحجوب وتشفير اتصالك بالإنترنت، مما يحافظ على بياناتك آمنة من المتطفلين. مثالي للمسافرين ومن يهتمون بالخصوصية على الإنترنت."
+            }
         ];
 
-        function showToast(message, type = 'info', duration = 3000) {
-            toastMessage.textContent = message;
-            toastNotification.className = 'toast show'; 
-            if (type === 'success') {
-                toastNotification.classList.add('success');
-            } else if (type === 'error') {
-                toastNotification.classList.add('error');
-            }
-            
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toastNotification.classList.remove('show');
-            }, duration);
-        }
+        // Get modal elements
+        const productModal = document.getElementById('product-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductDescription = document.getElementById('modal-product-description');
+        const modalWhatsappBtn = document.getElementById('modal-whatsapp-btn');
+        const modalContent = productModal.querySelector('.modal-content');
 
-        function setAllCartButtonsDisabled(disabled) {
-            document.querySelectorAll('.cart-action-button').forEach(button => {
-                button.disabled = disabled;
-            });
-        }
+        // WhatsApp number
+        const whatsappNumber = '+9677782343232';
 
-        const authReadyPromise = new Promise((resolve, reject) => {
-            let authAttempted = false;
-            const unsubscribe = onAuthStateChanged(auth, async (user) => {
-                console.log("Auth state changed. User:", user ? user.uid : "null");
-                if (user) {
-                    userId = user.uid;
-                    console.log("User authenticated. UID:", userId);
-                    setAllCartButtonsDisabled(false); 
-                    loadCart();
-                    unsubscribe(); 
-                    resolve(userId);
-                } else if (!authAttempted) {
-                    authAttempted = true;
-                    console.log("No user, attempting initial sign-in...");
-                    try {
-                        // __initial_auth_token is specific to some dev environments,
-                        // for GitHub Pages, it will likely be undefined.
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                    } catch (error) {
-                        console.error("Initial sign-in attempt failed:", error);
-                        showToast("فشل في المصادقة الأولية. السلة قد لا تعمل.", "error");
-                        setAllCartButtonsDisabled(true); 
-                        unsubscribe(); 
-                        reject(error);
-                    }
-                } else {
-                    console.log("User is null after auth attempt. Cart functionality disabled.");
-                    userId = null;
-                    clearCartUI();
-                    setAllCartButtonsDisabled(true);
-                }
-            }, (error) => {
-                console.error("onAuthStateChanged listener error:", error);
-                setAllCartButtonsDisabled(true);
-                unsubscribe();
-                reject(error);
-            });
-        });
-
-
-        async function initializeAuthentication() {
-            console.log("Initializing authentication...");
-            setAllCartButtonsDisabled(true); 
-            try {
-                await authReadyPromise;
-                console.log("Authentication successfully initialized. User ID:", userId);
-            } catch (error) {
-                console.error("Authentication initialization failed:", error);
-            }
-        }
-
-
-        function renderProducts() {
-            productList.innerHTML = ''; 
-            if (!products || products.length === 0) {
-                productList.innerHTML = '<p class="col-span-full text-center text-gray-500">لا توجد منتجات لعرضها حالياً.</p>';
-                return;
-            }
-            products.forEach(product => {
-                const discountPercentage = product.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
-                const productCardHTML = `
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 product-card-hover flex flex-col">
-                        ${discountPercentage > 0 ? `<div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full z-10">خصم ${discountPercentage}%</div>` : ''}
-                        <div class="h-56 overflow-hidden product-image-clickable" data-product-id="${product.id}">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E2E8F0/AAAAAA?text=صورة+غير+متوفرة';">
-                        </div>
-                        <div class="p-5 flex flex-col flex-grow">
-                            <h3 class="text-xl font-bold mb-2 text-gray-800 truncate product-name-clickable" title="${product.name}" data-product-id="${product.id}">${product.name}</h3>
-                            <p class="text-gray-600 text-sm mb-3 flex-grow">${product.description.substring(0, 70)}...</p>
-                            <div class="flex justify-between items-center mb-4">
-                                <p class="text-2xl font-extrabold text-green-500">$${product.price.toFixed(2)}</p>
-                                ${product.originalPrice ? `<p class="text-sm text-gray-400 line-through">$${product.originalPrice.toFixed(2)}</p>` : ''}
-                            </div>
-                            <button data-product-id="${product.id}" class="add-to-cart-from-card-button cart-action-button w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md transition duration-300 flex items-center justify-center text-sm" disabled>
-                                <i class="fas fa-cart-plus mr-2"></i> أضف للسلة
-                            </button>
-                        </div>
-                    </div>
-                `;
-                productList.insertAdjacentHTML('beforeend', productCardHTML);
-            });
-
-            document.querySelectorAll('.add-to-cart-from-card-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    addItemToCart(e.currentTarget.dataset.productId, 1);
-                });
-            });
-            document.querySelectorAll('.product-image-clickable, .product-name-clickable').forEach(element => {
-                element.addEventListener('click', (e) => {
-                    openProductModal(e.currentTarget.dataset.productId);
-                });
-            });
-        }
-        
-        function openProductModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            currentModalProductId = productId;
+        // Function to open the modal
+        function openModal(product) {
             modalProductName.textContent = product.name;
-            modalProductImage.src = product.image; 
-            modalProductImage.alt = product.name;
-            modalProductDescription.textContent = product.description;
-            modalProductPrice.textContent = `$${product.price.toFixed(2)}`;
-            if (product.originalPrice) {
-                modalProductOriginalPrice.textContent = `$${product.originalPrice.toFixed(2)}`;
-                modalProductOriginalPrice.classList.remove('hidden');
-            } else {
-                modalProductOriginalPrice.classList.add('hidden');
-            }
-            modalQuantityInput.value = 1;
-            modal.classList.add('active');
-            modalAddToCartButton.disabled = !userId;
+            modalProductDescription.textContent = product.fullDescription;
+            modalWhatsappBtn.dataset.productName = product.name; // Set product name for WhatsApp button in modal
+            productModal.classList.remove('hidden');
+            // Trigger reflow to ensure transition plays
+            void modalContent.offsetWidth;
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            modalContent.classList.add('modal-enter-to'); // Use specific animation class
+            modalContent.classList.remove('modal-enter-from');
         }
 
-        closeModalButton.addEventListener('click', () => modal.classList.remove('active'));
-        modal.addEventListener('click', (e) => { 
-            if (e.target === modal) modal.classList.remove('active');
-        });
-
-        modalAddToCartButton.addEventListener('click', () => {
-            if (currentModalProductId) {
-                const quantity = parseInt(modalQuantityInput.value);
-                if (quantity > 0) {
-                    addItemToCart(currentModalProductId, quantity);
-                    modal.classList.remove('active');
-                } else {
-                    showToast("الرجاء إدخال كمية صحيحة.", "error");
-                }
-            }
-        });
-
-        async function addItemToCart(productId, quantity = 1) {
-            if (!userId) {
-                showToast("خطأ في المصادقة. لا يمكن إضافة المنتج. يرجى تحديث الصفحة.", "error");
-                console.error("addItemToCart: userId is null. Authentication might have failed or is not complete.");
-                return; 
-            }
-
-            const product = products.find(p => p.id === productId);
-            if (!product) {
-                showToast("المنتج غير موجود.", "error");
-                return;
-            }
-
-            const cartItemRef = doc(db, `artifacts/${appId}/users/${userId}/cart`, productId);
-            
-            try {
-                await runTransaction(db, async (transaction) => {
-                    const cartItemDoc = await transaction.get(cartItemRef);
-                    if (!cartItemDoc.exists()) {
-                        transaction.set(cartItemRef, {
-                            name: product.name,
-                            price: product.price,
-                            image: product.image, 
-                            quantity: quantity,
-                            addedAt: serverTimestamp()
-                        });
-                    } else {
-                        const newQuantity = cartItemDoc.data().quantity + quantity;
-                        transaction.update(cartItemRef, { quantity: newQuantity });
-                    }
-                });
-                showToast(`تمت إضافة "${product.name}" إلى السلة!`, "success");
-            } catch (error) {
-                console.error("Error adding item to cart: ", error);
-                showToast("خطأ أثناء إضافة المنتج للسلة.", "error");
-            }
+        // Function to close the modal
+        function closeModal() {
+            modalContent.classList.add('modal-leave-to'); // Use specific animation class
+            modalContent.classList.remove('modal-enter-to');
+            // Hide after animation
+            setTimeout(() => {
+                productModal.classList.add('hidden');
+                modalContent.classList.remove('modal-leave-to');
+                modalContent.classList.add('modal-enter-from'); // Reset for next open
+            }, 400); // Match transition duration
         }
 
-        async function updateCartItemQuantity(productId, newQuantity) {
-            if (!userId) return;
-            if (newQuantity < 1) {
-                await removeItemFromCart(productId);
-                return;
-            }
-            const cartItemRef = doc(db, `artifacts/${appId}/users/${userId}/cart`, productId);
-            try {
-                await updateDoc(cartItemRef, { quantity: newQuantity });
-                showToast("تم تحديث كمية المنتج.", "success");
-            } catch (error) {
-                console.error("Error updating cart item quantity: ", error);
-                showToast("خطأ في تحديث الكمية.", "error");
-            }
-        }
-        
-        async function removeItemFromCart(productId) {
-            if (!userId) return;
-            const cartItemRef = doc(db, `artifacts/${appId}/users/${userId}/cart`, productId);
-            try {
-                await deleteDoc(cartItemRef);
-                showToast("تم إزالة المنتج من السلة.", "info");
-            } catch (error) {
-                console.error("Error removing item from cart: ", error);
-                showToast("خطأ في إزالة المنتج.", "error");
-            }
-        }
-        
-        function clearCartUI() {
-            cartItemsContainer.innerHTML = '';
-            globalCartItems = [];
-            emptyCartMessage.classList.remove('hidden');
-            cartSummary.classList.add('hidden');
-            cartItemCount.textContent = '0';
-            cartItemCount.classList.add('hidden');
-        }
-
-        function loadCart() {
-            if (!userId) {
-                console.log("loadCart: No userId, cannot load cart.");
-                clearCartUI();
-                return;
-            }
-            console.log("loadCart: Loading cart for user", userId);
-            const cartColRef = collection(db, `artifacts/${appId}/users/${userId}/cart`);
-            onSnapshot(cartColRef, (snapshot) => {
-                globalCartItems = []; 
-                snapshot.forEach((doc) => {
-                    globalCartItems.push({ id: doc.id, ...doc.data() });
-                });
-                renderCart(globalCartItems);
-            }, (error) => {
-                console.error("Error loading cart from Firestore: ", error);
-                showToast("حدث خطأ أثناء تحميل السلة.", "error");
-                clearCartUI(); 
-            });
-        }
-
-        function renderCart(cartItems) {
-            cartItemsContainer.innerHTML = '';
-            let subtotal = 0;
-            let totalItems = 0;
-
-            if (cartItems.length === 0) {
-                emptyCartMessage.classList.remove('hidden');
-                cartSummary.classList.add('hidden');
-            } else {
-                emptyCartMessage.classList.add('hidden');
-                cartSummary.classList.remove('hidden');
-                
-                cartItems.forEach(item => {
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'flex items-center space-x-reverse space-x-3 p-3 border-b border-gray-100';
-                    itemElement.innerHTML = `
-                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/64x64/E2E8F0/AAAAAA?text=صورة';">
-                        <div class="flex-grow">
-                            <h4 class="font-semibold text-sm truncate" title="${item.name}">${item.name}</h4>
-                            <p class="text-xs text-gray-500">$${item.price.toFixed(2)} x ${item.quantity}</p>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="number" value="${item.quantity}" min="1" data-id="${item.id}" class="cart-item-quantity w-12 border border-gray-300 rounded-md p-1 text-center text-sm mx-2">
-                            <p class="font-semibold text-gray-700 text-sm w-16 text-left">$${(item.price * item.quantity).toFixed(2)}</p>
-                        </div>
-                        <button data-id="${item.id}" class="remove-cart-item text-red-500 hover:text-red-700 transition duration-300 text-lg">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    `;
-                    cartItemsContainer.appendChild(itemElement);
-                    subtotal += item.price * item.quantity;
-                    totalItems += item.quantity;
-                });
-            }
-
-            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
-            cartItemCount.textContent = totalItems;
-            if (totalItems > 0) {
-                cartItemCount.classList.remove('hidden');
-            } else {
-                cartItemCount.classList.add('hidden');
-            }
-
-            document.querySelectorAll('.cart-item-quantity').forEach(input => {
-                input.addEventListener('change', (e) => { 
-                    const newQuantity = parseInt(e.target.value);
-                     if (newQuantity >= 1) {
-                        updateCartItemQuantity(e.target.dataset.id, newQuantity);
-                    } else {
-                        e.target.value = 1; 
-                        updateCartItemQuantity(e.target.dataset.id, 1);
-                        showToast("الكمية يجب أن تكون 1 على الأقل.", "error");
-                    }
-                });
-            });
-            document.querySelectorAll('.remove-cart-item').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    removeItemFromCart(e.currentTarget.dataset.id);
-                });
-            });
-        }
-
-        checkoutButton.addEventListener('click', () => {
-            if (globalCartItems.length === 0) {
-                showToast("سلة التسوق فارغة!", "error");
-                return;
-            }
-
-            let message = "مرحباً تخفيضات صابر،\n\nأرغب في طلب المنتجات التالية:\n\n";
-            let subtotalForMessage = 0;
-
-            globalCartItems.forEach(item => {
-                message += `📦 *${item.name}*\n`;
-                message += `   - الكمية: ${item.quantity}\n`;
-                message += `   - السعر للقطعة: $${item.price.toFixed(2)}\n`;
-                message += `   - الإجمالي للمنتج: $${(item.price * item.quantity).toFixed(2)}\n\n`;
-                subtotalForMessage += item.price * item.quantity;
-            });
-            
-            message += "--------------------\n";
-            message += `💰 *الإجمالي الكلي للطلب: $${subtotalForMessage.toFixed(2)}*\n\n`;
-            message += "يرجى تأكيد الطلب وتزويدي بتفاصيل الدفع والشحن.\n\n";
-            message += "شكراً لك!";
-
-            const whatsappUrl = `https://wa.me/967782343232?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-            showToast("يتم تحويلك إلى واتساب لإكمال الطلب...", "success");
-        });
-
-        cartButton.addEventListener('click', () => {
-            cartPanel.classList.remove('-translate-x-full');
-            cartPanel.classList.add('translate-x-0');
-        });
-        closeCartButton.addEventListener('click', () => {
-            cartPanel.classList.add('-translate-x-full');
-            cartPanel.classList.remove('translate-x-0');
-        });
-        
-        menuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                if (this.hash !== "") {
-                    const targetElement = document.querySelector(this.hash === '#products-section-nav' ? '#products-section' : this.hash);
-                    if (targetElement) {
-                        e.preventDefault(); 
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                        if (this.closest('#mobile-menu')) {
-                           mobileMenu.classList.add('hidden');
-                        }
-                    }
+        // Event listeners for "Product Details" buttons
+        document.querySelectorAll('.product-details-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const productId = parseInt(event.target.dataset.productId);
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    openModal(product);
                 }
             });
         });
-        
-        document.getElementById('home-link').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' });
-        });
-         document.getElementById('nav-home').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' });
-        });
-         document.getElementById('mobile-nav-home').addEventListener('click', (e) => {
-            e.preventDefault();
-            mobileMenu.classList.add('hidden');
-            document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' });
+
+        // Event listeners for "Order via WhatsApp" buttons
+        document.querySelectorAll('.whatsapp-order-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const productName = event.target.dataset.productName;
+                const message = encodeURIComponent(`أود طلب المنتج: ${productName}`);
+                window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+            });
         });
 
-        async function initializeAppCore() {
-            console.log("Starting app initialization...");
-            renderProducts(); 
-            await initializeAuthentication(); 
-            console.log("App initialization complete.");
-        }
+        // Close modal when close button is clicked
+        closeModalBtn.addEventListener('click', closeModal);
 
-        initializeAppCore();
+        // Close modal when clicking outside the modal content
+        productModal.addEventListener('click', (event) => {
+            if (event.target === productModal) {
+                closeModal();
+            }
+        });
 
+        // Close modal when Escape key is pressed
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !productModal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
-```
-
-**بعد تطبيق هذه الخطوات بدقة (خاصة الخطوتين 1 و 2 المتعلقتين بإعدادات Firebase)، قم بما يلي:**
-
-1.  **ارفع التغييرات إلى GitHub.**
-2.  **انتظر بضع دقائق** حتى يتم تحديث GitHub Pages.
-3.  **امسح ذاكرة التخزين المؤقت للمتصفح بالكامل** لموقع GitHub Pages الخاص بك أو افتحه في **نافذة تصفح متخفي (Incognito/Private window)**. هذا مهم جدًا للتأكد من أنك لا تستخدم نسخة قديمة من الملفات.
-4.  **افتح أدوات المطور (Developer Console)** في المتصفح على صفحة GitHub Pages وراقب أي رسائل خطأ تظهر.
-
-إذا استمر الخطأ حتى بعد التأكد من صحة `firebaseConfig` وإضافة النطاق المعتمد، فإن رسائل الخطأ في الـ Console على GitHub Pages ستكون هي المفتاح لمعرفة ما يحدث بالضبط. يرجى مشاركتها معي إذا ظه
