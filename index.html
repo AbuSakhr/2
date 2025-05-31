@@ -3,717 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تخفيضات - عروض فورية مذهلة!</title>
+    <title>متجر تخفيضات صابر - عروض رقمية لا تقاوم</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #5E5CE6; 
-            --secondary-color: #00C6A7; 
-            --accent-color: #FF4D6D; 
-            
-            --bg-light-main: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
-            --bg-light-card: #FFFFFF;
-            --text-dark-primary: #1f2937; 
-            --text-dark-secondary: #4b5563; 
-            --text-light-on-dark-bg: #F5F5F7;
-            --border-light: #e5e7eb; 
-
-            --rgb-accent-color: 255, 77, 109; 
+            --primary-500: #6366F1; /* indigo-500 */
+            --primary-600: #4F46E5; /* indigo-600 */
+            --secondary-500: #10B981; /* emerald-500 */
+            --accent-500: #EC4899; /* pink-500 */
+            --bg-light: #F9FAFB; /* gray-50 */
+            --text-dark: #1F2937; /* gray-800 */
+            --text-light: #6B7280; /* gray-500 */
         }
-
         body {
             font-family: 'Cairo', sans-serif;
-            background: var(--bg-light-main);
-            color: var(--text-dark-primary);
-            line-height: 1.8;
-            overflow-x: hidden;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
         }
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #e0e7ff; }
-        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; border: 2px solid #e0e7ff;}
-        ::-webkit-scrollbar-thumb:hover { background: #7977f2; }
-
-        .font-cairo-black { 
-            font-family: 'Cairo', sans-serif;
+        .font-black-cairo {
             font-weight: 900;
         }
-        .text-shadow-custom {
-            text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Softer shadow */
-        }
-
-        .btn-glow {
-            position: relative;
-            transition: all 0.3s ease-in-out;
-            z-index: 1;
+        .hero-bg {
+            background-color: #111827;
             overflow: hidden;
-            color: white; 
+            position: relative;
         }
-        .btn-glow::before {
+        .hero-bg::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 300%;
-            height: 300%;
-            background-color: rgba(255, 255, 255, 0.25); 
-            transform: translate(-50%, -50%) rotate(45deg);
-            transition: all 0.7s ease-in-out;
-            z-index: -1;
-            opacity: 0;
+            width: 800px;
+            height: 800px;
+            left: -200px;
+            top: -300px;
+            background-image: radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent 70%);
+            animation: pulse-glow 10s infinite;
         }
-        .btn-glow:hover::before {
-            opacity: 1;
-            width: 0;
-            height: 0;
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            right: -150px;
+            bottom: -250px;
+            background-image: radial-gradient(circle, rgba(236, 72, 153, 0.25), transparent 70%);
+            animation: pulse-glow 12s infinite reverse;
         }
-        .btn-glow:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(var(--rgb-accent-color), 0.4); 
-        }
-
-        .btn-primary-gradient {
-            background-image: linear-gradient(to right, var(--primary-color) 0%, var(--accent-color) 70%, var(--primary-color) 100%);
-            background-size: 250% auto;
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(0.9); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
         }
 
-        .btn-whatsapp-gradient {
-            background-image: linear-gradient(to right, #25D366 0%, #128C7E 70%, #25D366 100%);
-            background-size: 250% auto;
+        .feature-card {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
         }
-        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border-color: var(--primary-500);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-500);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2);
+        }
+
         .product-card {
-            background-color: var(--bg-light-card); 
-            border: 1px solid var(--border-light);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
         .product-card:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border-color: var(--primary-color); 
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
-        .product-card img {
-            transition: transform 0.5s ease-in-out;
+        .product-image-container {
+            overflow: hidden;
+            position: relative;
         }
-        .product-card:hover img {
-            transform: scale(1.1) rotate(2deg);
+        .product-card-image {
+            transition: transform 0.4s ease;
         }
-
-        @keyframes bounce-pulse-whatsapp {
-            0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); }
-            50% { transform: translateY(-10px) scale(1.1); box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6); }
+        .product-card:hover .product-card-image {
+            transform: scale(1.05);
         }
-        .animate-bounce-pulse-whatsapp { animation: bounce-pulse-whatsapp 3s infinite ease-in-out; }
-        
-        .section-divider-svg {
-            width: 150px;
-            height: 20px;
-            margin: 1rem auto 4rem auto;
-        }
-        .section-divider-svg path {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawLine 3s ease-in-out forwards;
-        }
-        @keyframes drawLine {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-
         .discount-badge {
             position: absolute;
-            top: 1.5rem; 
-            left: 1.5rem; 
-            background-image: linear-gradient(to right, var(--accent-color), #ff708d);
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--accent-500);
             color: white;
-            padding: 0.3rem 1rem; 
-            border-radius: 50px; 
-            font-size: 0.9rem; 
-            font-weight: 800; 
-            z-index: 10;
-            box-shadow: 0 5px 15px rgba(var(--rgb-accent-color), 0.4);
-            transform: rotate(-7deg); 
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
         }
-         .price-container {
-            display: flex;
-            align-items: flex-end; 
-            justify-content: space-between; 
-            margin-bottom: 1.5rem; 
-            flex-wrap: wrap; 
-        }
-        .current-price-group {
-            display: flex;
-            align-items: baseline;
-        }
-        .current-price {
-            font-size: 2.5rem; 
-            font-weight: 900; 
-            color: var(--secondary-color); 
-            line-height: 1;
-            margin-right: 0.25rem;
-        }
-        .original-price {
-            font-size: 1.1rem; 
-            color: #9ca3af; 
-            text-decoration: line-through;
-        }
-        .price-currency {
-            font-size: 1rem; 
-            font-weight: 600; 
-            color: var(--secondary-color); 
-            margin-left: 0.1rem; 
-        }
-        .original-price-currency {
-            font-size: 0.8rem; 
-            color: #9ca3af; 
-            margin-left: 0.1rem; 
-        }
-
-        .hero-section {
-            min-height: auto; /* Let content define height */
-            padding-top: 3rem; /* Significantly reduced */
-            padding-bottom: 3rem; /* Significantly reduced */
-            background: linear-gradient(145deg, var(--primary-color) 0%, var(--accent-color) 100%);
-            color: var(--text-light-on-dark-bg); 
-            position: relative;
-            display: flex;
-            align-items: center; /* Center panel vertically if space allows */
-            justify-content: center;
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
             text-align: center;
-            overflow: hidden; 
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        .hero-content-panel { 
-            position: relative;
-            z-index: 2;
-            background-color: rgba(0, 0, 0, 0.3); /* Slightly darker for more pop */
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 1rem; /* Reduced padding */
-            border-radius: 1.25rem; /* Tailwind rounded-2xl */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-            border: 1px solid rgba(255,255,255,0.15);
-            max-width: 42rem; /* Tailwind max-w-2xl */
-            margin-left: auto;
-            margin-right: auto;
+        .btn-primary {
+            background-color: var(--primary-500);
+            color: white;
         }
-        .hero-bg-graphic {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0; 
-            overflow: hidden;
+        .btn-primary:hover {
+            background-color: var(--primary-600);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
-        .hero-bg-graphic svg {
-            position: absolute;
-            opacity: 0.12; 
-            animation: subtleRotate 70s linear infinite;
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
         }
-        /* Adjusted SVGs for compact hero */
-        .hero-svg-1 { width: 200px; height: 200px; top: -50px; left: -50px; animation-delay: -5s; fill: rgba(255,255,255,0.12);} 
-        .hero-svg-2 { width: 250px; height: 250px; bottom: -70px; right: -70px; animation-delay: -15s; transform: rotate(45deg); fill: rgba(255,255,255,0.1);} 
-        .hero-svg-3 { width: 180px; height: 180px; top: 50%; left: 50%; transform: translate(-50%, -150%) rotate(-30deg); opacity: 0.08; fill: rgba(255,255,255,0.15);} /* Positioned more centrally if space is very tight */
-        
-        @keyframes subtleRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .btn-whatsapp:hover {
+            background-color: #1DA851;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
-        
-        .product-detail-card {
-            background-color: var(--bg-light-card);
-            border: 1px solid var(--border-light);
+        .btn-secondary {
+            background-color: #E5E7EB;
+            color: #374151;
         }
-
+        .btn-secondary:hover {
+            background-color: #D1D5DB;
+        }
     </style>
 </head>
-<body class="text-gray-800">
+<body>
 
-    <header id="hero-section" class="hero-section rounded-b-3xl shadow-2xl">
-        <div class="hero-bg-graphic">
-            <svg class="hero-svg-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M54.1,-57.9C68.8,-47.6,78.4,-30.9,79.7,-13.5C81,3.9,73.9,22,63.2,36.8C52.5,51.6,38.1,63.1,21.9,69.9C5.7,76.7,-12.4,78.8,-28.7,72.6C-45,66.4,-59.5,51.9,-68.5,34.8C-77.5,17.7,-81,-2,-75.8,-18.3C-70.6,-34.6,-56.8,-47.6,-42.1,-57.9C-27.4,-68.2,-13.7,-75.8,1.3,-77.5C16.3,-79.2,32.6,-74.1,43.9,-66.2C49.1,-62.3,54.1,-57.9,54.1,-57.9Z" transform="translate(100 100) scale(1.2)" /></svg>
-            <svg class="hero-svg-2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M39.4,-52C53.9,-46.1,70.4,-39.4,76.5,-28.2C82.6,-17,78.3,-1.4,72.1,12.9C65.9,27.2,57.8,40.2,46.3,51.1C34.8,62,19,70.8,2.4,70.1C-14.2,69.3,-31.1,59,-43.6,46.4C-56.1,33.8,-64.2,18.9,-66.8,-3.1C-69.4,-25.1,-66.5,-48.1,-53.8,-54.8C-41.1,-61.5,-18.6,-52,-0.7,-51.2C17.1,-50.3,39.4,-52,39.4,-52Z" transform="translate(100 100) scale(1.3)" /></svg>
-            <svg class="hero-svg-3" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M46.5,-46.5C57.3,-32.7,61.1,-16.3,59.5,-1.5C57.9,13.4,50.9,26.8,40.8,38.4C30.7,50,17.5,59.8,2.4,61.1C-12.7,62.3,-25.3,54.9,-38.9,45.4C-52.4,35.9,-66.8,24.3,-70.1,10.2C-73.3,-3.9,-65.4,-20.5,-54.5,-34.3C-43.6,-48.1,-29.7,-59.1,-15.1,-62.1C-0.5,-65.1,14.7,-59.9,27.6,-55.3C35.7,-52.7,46.5,-46.5,46.5,-46.5Z" transform="translate(100 100) scale(1.1)" /></svg>
-        </div>
-        
-        <div class="hero-content-panel" data-aos="zoom-in" data-aos-duration="800">
-            <h1 class="font-cairo-black text-4xl sm:text-5xl md:text-5xl font-black mb-3 text-white text-shadow-custom" data-aos="fade-down" data-aos-delay="100" data-aos-duration="1000">
-                تخفيضات 
-            </h1>
-            <p class="text-lg md:text-xl font-semibold opacity-90 mb-4 max-w-md mx-auto text-gray-100" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
-                عروض رقمية لا تُقاوم!
-            </p>
-            <p class="text-sm md:text-base font-light opacity-80 max-w-lg mx-auto mb-6 text-gray-200" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
-                أقوى الاشتراكات والحسابات الأصلية بأسعار خيالية.
-            </p>
-            <button id="explore-products-btn" class="btn-primary-gradient btn-glow text-white font-bold py-3 px-6 md:py-3 md:px-8 rounded-full shadow-xl text-md md:text-lg" data-aos="zoom-in-up" data-aos-delay="700" data-aos-duration="800">
-                <i class="fas fa-bolt ml-2"></i> اكتشف العروض
-            </button>
-        </div>
-        </header>
-
-    <div id="main-content-area"> 
-        <main class="container mx-auto px-4 py-12 sm:py-16 max-w-7xl"> <section id="products-grid" class="mb-20">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-center text-dark-primary mb-6 leading-tight" data-aos="fade-up">منتجاتنا المميزة</h2>
-                <svg class="section-divider-svg" viewBox="0 0 100 10" xmlns="http://www.w3.org/2000/svg" data-aos="fade-up" data-aos-delay="100">
-                    <path d="M0 5 Q 25 10, 50 5 T 100 5" stroke="url(#dividerGradientMain)" stroke-width="2" fill="none"/>
-                    <defs>
-                        <linearGradient id="dividerGradientMain" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:var(--primary-color);stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:var(--accent-color);stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                    
-                    <div class="product-card rounded-3xl overflow-hidden relative" data-aos="fade-up" data-aos-delay="0">
-                        <div class="discount-badge">خصم 82%</div>
-                        <img src="s1.png" alt="اشتراك شات جي بي تي بلس" class="w-full h-56 md:h-60 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/4a90e2/FFFFFF?text=ChatGPT+Plus';">
-                        <div class="p-6 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">اشتراك شات جي بي تي بلس (حساب مشترك - شهر)</h3>
-                            <p class="text-dark-secondary text-sm md:text-base mb-4">حساب ChatGPT Plus مشترك لمدة شهر، وصول لميزات متقدمة.</p>
-                            <div class="price-container">
-                                <div class="current-price-group">
-                                    <span class="current-price">$4.50</span><span class="price-currency">USD</span>
-                                </div>
-                                <span class="original-price">$25.00<span class="original-price-currency">USD</span></span>
-                            </div>
-                            <div class="flex flex-col space-y-3 md:space-y-4 mt-6">
-                                <button class="product-details-btn btn-primary-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="1">
-                                    تفاصيل المنتج
-                                </button>
-                                <button class="whatsapp-order-btn btn-whatsapp-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
-                                        data-product-name="اشتراك شات جي بي تي بلس (حساب مشترك - شهر)" data-product-price="4.50">
-                                    <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card rounded-3xl overflow-hidden relative" data-aos="fade-up" data-aos-delay="150">
-                        <div class="discount-badge">خصم 97%</div>
-                        <img src="s2.png" alt="اشتراك Canva سنوي" class="w-full h-56 md:h-60 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/20c997/FFFFFF?text=Canva';">
-                        <div class="p-6 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">اشتراك كانفا برو (Canva Pro) - سنة كاملة</h3>
-                            <p class="text-dark-secondary text-sm md:text-base mb-4">تفعيل رسمي لمدة سنة مع وصول كامل لميزات Pro.</p>
-                            <div class="price-container">
-                                <div class="current-price-group">
-                                    <span class="current-price">$3.00</span><span class="price-currency">USD</span>
-                                </div>
-                                <span class="original-price">$109.99<span class="original-price-currency">USD</span></span>
-                            </div>
-                            <div class="flex flex-col space-y-3 md:space-y-4 mt-6">
-                                <button class="product-details-btn btn-primary-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="2">
-                                    تفاصيل المنتج
-                                </button>
-                                <button class="whatsapp-order-btn btn-whatsapp-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
-                                        data-product-name="اشتراك كانفا برو (Canva Pro) - سنة كاملة" data-product-price="3.00">
-                                    <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card rounded-3xl overflow-hidden relative" data-aos="fade-up" data-aos-delay="300">
-                        <div class="discount-badge">خصم 53%</div>
-                        <img src="s3.png" alt="برامج أوفيس 365" class="w-full h-56 md:h-60 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ff7f50/FFFFFF?text=Office';">
-                        <div class="p-6 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">برامج أوفيس 365 الأصلية - مدى الحياة (5 أجهزة)</h3>
-                            <p class="text-dark-secondary text-sm md:text-base mb-4">حساب Office 365 خاص بك، مدى الحياة، يعمل على 5 أجهزة.</p>
-                            <div class="price-container">
-                                <div class="current-price-group">
-                                    <span class="current-price">$7.00</span><span class="price-currency">USD</span>
-                                </div>
-                                <span class="original-price">$15.00<span class="original-price-currency">USD</span></span>
-                            </div>
-                            <div class="flex flex-col space-y-3 md:space-y-4 mt-6">
-                                <button class="product-details-btn btn-primary-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="3">
-                                    تفاصيل المنتج
-                                </button>
-                                <button class="whatsapp-order-btn btn-whatsapp-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
-                                        data-product-name="برامج أوفيس 365 الأصلية - مدى الحياة (5 أجهزة)" data-product-price="7.00">
-                                    <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card rounded-3xl overflow-hidden relative" data-aos="fade-up" data-aos-delay="0">
-                        <div class="discount-badge">خصم 80%</div>
-                        <img src="s4.png" alt="مفاتيح Windows أصلية" class="w-full h-56 md:h-60 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/007bff/FFFFFF?text=Windows';">
-                        <div class="p-6 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">مفتاح تفعيل ويندوز (10/11 برو وهوم) - مدى الحياة</h3>
-                            <p class="text-dark-secondary text-sm md:text-base mb-4">مفاتيح تفعيل أصلية وفورية لـ Windows 10 و Windows 11.</p>
-                            <div class="price-container">
-                                <div class="current-price-group">
-                                    <span class="current-price">$4.00</span><span class="price-currency">USD</span>
-                                </div>
-                                <span class="original-price">$20.00<span class="original-price-currency">USD</span></span>
-                            </div>
-                            <div class="flex flex-col space-y-3 md:space-y-4 mt-6">
-                                <button class="product-details-btn btn-primary-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="4">
-                                    تفاصيل المنتج
-                                </button>
-                                <button class="whatsapp-order-btn btn-whatsapp-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
-                                        data-product-name="مفتاح تفعيل ويندوز (10/11 برو وهوم) - مدى الحياة" data-product-price="4.00">
-                                    <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card rounded-3xl overflow-hidden relative" data-aos="fade-up" data-aos-delay="150">
-                        <div class="discount-badge">خصم 50%</div>
-                        <img src="s5.png" alt="اشتراك Gemini و Google One" class="w-full h-56 md:h-60 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/6a0dad/FFFFFF?text=Gemini';">
-                        <div class="p-6 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">اشتراك Gemini شهري + Google One (2TB)</h3>
-                            <p class="text-dark-secondary text-sm md:text-base mb-4">مساحة Google One 2TB ونماذج Gemini المتقدمة.</p>
-                            <div class="price-container">
-                                <div class="current-price-group">
-                                    <span class="current-price">$4.00</span><span class="price-currency">USD</span>
-                                </div>
-                                <span class="original-price">$8.00<span class="original-price-currency">USD</span></span>
-                            </div>
-                            <div class="flex flex-col space-y-3 md:space-y-4 mt-6">
-                                <button class="product-details-btn btn-primary-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="5">
-                                    تفاصيل المنتج
-                                </button>
-                                <button class="whatsapp-order-btn btn-whatsapp-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
-                                        data-product-name="اشتراك Gemini شهري + Google One (2TB)" data-product-price="4.00">
-                                    <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card rounded-3xl overflow-hidden relative" data-aos="fade-up" data-aos-delay="300">
-                        <div class="discount-badge">خصم 71%</div>
-                        <img src="s6.png" alt="اشتراك Surfshark VPN" class="w-full h-56 md:h-60 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/17a2b8/FFFFFF?text=VPN';">
-                        <div class="p-6 md:p-8">
-                            <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">اشتراك Surfshark VPN - سنة كاملة</h3>
-                            <p class="text-dark-secondary text-sm md:text-base mb-4">تصفح آمن ومشفر، وتجاوز الحجب الجغرافي لمدة عام.</p>
-                            <div class="price-container">
-                                <div class="current-price-group">
-                                    <span class="current-price">$10.00</span><span class="price-currency">USD</span>
-                                </div>
-                                <span class="original-price">$35.00<span class="original-price-currency">USD</span></span>
-                            </div>
-                            <div class="flex flex-col space-y-3 md:space-y-4 mt-6">
-                                <button class="product-details-btn btn-primary-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg" data-product-id="6">
-                                    تفاصيل المنتج
-                                </button>
-                                <button class="whatsapp-order-btn btn-whatsapp-gradient btn-glow font-semibold py-3 px-6 rounded-xl shadow-lg text-base md:text-lg"
-                                        data-product-name="اشتراك Surfshark VPN - سنة كاملة" data-product-price="10.00">
-                                    <i class="fab fa-whatsapp ml-2"></i> اطلب عبر واتساب
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="payment-methods" class="product-card rounded-3xl p-8 md:p-12 mb-24" data-aos="zoom-in-up">
-                <h2 class="text-4xl md:text-5xl font-extrabold text-center text-dark-primary mb-6 leading-tight">طرق الدفع المتوفرة</h2>
-                <svg class="section-divider-svg" viewBox="0 0 100 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 25 0, 50 5 T 100 5" stroke="url(#dividerGradientMain)" stroke-width="2" fill="none"/></svg>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="flex flex-col items-center p-6 md:p-8 bg-indigo-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-indigo-100" data-aos="fade-right" data-aos-delay="100">
-                        <div class="text-indigo-500 text-6xl md:text-7xl mb-4">
-                            <i class="fas fa-university"></i> </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">نقطة حاسب كريمي  </h3>
-                        <p class="text-dark-secondary text-base md:text-lg">باسم: <span class="font-extrabold text-dark-primary">متجر صابر</span></p>
-                        <p class="text-dark-secondary text-base md:text-lg">رقم النقطة: <span class="font-extrabold text-dark-primary">1302092</span></p>
-                    </div>
-
-                    <div class="flex flex-col items-center p-6 md:p-8 bg-green-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-green-100" data-aos="fade-up" data-aos-delay="200">
-                        <div class="text-green-500 text-6xl md:text-7xl mb-4">
-                            <i class="fas fa-mobile-alt"></i> </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">المحافظ الإلكترونية المحلية</h3>
-                        <ul class="list-none text-dark-secondary text-base md:text-lg text-center space-y-2">
-                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i>محفظة جيب</li>
-                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i>محفظة جوالي</li>
-                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i>محفظة موبايل موني</li>
-                            <li><i class="fas fa-check-circle text-green-500 mr-2"></i>محفظة ون كاش</li>
-                        </ul>
-                    </div>
-
-                    <div class="flex flex-col items-center p-6 md:p-8 bg-purple-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-purple-100" data-aos="fade-left" data-aos-delay="300">
-                        <div class="text-purple-500 text-6xl md:text-7xl mb-4">
-                            <i class="fas fa-wallet"></i> </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-dark-primary mb-2">محافظ أجنبية</h3>
-                        <ul class="list-none text-dark-secondary text-base md:text-lg text-center space-y-2">
-                            <li><i class="fas fa-check-circle text-purple-500 mr-2"></i>Binance (بينانس)</li>
-                            <li><i class="fas fa-check-circle text-purple-500 mr-2"></i>PayPal (باي بال)</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <section id="testimonials" class="product-card rounded-3xl p-8 md:p-12" data-aos="zoom-in-up">
-                <h2 class="text-4xl md:text-5xl font-extrabold text-dark-primary mb-6 text-center leading-tight">ماذا يقول عملاؤنا؟</h2>
-                <svg class="section-divider-svg" viewBox="0 0 100 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 25 10, 50 5 T 100 5" stroke="url(#dividerGradientMain)" stroke-width="2" fill="none"/></svg>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-2xl p-6 shadow-xl testimonial-card relative border border-gray-200" data-aos="flip-up" data-aos-delay="100">
-                        <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 left-4 -z-0 opacity-80"></i>
-                        <div class="flex items-center mb-4 relative z-10">
-                            <img src="https://placehold.co/70x70/FFD700/1d1d1f?text=A" alt="صورة عميل" class="rounded-full w-16 h-16 md:w-18 md:h-18 object-cover border-4 border-yellow-400 shadow-md">
-                            <div class="mr-4">
-                                <p class="font-extrabold text-lg md:text-xl text-dark-primary">أحمد محمد</p>
-                                <div class="text-yellow-500 text-base md:text-lg">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-dark-secondary leading-relaxed text-base md:text-lg relative z-10">"خدمة ممتازة ومنتجات رقمية أصلية 100%. سرعة في التسليم ودعم فني رائع. أنصح بالتعامل معهم بشدة!"</p>
-                    </div>
-
-                    <div class="bg-white rounded-2xl p-6 shadow-xl testimonial-card relative border border-gray-200" data-aos="flip-up" data-aos-delay="200">
-                        <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 left-4 -z-0 opacity-80"></i>
-                        <div class="flex items-center mb-4 relative z-10">
-                            <img src="https://placehold.co/70x70/90EE90/1d1d1f?text=F" alt="صورة عميل" class="rounded-full w-16 h-16 md:w-18 md:h-18 object-cover border-4 border-green-400 shadow-md">
-                            <div class="mr-4">
-                                <p class="font-extrabold text-lg md:text-xl text-dark-primary">فاطمة علي</p>
-                                <div class="text-yellow-500 text-base md:text-lg">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-dark-secondary leading-relaxed text-base md:text-lg relative z-10">"تنوع كبير في المنتجات وأسعار تنافسية. اشتريت اشتراك Canva وكان التفعيل فوري. تجربة تسوق مريحة جداً."</p>
-                    </div>
-
-                    <div class="bg-white rounded-2xl p-6 shadow-xl testimonial-card relative border border-gray-200" data-aos="flip-up" data-aos-delay="300">
-                        <i class="fas fa-quote-right text-gray-200 text-5xl absolute top-4 left-4 -z-0 opacity-80"></i>
-                        <div class="flex items-center mb-4 relative z-10">
-                            <img src="https://placehold.co/70x70/87CEEB/1d1d1f?text=S" alt="صورة عميل" class="rounded-full w-16 h-16 md:w-18 md:h-18 object-cover border-4 border-blue-400 shadow-md">
-                            <div class="mr-4">
-                                <p class="font-extrabold text-lg md:text-xl text-dark-primary">سعيد خالد</p>
-                                <div class="text-yellow-500 text-base md:text-lg">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-dark-secondary leading-relaxed text-base md:text-lg relative z-10">"المتجر المفضل لدي للمنتجات الرقمية. سهولة في الطلب والتواصل عبر الواتساب. أنصح به كل من يبحث عن الجودة والسعر المناسب."</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <section id="product-detail-page" class="hidden container mx-auto px-4 py-12 md:py-16 max-w-5xl" data-aos="fade-in">
-        <div class="product-detail-card rounded-3xl shadow-2xl p-6 md:p-10">
-            <div class="flex justify-start mb-8">
-                <button id="back-to-products-btn" class="btn-primary-gradient btn-glow text-white font-semibold py-3 px-8 rounded-xl shadow-lg text-lg flex items-center">
-                    <i class="fas fa-arrow-right ml-3"></i> العودة إلى المنتجات
-                </button>
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-black-cairo text-gray-800">
+                <i class="fa-solid fa-tags text-primary-500"></i>
+                تخفيضات صابر
+            </a>
+            <div class="flex items-center space-x-4">
+                <a href="#products" class="hidden md:block text-lg font-semibold text-gray-600 hover:text-primary-500 transition-colors">المنتجات</a>
+                <a href="#features" class="hidden md:block text-lg font-semibold text-gray-600 hover:text-primary-500 transition-colors">المميزات</a>
+                <a href="https://wa.me/+967782343232" target="_blank" class="btn btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span class="hidden sm:block">تواصل معنا</span>
+                </a>
             </div>
+        </nav>
+    </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-                <div class="detail-product-image-container" data-aos="zoom-in-right" data-aos-duration="800">
-                    <div id="detail-discount-badge" class="discount-badge detail-discount-badge hidden"></div>
-                    <img id="detail-product-image" src="https://placehold.co/600x500/e0e7ff/333?text=صورة+المنتج" alt="صورة المنتج" class="w-full h-auto max-h-[500px] object-contain rounded-2xl shadow-lg border border-gray-200">
+    <section class="hero-bg text-white">
+        <div class="container mx-auto px-6 py-24 text-center relative z-10" data-aos="fade-up">
+            <h1 class="text-4xl md:text-6xl font-black-cairo mb-4 leading-tight">عالم من التوفير بين يديك</h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8">اكتشف أفضل الاشتراكات والمفاتيح الرقمية الأصلية بأسعار لم تعهدها من قبل.</p>
+            <a href="#products" class="btn btn-primary text-lg">
+                <i class="fa-solid fa-gifts"></i>
+                اكتشف العروض الآن
+            </a>
+        </div>
+    </section>
+
+    <main id="products" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-black-cairo mb-3">منتجاتنا الأكثر طلباً</h2>
+                <p class="text-lg text-text-light">اختر ما يناسبك من بين باقة من أفضل الاشتراكات الرقمية.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="product-card" data-aos="fade-up">
+                    <div class="product-image-container">
+                        <div class="discount-badge">خصم 82%</div>
+                        <img src="s1.png" alt="ChatGPT Plus" class="w-full h-56 object-cover product-card-image">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-xl font-bold mb-2">اشتراك شات جي بي تي بلس</h3>
+                        <p class="text-text-light text-sm mb-4 flex-grow">حساب مشترك لمدة شهر، وصول فوري لميزات GPT-4 المتقدمة.</p>
+                        <div class="flex items-baseline justify-between mb-4">
+                            <p><span class="text-3xl font-bold text-secondary-500">$4.50</span></p>
+                            <p class="text-gray-400 line-through">$25.00</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mt-auto">
+                            <button class="btn btn-whatsapp" data-product-name="اشتراك شات جي بي تي بلس (حساب مشترك - شهر)" data-product-price="4.50"><i class="fa-brands fa-whatsapp"></i>اطلب الآن</button>
+                            <a href="gpt.html" class="btn btn-secondary">التفاصيل</a>
+                        </div>
+                    </div>
                 </div>
 
-                <div data-aos="zoom-in-left" data-aos-delay="100" data-aos-duration="800">
-                    <h1 id="detail-product-name" class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-dark-primary mb-5 leading-tight"></h1>
-                    <div class="price-container mb-8">
-                        <div class="current-price-group">
-                            <span id="detail-current-price" class="current-price text-4xl md:text-5xl"></span><span id="detail-current-currency" class="price-currency text-2xl md:text-3xl"></span>
+                <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                     <div class="product-image-container">
+                        <div class="discount-badge">خصم 97%</div>
+                        <img src="s2.png" alt="Canva Pro" class="w-full h-56 object-cover product-card-image">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-xl font-bold mb-2">اشتراك كانفا برو (سنة)</h3>
+                        <p class="text-text-light text-sm mb-4 flex-grow">تفعيل رسمي على إيميلك الخاص لمدة سنة كاملة.</p>
+                        <div class="flex items-baseline justify-between mb-4">
+                            <p><span class="text-3xl font-bold text-secondary-500">$3.00</span></p>
+                            <p class="text-gray-400 line-through">$109.99</p>
                         </div>
-                        <span id="detail-original-price" class="original-price text-xl md:text-2xl"></span>
+                        <div class="grid grid-cols-2 gap-3 mt-auto">
+                           <button class="btn btn-whatsapp" data-product-name="اشتراك كانفا برو (Canva Pro) - سنة كاملة" data-product-price="3.00"><i class="fa-brands fa-whatsapp"></i>اطلب الآن</button>
+                           <a href="canva-pro.html" class="btn btn-secondary">التفاصيل</a>
+                        </div>
                     </div>
-                    
-                    <div class="prose prose-lg max-w-none text-dark-secondary mb-8 leading-relaxed">
-                        <h3 class="text-xl font-semibold mb-3 text-dark-primary">وصف المنتج:</h3>
-                        <p id="detail-product-description" class="whitespace-pre-line"></p>
-                    </div>
+                </div>
 
-                    <button class="whatsapp-order-btn-detail btn-whatsapp-gradient btn-glow text-white font-bold py-4 px-8 rounded-xl shadow-xl text-xl w-full flex items-center justify-center">
-                        <i class="fab fa-whatsapp ml-3 text-2xl"></i> اطلب هذا المنتج الآن
-                    </button>
+                <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                     <div class="product-image-container">
+                        <div class="discount-badge">خصم 53%</div>
+                        <img src="s3.png" alt="Office 365" class="w-full h-56 object-cover product-card-image">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-xl font-bold mb-2">أوفيس 365 (مدى الحياة)</h3>
+                        <p class="text-text-light text-sm mb-4 flex-grow">حساب خاص بك، تفعيل مدى الحياة على 5 أجهزة مختلفة.</p>
+                        <div class="flex items-baseline justify-between mb-4">
+                            <p><span class="text-3xl font-bold text-secondary-500">$7.00</span></p>
+                            <p class="text-gray-400 line-through">$15.00</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mt-auto">
+                            <button class="btn btn-whatsapp" data-product-name="برامج أوفيس 365 الأصلية - مدى الحياة (5 أجهزة)" data-product-price="7.00"><i class="fa-brands fa-whatsapp"></i>اطلب الآن</button>
+                            <a href="office.html" class="btn btn-secondary">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up">
+                    <div class="product-image-container">
+                        <div class="discount-badge">خصم 80%</div>
+                        <img src="s4.png" alt="Windows Key" class="w-full h-56 object-cover product-card-image">
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="text-xl font-bold mb-2">مفتاح تفعيل ويندوز (10/11)</h3>
+                        <p class="text-text-light text-sm mb-4 flex-grow">مفاتيح تفعيل أصلية وفورية لـ Windows 10 و Windows 11.</p>
+                        <div class="flex items-baseline justify-between mb-4">
+                            <p><span class="text-3xl font-bold text-secondary-500">$4.00</span></p>
+                            <p class="text-gray-400 line-through">$20.00</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mt-auto">
+                            <button class="btn btn-whatsapp" data-product-name="مفتاح تفعيل ويندوز (10/11 برو وهوم) - مدى الحياة" data-product-price="4.00"><i class="fa-brands fa-whatsapp"></i>اطلب الآن</button>
+                            <a href="windows.html" class="btn btn-secondary">التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-image-container">
+                       <div class="discount-badge">خصم 50%</div>
+                       <img src="s5.png" alt="Gemini" class="w-full h-56 object-cover product-card-image">
+                   </div>
+                   <div class="p-6 flex-grow flex flex-col">
+                       <h3 class="text-xl font-bold mb-2">Gemini + Google One (2TB)</h3>
+                       <p class="text-text-light text-sm mb-4 flex-grow">اشتراك شهري يجمع مساحة Google One 2TB ونماذج Gemini.</p>
+                       <div class="flex items-baseline justify-between mb-4">
+                           <p><span class="text-3xl font-bold text-secondary-500">$4.00</span></p>
+                           <p class="text-gray-400 line-through">$8.00</p>
+                       </div>
+                       <div class="grid grid-cols-2 gap-3 mt-auto">
+                          <button class="btn btn-whatsapp" data-product-name="اشتراك Gemini شهري + Google One (2TB)" data-product-price="4.00"><i class="fa-brands fa-whatsapp"></i>اطلب الآن</button>
+                          <a href="gemini.html" class="btn btn-secondary">التفاصيل</a>
+                       </div>
+                   </div>
+               </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="product-image-container">
+                       <div class="discount-badge">خصم 71%</div>
+                       <img src="s6.png" alt="Surfshark VPN" class="w-full h-56 object-cover product-card-image">
+                   </div>
+                   <div class="p-6 flex-grow flex flex-col">
+                       <h3 class="text-xl font-bold mb-2">اشتراك Surfshark VPN (سنة)</h3>
+                       <p class="text-text-light text-sm mb-4 flex-grow">تصفح آمن ومشفر وتجاوز الحجب الجغرافي لمدة عام كامل.</p>
+                       <div class="flex items-baseline justify-between mb-4">
+                           <p><span class="text-3xl font-bold text-secondary-500">$10.00</span></p>
+                           <p class="text-gray-400 line-through">$35.00</p>
+                       </div>
+                       <div class="grid grid-cols-2 gap-3 mt-auto">
+                           <button class="btn btn-whatsapp" data-product-name="اشتراك Surfshark VPN - سنة كاملة" data-product-price="10.00"><i class="fa-brands fa-whatsapp"></i>اطلب الآن</button>
+                           <a href="Surfshark-VPN.html" class="btn btn-secondary">التفاصيل</a>
+                       </div>
+                   </div>
+               </div>
+
+            </div>
+        </div>
+    </main>
+
+    <section id="features" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-black-cairo mb-3">لماذا تختار متجرنا؟</h2>
+                <p class="text-lg text-text-light max-w-2xl mx-auto">نحن نضمن لك تجربة شراء آمنة، سريعة، وبأعلى قيمة مقابل السعر.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fa-solid fa-bolt feature-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">تفعيل فوري</h3>
+                    <p class="text-text-light">استلم منتجك الرقمي فور إتمام عملية الدفع مباشرة عبر واتساب.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-solid fa-hand-holding-dollar feature-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">أسعار تنافسية</h3>
+                    <p class="text-text-light">نقدم لك أفضل العروض والخصومات الحقيقية على جميع المنتجات.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fa-solid fa-shield-halved feature-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">منتجات أصلية</h3>
+                    <p class="text-text-light">جميع اشتراكاتنا ومفاتيحنا أصلية 100% ومضمونة بالكامل.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fa-solid fa-headset feature-icon"></i>
+                    <h3 class="text-xl font-bold mb-2">دعم فني</h3>
+                    <p class="text-text-light">فريقنا جاهز لمساعدتك والإجابة على استفساراتك في أي وقت.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-gray-100 text-dark-secondary py-10 text-center rounded-t-3xl shadow-inner-top mt-20 border-t border-gray-200">
-        <div class="container mx-auto px-4">
-            <p class="text-lg mb-4">&copy; 2025 تخفيضات صابر. جميع الحقوق محفوظة.</p>
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <a href="index.html" class="text-2xl font-black-cairo text-white mb-4 inline-block">
+                <i class="fa-solid fa-tags text-primary-500"></i>
+                تخفيضات صابر
+            </a>
+            <p class="mb-6 text-gray-400">متجرك الأول للحصول على أفضل العروض الرقمية.</p>
             <div class="flex justify-center space-x-6 text-2xl">
-                <a href="https://www.facebook.com/share/1CR8g8hhrE/?mibextid=qi2Omg" class="hover:text-blue-600 transition-colors duration-300" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="hover:text-sky-500 transition-colors duration-300" aria-label="تويتر"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="hover:text-pink-600 transition-colors duration-300" aria-label="انستغرام"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/+967782343232" target="_blank" class="hover:text-green-500 transition-colors duration-300" aria-label="واتساب"><i class="fab fa-whatsapp"></i></a>
+                 <a href="https://www.facebook.com/share/1CR8g8hhrE/?mibextid=qi2Omg" target="_blank" class="hover:text-primary-500 transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                 <a href="https://wa.me/+967782343232" target="_blank" class="hover:text-green-500 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
             </div>
+            <p class="mt-8 text-sm text-gray-500">&copy; 2025 متجر تخفيضات صابر. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
-
-    <a href="https://wa.me/+967782343232" target="_blank" class="fixed bottom-8 left-8 bg-green-500 text-white p-5 rounded-full shadow-xl text-3xl z-40 transition-all duration-300 animate-bounce-pulse-whatsapp hover:bg-green-600">
-        <i class="fab fa-whatsapp"></i>
-    </a>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({
-            duration: 1000, 
-            easing: 'ease-out-cubic', 
-            once: true, 
-            mirror: false,
-            offset: 50, 
+            duration: 800,
+            once: true,
+            offset: 100,
         });
 
-        const products = [
-            {
-                id: 1,
-                name: "اشتراك شات جي بي تي بلس (حساب مشترك - شهر)",
-                shortDescription: "حساب ChatGPT Plus مشترك لمدة شهر، وصول لميزات متقدمة.",
-                fullDescription: "💥 لا تفوّت الفرصة الذهبية! 💥\nهل تحلم بالوصول إلى قوة الذكاء الاصطناعي المتقدمة؟\nنوفر لك حساب ChatGPT Plus بمزايا حصرية وتجربة لا تُضاهى بسعر 4.5 دولار لمدة شهر (حساب مشترك)!\n\n✨ ماذا ستحصل عليه؟\n✔️ وصول إلى أحدث تقنيات الذكاء الاصطناعي.\n✔️ أداء فائق السرعة واستجابات دقيقة.\n✔️ دعم مميز وخدمة متواصلة لضمان راحتك.\n\n🎯 كل هذا وأكثر بانتظارك الآن!\n\n⚡ *اغتنم الفرصة الآن ولا تدعها تفوتك!*⚡\n\n*رابط شرح استخدام الحساب المشترك*👇\nhttps://sab-1.my.canva.site/3\n\n*( 1 )- الحساب مشترك بينك وبين اشخاص محدودين لكل حساب *\nاستخدم الدردشه المؤقته بتكون محادثتك مخفيه وتنحذف عند خروجك من التطبيق.\nواذا لم تستخدم الدردشه المؤقته بتنحفظ محادثتك بين محادثات الاخرين ويمكنك العوده اليها في اي وقت.\n\n*( 2 ) - ارسل رسوم الحساب*\nوسيتم ارسال الحساب مع كلمة السر بعد الدفع مباشر.\n*الحساب عباره عن بريد اكتروني وكلمة سر*\n\n*( 3 )- طرق الدفع*\n1302092 نقطة حاسب كريمي متجر صابر\n\n*( 4 )وايضآ لدينا حساب في عدة محافض اكترونيه*\n\n*نرجو منك قراءت جميع التفاصيل* قبل الدفع.",
-                price: 4.50,
-                originalPrice: 25.00, 
-                image: "s1.png"
-            },
-            {
-                id: 2,
-                name: "اشتراك كانفا برو (Canva Pro) - سنة كاملة",
-                shortDescription: "تفعيل رسمي لمدة سنة مع وصول كامل لميزات Pro.",
-                fullDescription: "لا تقول مش معقول🔥😎 بـ 1500 ريال يمني فقط، احصل الآن على اشتراك كانفا برو (Canva Pro) بسعر 3$!\nتفعيل رسمي لمدة سنه ✅👑\n\n👈 إذا كنت صاحب متجر وتحب تصمم إعلان لمنتجاتك أو شعار لنشاطك التجاري👇\n👈 إذا كنت تعمل عمل حر وتقدم تصاميم لعملائك وتحب تحصل على ملايين التصاميم الاحترافية القابلة للتعديل بنقرة زر!\n👈 إذا تحب تسوي فيديو ترويجي لنشاطك التجاري وماعندك خبرة بالمونتاج؟! 🖥️🖱️\n👈 إذا عندك حسابات تواصل اجتماعي كثيرة وتريد ادارتها من مكان واحد 📢🚀\n\n🎁 تعااال فهذا العرض لك 👇\nنبذة سريعة عن كانفا برو:\nستتمكن من إنشاء محتوى رائع سريعًا دون الحاجة إلى مهارات تصميم (حرفياً ستتمكن من عمل تصاميم احترافية بدون خبرة سابقة) 😎\nيتيح الاشتراك الواحد إمكانات لا حصر لها للأفراد مع ميزات متميزة مثل أداة تغيير الحجم السحري، وأكثر من 100 مليون صورة، ومقاطع فيديو، ومقاطع صوتية، وغير ذلك المزيد 🫠\n\n✨👇\nاحصل على كانفا برو بـ 3 دولار (أو *1500 ريال يمني فقط*)\nالسعر قبل الخصم : ~109.99$~\n----------------✓-----------------\nمتوفر أيضاً منتجات رقمية بأسعار رمزية 🔥",
-                price: 3.00,
-                originalPrice: 109.99,
-                image: "s2.png"
-            },
-            {
-                id: 3,
-                name: "برامج أوفيس 365 الأصلية - مدى الحياة (5 أجهزة)",
-                shortDescription: "حساب Office 365 خاص بك، مدى الحياة، يعمل على 5 أجهزة.",
-                fullDescription: "إذا كنت تبحث عن طريقة مضمونة وفعّالة للحصول على برامج مايكروسوفت أوفيس 365 الأصلية مدى الحياة، فأنت في المكان المناسب! نحن نقدم لك حسابًا مخصصًا يمكنك من خلاله تحميل كل برامج أوفيس، وتشغيلها على 5 أجهزة مختلفة، سواء كنت تستخدم ويندوز، ماك، آيفون أو حتى أندرويد.\n\nلماذا تختارنا؟\n\n- دائم مدى الحياة: حسابك يظل صالحًا للأبد، دون الحاجة إلى تجديد الاشتراك أو دفع أي رسوم إضافية.\n- تشغيل على جميع الأجهزة: يدعم جميع أنظمة التشغيل، مما يتيح لك العمل بسلاسة من جهاز الكمبيوتر، الهاتف الذكي أو حتى التابلت.\n- حساب خاص: الحساب ملكك بالكامل، ويمكنك تعديل الإعدادات كما تريد دون قيود.\n- سهل الاستخدام: بمجرد شراء الحساب، ستتلقى معلومات تسجيل الدخول (البريد الإلكتروني وكلمة المرور)، مما يتيح لك تنزيل جميع برامج الأوفيس المفضلة لديك فورًا.\n\nما الذي ستحصل عليه؟\nالوصول إلى مجموعة أوفيس الكاملة:\n- Word: لتحرير النصوص والمستندات باحترافية.\n- Excel: لتحليل البيانات وإنشاء الجداول بسهولة.\n- PowerPoint: لإنشاء عروض تقديمية مبهرة.\n- وأكثر من ذلك بكثير!\n\nالضمان والجودة:\nنضمن لك تجربة خالية من المشاكل مع دعم متواصل لأي استفسارات أو مساعدة تحتاجها.\nجميع الحسابات أصلية 100% ومعتمدة من مايكروسوفت.\n\nكيف تحصل على حسابك؟\n1. قم بالطلب الآن.\n2. ستتلقى معلومات الحساب الخاصة بك (الإيميل وكلمة المرور) في أسرع وقت.\n3. قم بتسجيل الدخول واستمتع بالوصول إلى جميع برامج أوفيس وتنزيلها على الفور.\n\nلماذا تنتظر؟\nوفر وقتك ومالك، واستمتع بأفضل برامج الإنتاجية مع أوفيس 365 مدى الحياة على 5 أجهزة! لا تفوت الفرصة، واطلب الآن لتحصل على حسابك الخاص بسرعة وسهولة.\n\nمستعد تبدأ رحلتك مع أوفيس 365؟\nتواصل معنا الآن واحصل على تجربة لا تُضاهى!",
-                price: 7.00,
-                originalPrice: 15.00,
-                image: "s3.png"
-            },
-            {
-                id: 4,
-                name: "مفتاح تفعيل ويندوز (10/11 برو وهوم) - مدى الحياة",
-                shortDescription: "مفاتيح تفعيل أصلية وفورية لـ Windows 10 و Windows 11.",
-                fullDescription: "🔥 عروض مميزة على مفاتيح Windows 10 و Windows 11 – احصل عليها الآن قبل نفاد الكمية! 🔥\n\nهل تبحث عن تفعيل نظام Windows الخاص بك بسرعة وأمان؟ نحن نقدم لك مفاتيح Windows 10 Pro، Windows 10 Home، Windows 11 Pro، وWindows 11 Home بأسعار مذهلة وتوصيل فوري!\n\n- أسعار مغرية لا تجدها في أي مكان آخر.\n- موثوقية مضمونة مع مفاتيح أصلية من المصدر.\n- تفعيل فوري لتبدأ استخدام جهازك في دقائق.\n\n⚙️ كيف تشتري؟\n1. اختر الإصدار المناسب: Windows 10 أو Windows 11.\n2. تواصل معنا على واتساب الآن.\n3. استلم مفتاحك في دقائق وابدأ التفعيل فورًا!\n\n🎯 لا تفوّت الفرصة!\nجهّز جهازك لتجربة جديدة مع نظام Windows الأصلي واستمتع بالأمان والأداء العالي!\n📲 سارع بالتواصل على واتساب الآن قبل نفاد الكمية!",
-                price: 4.00,
-                originalPrice: 20.00,
-                image: "s4.png"
-            },
-            {
-                id: 5,
-                name: "اشتراك Gemini شهري + Google One (2TB)",
-                shortDescription: "مساحة Google One 2TB ونماذج Gemini المتقدمة.",
-                fullDescription: "✨🎉 عرض حصري من تخفيضات  لمدة شهر بسعر 4$ 🎉✨\n\n🔹 اشترك الآن بـ 4 دولار فقط واستمتع لمدة شهر بكل ما تحتاجه:\n• مساحة Google One: 2 تيرابايت\n\nوختار النماذج الذي تناسبك 👇\n• Gemini Flash 2.0 للمساعدة الشاملة الفورية\n• Gemini Flash 2.5 (Preview) بتحديثات أقوى\n• Gemini Pro (Preview) للاستدلال والبرمجة\n• Personalization (Preview) لتجربة مخصصة لك\n\n📲 للطلب والتفاصيل: راسلنا الآن على واتساب.\n\n🔥 العرض محدود! كن من الأوائل واحصل على قوة الذكاء الاصطناعي ومساحة التخزين.",
-                price: 4.00,
-                originalPrice: 8.00, 
-                image: "s5.png"
-            },
-            {
-                id: 6,
-                name: "اشتراك Surfshark VPN - سنة كاملة",
-                shortDescription: "تصفح آمن ومشفر، وتجاوز الحجب الجغرافي لمدة عام.",
-                fullDescription: "احصل على حريتك على الإنترنت الآن مع Surfshark – اشتراك لمدة سنة فقط بـ10 دولار!\n\nهل تبحث عن وسيلة لحماية خصوصيتك وتصفح الإنترنت بأمان دون قيود؟\nهل تود الوصول إلى المحتوى المحظور في بلدك أو مشاهدة المنصات العالمية بدون مشاكل؟\nالآن فرصتك الذهبية!\n\nSurfshark VPN يمنحك كل ما تحتاجه:\n\n- تصفح آمن ومشفر بالكامل يحمي بياناتك من المتطفلين.\n- إمكانية تجاوز الحجب الجغرافي ومشاهدة نتفليكس، ديزني بلس، يوتيوب وغيرها من أي مكان في العالم.\n- سرعة عالية واتصال مستقر بدون تقطيع.\n- استخدام غير محدود على عدد غير محدود من الأجهزة.\n\nوالأجمل؟\nاشتراك لمدة سنة بسعر 10 دولار فقط!",
-                price: 10.00,
-                originalPrice: 35.00,
-                image: "s6.png"
-            }
-        ];
+        // تفعيل أزرار واتساب
+        const whatsappNumber = '+967782343232';
+        document.querySelectorAll('.btn-whatsapp').forEach(button => {
+            // Check if it's the contact button in the header
+            if(button.closest('header')) return;
 
-        const mainContentArea = document.getElementById('main-content-area');
-        const productDetailSection = document.getElementById('product-detail-page');
-        
-        const detailProductName = document.getElementById('detail-product-name');
-        const detailProductImage = document.getElementById('detail-product-image');
-        const detailProductDescription = document.getElementById('detail-product-description');
-        const detailCurrentPrice = document.getElementById('detail-current-price');
-        const detailCurrentCurrency = document.getElementById('detail-current-currency');
-        const detailOriginalPrice = document.getElementById('detail-original-price');
-        const detailDiscountBadge = document.getElementById('detail-discount-badge');
-        const detailWhatsappBtn = productDetailSection.querySelector('.whatsapp-order-btn-detail');
-        const backToProductsBtn = document.getElementById('back-to-products-btn');
-        const exploreProductsBtn = document.getElementById('explore-products-btn');
-
-        const whatsappNumber = '+967782343232'; 
-
-        function showProductDetailPage(product) {
-            mainContentArea.classList.add('hidden');
-            productDetailSection.classList.remove('hidden');
-            AOS.refreshHard(); 
-
-            detailProductName.textContent = product.name;
-            detailProductImage.src = product.image;
-            detailProductImage.alt = product.name;
-            detailProductDescription.innerHTML = product.fullDescription.replace(/\n/g, '<br>');
-            
-            detailCurrentPrice.textContent = `$${product.price.toFixed(2)}`;
-            detailCurrentCurrency.textContent = "USD";
-
-            if (product.originalPrice && product.originalPrice > product.price) {
-                detailOriginalPrice.textContent = `$${product.originalPrice.toFixed(2)} USD`;
-                detailOriginalPrice.classList.remove('hidden');
-                const discountPercentage = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
-                detailDiscountBadge.textContent = `خصم ${discountPercentage}%`;
-                detailDiscountBadge.classList.remove('hidden');
-            } else {
-                detailOriginalPrice.textContent = '';
-                detailOriginalPrice.classList.add('hidden');
-                detailDiscountBadge.classList.add('hidden');
-            }
-
-            detailWhatsappBtn.dataset.productName = product.name;
-            detailWhatsappBtn.dataset.productPrice = product.price; 
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
-        }
-
-        function hideProductDetailPage() {
-            productDetailSection.classList.add('hidden');
-            mainContentArea.classList.remove('hidden');
-            AOS.refreshHard(); 
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
-        }
-
-        document.querySelectorAll('.product-details-btn').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const productId = parseInt(event.currentTarget.dataset.productId);
-                const product = products.find(p => p.id === productId);
-                if (product) {
-                    showProductDetailPage(product);
-                } else {
-                    console.error('Product not found for ID:', productId);
-                }
-            });
-        });
-        
-        if(backToProductsBtn) {
-            backToProductsBtn.addEventListener('click', hideProductDetailPage);
-        }
-
-        if(exploreProductsBtn) {
-            exploreProductsBtn.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                const productsSection = document.getElementById('products-grid');
-                if (productsSection) {
-                    productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        }
-
-        document.querySelectorAll('.whatsapp-order-btn, .whatsapp-order-btn-detail').forEach(button => {
             button.addEventListener('click', (event) => {
                 const productName = event.currentTarget.dataset.productName;
-                const productPrice = event.currentTarget.dataset.productPrice; 
-                if (productName) {
-                    let message = `أود طلب المنتج: ${productName}`;
-                    if (productPrice) {
-                        message += `\nالسعر: $${parseFloat(productPrice).toFixed(2)} USD`;
-                    }
-                    const encodedMessage = encodeURIComponent(message);
-                    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
-                } else {
-                    console.error('Product name not found for WhatsApp button.');
-                }
+                const productPrice = event.currentTarget.dataset.productPrice;
+
+                if (!productName || !productPrice) return;
+
+                const message = `أهلاً متجر تخفيضات صابر،\n\nأود طلب المنتج التالي:\n*${productName}*\n\nالسعر: $${parseFloat(productPrice).toFixed(2)} USD\n\nالرجاء تزويدي بتفاصيل الدفع.`;
+
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
             });
         });
     </script>
